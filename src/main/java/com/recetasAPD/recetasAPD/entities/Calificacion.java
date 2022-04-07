@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Calificación {
+public class Calificacion {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCalificacion;
