@@ -32,7 +32,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario findByNicknameAndPassword(String nickname, String password) throws Exception {
-        return Optional.ofNullable(usuarioRepository.findByNicknameAndAndContraseña(nickname,password))
+        return Optional.ofNullable(usuarioRepository.findByNicknameAndContraseña(nickname,password))
                 .orElseThrow( () -> new Exception("No existe un usuario con esos datos")); //Esta excepcion en realidad nosotros vamos a crear una especifica para esto
     }
 
