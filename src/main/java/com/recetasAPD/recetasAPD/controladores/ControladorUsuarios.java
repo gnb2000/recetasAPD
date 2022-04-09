@@ -1,7 +1,10 @@
 package com.recetasAPD.recetasAPD.controladores;
+import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
+import com.recetasAPD.recetasAPD.dtos.UsuarioResponseDTO;
 import com.recetasAPD.recetasAPD.entities.Usuario;
 import com.recetasAPD.recetasAPD.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,15 +17,16 @@ public class ControladorUsuarios {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private EntityDtoConverter entityDtoConverter;
+
 
     @GetMapping("/login/{nickname}/{password}")
-    public ResponseEntity<Usuario> verificarLogIn(@PathVariable(value = "nickname") String nickname,@PathVariable(value = "contraseña") String contraseña) throws Exception{
-        Usuario usuario = usuarioService.findByNickname(nickname);
-        if (usuario.getContraseña().equals(contraseña)){
-            return ResponseEntity.ok().body(usuario); // Falta convertir a DTO
-        }else{
-            throw new Exception("Los datos ingresados son incorrectos"); // Acá tendría que ver si devuelvo un DTO y un http o qué q pija pongo
-        }
+    public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable(value = "nickname") String nickname, @PathVariable(value = "contraseña") String contraseña) throws Exception{
+        Usuario usuario = usuarioService.findByNicknameAndPassword(nickname,contraseña);
+        //Aca hay que convertir a DTO pero mientras tanto
+        return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(usuario), HttpStatus.OK);
+
     }
 
 }

@@ -6,5 +6,5 @@ public interface UsuarioService {
     void save(Usuario usuario);
     void update(Usuario usuario);
     void delete(Usuario usuario);
-    Usuario findByNickname(String nickname);
+    Usuario findByNicknameAndPassword(String nickname, String password) throws Exception;
 }
