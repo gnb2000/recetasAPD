@@ -8,23 +8,20 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Usuarios")
+@Table(name="Favoritas")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class Usuario {
-
-
+@AllArgsConstructor
+public class Favorita {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idFavorita;
+    private boolean estado;
+
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
     private Integer idUsuario;
-    private String mail;
-    private String nickname;
-    private String contraseña;
-    private boolean habilitado;
-    private String nombre;
-    private String avatar; // ver esto
-    private Integer tipoUsuario;
 
-
-
+    @OneToOne
+    @JoinColumn(name = "idReceta")
+    private Receta receta;
 }

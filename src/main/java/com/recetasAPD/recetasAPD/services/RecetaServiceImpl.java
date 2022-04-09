@@ -13,16 +13,23 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public void save(Receta receta) {
+
         recetaRepository.save(receta);
     }
 
     @Override
     public void update(Receta receta) {
+        recetaRepository.save(receta);
     }
 
     @Override
     public void delete(Receta receta) {
+        recetaRepository.delete(receta);
 
+    }
+    @Override
+    public Receta findByTitulo(String titulo) {
+        return recetaRepository.findByTitulo(titulo);
     }
 
 
