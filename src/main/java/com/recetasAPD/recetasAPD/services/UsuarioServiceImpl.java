@@ -3,7 +3,7 @@ package com.recetasAPD.recetasAPD.services;
 
 import com.recetasAPD.recetasAPD.entities.Usuario;
 import com.recetasAPD.recetasAPD.exceptions.EmailNotSendException;
-import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameOrMail;
+import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameOrMailException;
 import com.recetasAPD.recetasAPD.repositories.UsuarioRepository;
 import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             }
             return true;
         } else {
-            throw new NotValidNicknameOrMail("Los datos ingresados no estan disponibles");
+            throw new NotValidNicknameOrMailException("Los datos ingresados no estan disponibles");
         }
     }
 

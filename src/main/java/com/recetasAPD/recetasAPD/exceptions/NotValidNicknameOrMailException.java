@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class NotValidNicknameOrMail extends RuntimeException{
+public class NotValidNicknameOrMailException extends RuntimeException{
 
-    public NotValidNicknameOrMail(String message){
+    public NotValidNicknameOrMailException(String message){
         super(message);
     }
 }
