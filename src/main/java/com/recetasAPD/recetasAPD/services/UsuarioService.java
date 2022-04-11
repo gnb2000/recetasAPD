@@ -7,4 +7,5 @@ public interface UsuarioService {
     void update(Usuario usuario);
     void delete(Usuario usuario);
     Usuario findByNicknameAndPassword(String nickname, String password) throws Exception;
+    boolean registerNewUser(String nickname, String mail);
 }

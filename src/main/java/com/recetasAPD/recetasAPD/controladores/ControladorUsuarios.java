@@ -2,12 +2,14 @@ package com.recetasAPD.recetasAPD.controladores;
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
 import com.recetasAPD.recetasAPD.dtos.UsuarioResponseDTO;
 import com.recetasAPD.recetasAPD.entities.Usuario;
+import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
 import com.recetasAPD.recetasAPD.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -18,6 +20,9 @@ public class ControladorUsuarios {
     private UsuarioService usuarioService;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private EntityDtoConverter entityDtoConverter;
 
 
@@ -25,7 +30,17 @@ public class ControladorUsuarios {
     public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable(value = "nickname") String nickname, @PathVariable(value = "contraseña") String contraseña) throws Exception{
         Usuario usuario = usuarioService.findByNicknameAndPassword(nickname,contraseña);
         return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(usuario), HttpStatus.OK);
+    }
 
+    @PostMapping("/register/{usuario}/{mail}")
+    public ResponseEntity<String> register(@PathVariable(value = "usuario") String usuario, @PathVariable(value = "mail") String mail){
+        //TODO Verificar que valor darle por defecto a tipo_usuario y habilitado. Ademas, armar el endpoint para que rellene los datos
+        if ( usuarioService.registerNewUser(usuario,mail)){
+            emailService.sendEmail(mail,"COMPLETAR DATOS","Aca va un LINK");
+            return new ResponseEntity<>("Usuario creado con exito, se ha enviado un correo al mail ingresado para rellenar el resto de sus datos", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Los datos ingresados no estan disponibles", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

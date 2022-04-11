@@ -13,13 +13,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Favorita {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idFavorita;
     private boolean estado;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario")
-    private Integer idUsuario;
+    private Usuario usuario;
 
     @OneToOne
     @JoinColumn(name = "idReceta")
