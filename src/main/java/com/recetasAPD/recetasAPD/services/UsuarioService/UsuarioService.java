@@ -1,4 +1,4 @@
-package com.recetasAPD.recetasAPD.services;
+package com.recetasAPD.recetasAPD.services.UsuarioService;
 
 import com.recetasAPD.recetasAPD.entities.Usuario;
 
@@ -7,5 +7,5 @@ public interface UsuarioService {
     void update(Usuario usuario);
     void delete(Usuario usuario);
     Usuario findByNicknameAndPassword(String nickname, String password) throws Exception;
-    boolean registerNewUser(String nickname, String mail);
+    void registerNewUser(String nickname, String mail);
 }

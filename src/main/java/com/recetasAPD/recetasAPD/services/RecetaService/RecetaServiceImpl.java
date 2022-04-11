@@ -1,4 +1,4 @@
-package com.recetasAPD.recetasAPD.services;
+package com.recetasAPD.recetasAPD.services.RecetaService;
 
 import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;

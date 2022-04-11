@@ -1,8 +1,7 @@
-package com.recetasAPD.recetasAPD.services;
+package com.recetasAPD.recetasAPD.services.UsuarioService;
 
 
 import com.recetasAPD.recetasAPD.entities.Usuario;
-import com.recetasAPD.recetasAPD.exceptions.EmailNotSendException;
 import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameOrMailException;
 import com.recetasAPD.recetasAPD.repositories.UsuarioRepository;
 import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
@@ -42,15 +41,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public boolean registerNewUser(String nickname, String mail) {
+    public void registerNewUser(String nickname, String mail) {
         if ( !this.existeNicknameOrMail(nickname,mail) ){ //No existe un usuario con ese USUARIO / MAIL
             Usuario u = new Usuario(mail,nickname);
             usuarioRepository.save(u);
 
-            if ( ! emailService.sendEmail(mail,"COMPLETAR DATOS","Aca va un LINK") ){
-                throw new EmailNotSendException("No se pudo enviar el correo");
-            }
-            return true;
+            emailService.sendEmail(mail,"COMPLETAR DATOS","Aca va un LINK");
         } else {
             throw new NotValidNicknameOrMailException("Los datos ingresados no estan disponibles");
         }

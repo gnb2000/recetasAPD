@@ -1,4 +1,4 @@
-package com.recetasAPD.recetasAPD.services;
+package com.recetasAPD.recetasAPD.services.MultimediaService;
 
 
 import com.recetasAPD.recetasAPD.entities.Multimedia;

@@ -15,14 +15,12 @@ public class UsuarioHandlerException {
 
     //Este metodo solo va a entrar cuando se detecte que lanzo una excepcion del tipo "Exception"
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllExceptions(Exception e){
-        ExceptionResponse response = new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(response,response.getStatus());
+    public ResponseEntity<String> handleAllExceptions(Exception e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(NotValidNicknameOrMailException.class)
-    public ResponseEntity<Object> handleNotValidNicknameOrMailExceptions(Exception e){
-        ExceptionResponse response = new ExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(response,response.getStatus());
+    public ResponseEntity<String> handleNotValidNicknameOrMailExceptions(Exception e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
 }

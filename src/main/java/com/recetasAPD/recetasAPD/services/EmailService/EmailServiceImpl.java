@@ -1,5 +1,6 @@
 package com.recetasAPD.recetasAPD.services.EmailService;
 
+import com.recetasAPD.recetasAPD.exceptions.EmailNotSendException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,11 +16,11 @@ public class EmailServiceImpl implements EmailService{
     private JavaMailSender sender;
 
     @Override
-    public boolean sendEmail(String destination, String subject, String content) {
-        return sendEmailTool(content,destination,subject);
+    public void sendEmail(String destination, String subject, String content) {
+        this.sendEmailTool(content,destination,subject);
     }
 
-    private boolean sendEmailTool(String textMessage, String email,String subject) {
+    private void sendEmailTool(String textMessage, String email,String subject) {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
@@ -27,9 +28,8 @@ public class EmailServiceImpl implements EmailService{
             helper.setText(textMessage, true);
             helper.setSubject(subject);
             sender.send(message);
-            return true;
         } catch (MessagingException e) {
-            return false; //No se envio correctamente
+            throw new EmailNotSendException("No se pudo enviar el correo");
         }
     }
 }

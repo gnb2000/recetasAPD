@@ -13,7 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 public class EmailHandlerException {
 
     @ExceptionHandler(EmailNotSendException.class)
-    public ResponseEntity<Object> handleEmailNotSendException(Exception e, WebRequest request){
+    public ResponseEntity<String> handleEmailNotSendException(Exception e){
         return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

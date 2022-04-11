@@ -1,4 +1,4 @@
-package com.recetasAPD.recetasAPD.services;
+package com.recetasAPD.recetasAPD.services.CalificacionService;
 
 
 import com.recetasAPD.recetasAPD.entities.Calificacion;

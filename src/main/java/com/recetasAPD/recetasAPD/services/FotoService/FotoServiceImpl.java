@@ -1,4 +1,4 @@
-package com.recetasAPD.recetasAPD.services;
+package com.recetasAPD.recetasAPD.services.FotoService;
 
 
 import com.recetasAPD.recetasAPD.entities.Foto;

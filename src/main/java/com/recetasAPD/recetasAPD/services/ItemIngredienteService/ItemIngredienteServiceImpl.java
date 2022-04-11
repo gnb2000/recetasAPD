@@ -1,4 +1,4 @@
-package com.recetasAPD.recetasAPD.services;
+package com.recetasAPD.recetasAPD.services.ItemIngredienteService;
 
 import com.recetasAPD.recetasAPD.entities.ItemIngrediente;
 import com.recetasAPD.recetasAPD.repositories.ItemIngredienteRepository;
