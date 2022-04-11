@@ -2,13 +2,17 @@ package com.recetasAPD.recetasAPD.services.UsuarioService;
 
 
 import com.recetasAPD.recetasAPD.entities.Usuario;
-import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameOrMailException;
+import com.recetasAPD.recetasAPD.exceptions.NotValidMailException;
+import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameException;
 import com.recetasAPD.recetasAPD.repositories.UsuarioRepository;
 import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -42,19 +46,36 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void registerNewUser(String nickname, String mail) {
-        if ( !this.existeNicknameOrMail(nickname,mail) ){ //No existe un usuario con ese USUARIO / MAIL
-            Usuario u = new Usuario(mail,nickname);
-            usuarioRepository.save(u);
+        //Verificamos si esta en uso el usuario o mail
+        this.existeNicknameOrMail(nickname,mail);
 
-            emailService.sendEmail(mail,"COMPLETAR DATOS","Aca va un LINK");
-        } else {
-            throw new NotValidNicknameOrMailException("Los datos ingresados no estan disponibles");
-        }
+        //Creamos el usuario y lo persistimos
+        Usuario u = new Usuario(mail,nickname);
+        usuarioRepository.save(u);
+
+        //Enviamos el correo
+        emailService.sendEmail(mail,"COMPLETAR DATOS","Aca va un LINK");
     }
 
     private boolean existeNicknameOrMail(String nickname, String mail) {
-        return Optional.ofNullable(usuarioRepository.findByNicknameOrMail(nickname,mail))
-                .isPresent();
+        if (Optional.ofNullable(usuarioRepository.findByNickname(nickname)).isPresent()){
+
+            Random random = new Random();
+            String posibleUsuario = nickname + random.nextInt(100);
+            List<String> aliasRecomendados = new ArrayList<String>();
+            //Agrego 3 alias recomendados
+            for (int i = 0 ; i < 3 ; i++){
+                while (Optional.ofNullable(usuarioRepository.findByNickname(posibleUsuario)).isPresent() || aliasRecomendados.contains(posibleUsuario)){
+                    posibleUsuario += random.nextInt(100);
+                }
+                aliasRecomendados.add(posibleUsuario);
+            }
+            throw new NotValidNicknameException("El usuario ingresado ya esta en uso", aliasRecomendados);
+
+        } else if (Optional.ofNullable(usuarioRepository.findByMail(mail)).isPresent()) {
+            throw new NotValidMailException("Ya existe una cuenta registrada con el mail ingresado, se le enviara un correo al mail ya registrado para poder recuperar la clave");
+        }
+        return false;
     }
 
 
