@@ -20,7 +20,6 @@ public class EmailServiceImpl implements EmailService{
     }
 
     private boolean sendEmailTool(String textMessage, String email,String subject) {
-        boolean send = false;
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
@@ -28,10 +27,9 @@ public class EmailServiceImpl implements EmailService{
             helper.setText(textMessage, true);
             helper.setSubject(subject);
             sender.send(message);
-            send = true;
+            return true;
         } catch (MessagingException e) {
-            send = false; //No se envio correctamente
+            return false; //No se envio correctamente
         }
-        return send;
     }
 }

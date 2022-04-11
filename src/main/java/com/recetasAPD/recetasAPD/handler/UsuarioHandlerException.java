@@ -1,5 +1,6 @@
 package com.recetasAPD.recetasAPD.handler;
 
+import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameOrMail;
 import com.recetasAPD.recetasAPD.exceptions.UsuarioHandlerExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,12 @@ public class UsuarioHandlerException {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllExceptions(Exception e, WebRequest request){
         UsuarioHandlerExceptionResponse response = new UsuarioHandlerExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response,response.getStatus());
+    }
+
+    @ExceptionHandler(NotValidNicknameOrMail.class)
+    public ResponseEntity<Object> handleNotValidNicknameOrMailExceptions(Exception e, WebRequest request){
+        UsuarioHandlerExceptionResponse response = new UsuarioHandlerExceptionResponse(e.getMessage(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(response,response.getStatus());
     }
 }
