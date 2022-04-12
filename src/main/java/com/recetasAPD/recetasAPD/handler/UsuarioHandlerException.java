@@ -3,6 +3,7 @@ package com.recetasAPD.recetasAPD.handler;
 import com.recetasAPD.recetasAPD.dtos.NotValidNicknameExceptionResponse;
 import com.recetasAPD.recetasAPD.exceptions.NotValidMailException;
 import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameException;
+import com.recetasAPD.recetasAPD.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -29,5 +30,10 @@ public class UsuarioHandlerException {
     @ExceptionHandler(NotValidMailException.class)
     public ResponseEntity<String> handleNotValidMailExceptions(Exception e){
         return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleUserNotFoundException(Exception e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 }

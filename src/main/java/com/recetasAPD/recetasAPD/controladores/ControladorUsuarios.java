@@ -26,10 +26,10 @@ public class ControladorUsuarios {
     private EntityDtoConverter entityDtoConverter;
 
 
-    @GetMapping("/login/{nickname}/{password}")
-    public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable(value = "nickname") String nickname, @PathVariable(value = "contraseña") String contraseña) throws Exception{
-        Usuario usuario = usuarioService.findByNicknameAndPassword(nickname,contraseña);
-        return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(usuario), HttpStatus.OK);
+    @GetMapping("/login/{nicknameOrMail}/{password}")
+    public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable(value = "nicknameOrMail") String nicknameOrMail, @PathVariable(value = "password") String password){
+        Usuario u = usuarioService.login(nicknameOrMail,password);
+        return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(u), HttpStatus.OK);
     }
 
     @PostMapping("/register/{usuario}/{mail}")

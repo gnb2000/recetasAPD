@@ -20,7 +20,7 @@ public class Usuario {
     private Integer idUsuario;
     private String mail;
     private String nickname;
-    private String contraseña; //Para evitar problemas con la "ñ", despues habria que cambiar esto por "password"
+    private String password; //Para evitar problemas con la "ñ", despues habria que cambiar esto por "password"
     private boolean habilitado;
     private String nombre;
     private String avatar; // ver esto
