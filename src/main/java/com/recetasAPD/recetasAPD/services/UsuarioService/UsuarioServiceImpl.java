@@ -68,6 +68,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         emailService.sendEmail(mail,"COMPLETAR DATOS","Aca va un LINK");
     }
 
+    @Override
+    public void updatePassword(Integer idUsuario, String password) {
+        if(usuarioRepository.findById(idUsuario).isPresent()){
+            Usuario u = usuarioRepository.findById(idUsuario).get();
+            u.setPassword(password);
+            usuarioRepository.save(u);
+        }else{
+            throw new UserNotFoundException("No se encontro un usuario con este ID");
+        }
+    }
+
     private boolean existeNicknameOrMail(String nickname, String mail) {
         if (Optional.ofNullable(usuarioRepository.findByNickname(nickname)).isPresent()){
 

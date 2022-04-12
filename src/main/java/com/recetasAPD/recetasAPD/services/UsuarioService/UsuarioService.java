@@ -9,4 +9,5 @@ public interface UsuarioService {
     Usuario findByNicknameAndPassword(String nickname, String password) throws Exception;
     Usuario login(String nicknameOrMail, String password);
     void registerNewUser(String nickname, String mail);
+    void updatePassword(Integer idUsuario, String password);
 }
