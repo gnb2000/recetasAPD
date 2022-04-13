@@ -25,7 +25,7 @@ public class Usuario {
     private String nombre;
     private String avatar; // Dejar como string pero en realidad tenemos que hacer una relacion con la entidad Foto
     private Integer tipoUsuario;
-    private String codeRecovery;
+    private String recoveryCode;
 
     @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favorita> favoritos;

@@ -2,10 +2,7 @@ package com.recetasAPD.recetasAPD.services.UsuarioService;
 
 
 import com.recetasAPD.recetasAPD.entities.Usuario;
-import com.recetasAPD.recetasAPD.exceptions.IncompleteRegistrationException;
-import com.recetasAPD.recetasAPD.exceptions.NotValidMailException;
-import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameException;
-import com.recetasAPD.recetasAPD.exceptions.UserNotFoundException;
+import com.recetasAPD.recetasAPD.exceptions.*;
 import com.recetasAPD.recetasAPD.repositories.UsuarioRepository;
 import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,12 +91,21 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario u = this.findById(idUsuario);
         if (u.isHabilitado()){
             String code = this.generateRecoveryCode();
-            u.setCodeRecovery(code);
+            u.setRecoveryCode(code);
             usuarioRepository.save(u);
             emailService.sendEmail(u.getMail(),"RECOVERY CODE","Este es tu codigo de recuperacion de cuenta : "+ code + ". Por favor ingresarlo en la aplicacion para recuperar su cuenta.");
         } else {
             throw new IncompleteRegistrationException("Su cuenta tiene el proceso de registracion incompleto, completelo para poder recuperar la cuenta");
         }
+    }
+
+    @Override
+    public boolean checkRecoveryCode(Integer idUsuario, String code) {
+        Usuario u = this.findById(idUsuario);
+        if (u.getRecoveryCode().equals(code)){
+            return true;
+        }
+        throw new IncorrectCodeRecoveryException(false);
     }
 
     private boolean existeNicknameOrMail(String nickname, String mail) {

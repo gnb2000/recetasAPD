@@ -12,5 +12,6 @@ public interface UsuarioService {
     void registerNewUser(String nickname, String mail);
     void updatePassword(Integer idUsuario, String password);
     void accountRecovery(Integer idUsuario);
+    boolean checkRecoveryCode(Integer idUsuario, String code);
 
 }

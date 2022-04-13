@@ -1,10 +1,7 @@
 package com.recetasAPD.recetasAPD.handler;
 
 import com.recetasAPD.recetasAPD.dtos.NotValidNicknameExceptionResponse;
-import com.recetasAPD.recetasAPD.exceptions.IncompleteRegistrationException;
-import com.recetasAPD.recetasAPD.exceptions.NotValidMailException;
-import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameException;
-import com.recetasAPD.recetasAPD.exceptions.UserNotFoundException;
+import com.recetasAPD.recetasAPD.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -42,6 +39,13 @@ public class UsuarioHandlerException {
     public ResponseEntity<String> handleIncompleteRegistrationException(Exception e){
         return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(IncorrectCodeRecoveryException.class)
+    public ResponseEntity<Boolean> handleIncorrectCodeRecoveryException(IncorrectCodeRecoveryException e){
+        return new ResponseEntity<>(e.isSameCode(),HttpStatus.BAD_REQUEST);
+    }
+
+
 
 
 }

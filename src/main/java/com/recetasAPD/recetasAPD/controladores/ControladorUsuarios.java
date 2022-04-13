@@ -66,6 +66,11 @@ public class ControladorUsuarios {
         return new ResponseEntity<>("Se ha enviado un codigo de 6 digitos a su mail",HttpStatus.OK);
     }
 
+    @GetMapping("/check/code/{idUsuario}/{code}")
+    public ResponseEntity<Boolean> checkRecoveryCode(@PathVariable Integer idUsuario, @PathVariable String code){
+        return new ResponseEntity<>(usuarioService.checkRecoveryCode(idUsuario,code), HttpStatus.OK);
+    }
+
 
 
 }
