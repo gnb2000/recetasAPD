@@ -43,4 +43,12 @@ public class ControladorUsuarios {
         return new ResponseEntity<>("Contraseña modificada con exito", HttpStatus.OK);
     }
 
+    @GetMapping("/usuario/{idUsuario}")
+        public ResponseEntity<UsuarioResponseDTO> getUserById(@PathVariable(value ="idUsuario") Integer idUsuario){
+            Usuario u = usuarioService.findById(idUsuario);
+            return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(u),HttpStatus.OK);
+        }
+
+
+
 }

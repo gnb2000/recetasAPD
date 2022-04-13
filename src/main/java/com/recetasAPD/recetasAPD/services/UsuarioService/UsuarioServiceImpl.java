@@ -56,6 +56,12 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
+    public Usuario findById(Integer idUsuario){
+        return Optional.ofNullable(usuarioRepository.findById(idUsuario).get())
+                .orElseThrow(() -> new UserNotFoundException("¡No se encontro un usuario con este ID!"));
+    }
+
+    @Override
     public void registerNewUser(String nickname, String mail) {
         //Verificamos si esta en uso el usuario o mail
         this.existeNicknameOrMail(nickname,mail);

@@ -8,6 +8,8 @@ public interface UsuarioService {
     void delete(Usuario usuario);
     Usuario findByNicknameAndPassword(String nickname, String password) throws Exception;
     Usuario login(String nicknameOrMail, String password);
+    Usuario findById(Integer idUsuario);
     void registerNewUser(String nickname, String mail);
     void updatePassword(Integer idUsuario, String password);
+
 }
