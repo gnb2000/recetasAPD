@@ -60,6 +60,12 @@ public class ControladorUsuarios {
         return new ResponseEntity<>("Datos actualizados con exito",HttpStatus.OK);
     }
 
+    @PutMapping("/account/recovery/{idUsuario}")
+    public ResponseEntity<String> accountRecovery(@PathVariable Integer idUsuario){
+        usuarioService.accountRecovery(idUsuario);
+        return new ResponseEntity<>("Se ha enviado un codigo de 6 digitos a su mail",HttpStatus.OK);
+    }
+
 
 
 }

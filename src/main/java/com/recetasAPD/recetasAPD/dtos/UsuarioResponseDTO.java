@@ -16,4 +16,5 @@ public class UsuarioResponseDTO {
     private String nombre;
     private String avatar; // ver esto
     private Integer tipoUsuario;
+
 }

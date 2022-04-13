@@ -2,6 +2,7 @@ package com.recetasAPD.recetasAPD.services.UsuarioService;
 
 
 import com.recetasAPD.recetasAPD.entities.Usuario;
+import com.recetasAPD.recetasAPD.exceptions.IncompleteRegistrationException;
 import com.recetasAPD.recetasAPD.exceptions.NotValidMailException;
 import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameException;
 import com.recetasAPD.recetasAPD.exceptions.UserNotFoundException;
@@ -88,6 +89,19 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    @Override
+    public void accountRecovery(Integer idUsuario) {
+        Usuario u = this.findById(idUsuario);
+        if (u.isHabilitado()){
+            String code = this.generateRecoveryCode();
+            u.setCodeRecovery(code);
+            usuarioRepository.save(u);
+            emailService.sendEmail(u.getMail(),"RECOVERY CODE","Este es tu codigo de recuperacion de cuenta : "+ code + ". Por favor ingresarlo en la aplicacion para recuperar su cuenta.");
+        } else {
+            throw new IncompleteRegistrationException("Su cuenta tiene el proceso de registracion incompleto, completelo para poder recuperar la cuenta");
+        }
+    }
+
     private boolean existeNicknameOrMail(String nickname, String mail) {
         if (Optional.ofNullable(usuarioRepository.findByNickname(nickname)).isPresent()){
 
@@ -111,6 +125,12 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new NotValidMailException("El mail esta asociado a una cuenta con el proceso de registracion incompleto, por favor contacte con soporte del sitio");
         }
         return false;
+    }
+
+    private String generateRecoveryCode(){
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        return String.format("%06d", number);
     }
 
 

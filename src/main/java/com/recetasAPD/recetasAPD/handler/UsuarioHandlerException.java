@@ -1,6 +1,7 @@
 package com.recetasAPD.recetasAPD.handler;
 
 import com.recetasAPD.recetasAPD.dtos.NotValidNicknameExceptionResponse;
+import com.recetasAPD.recetasAPD.exceptions.IncompleteRegistrationException;
 import com.recetasAPD.recetasAPD.exceptions.NotValidMailException;
 import com.recetasAPD.recetasAPD.exceptions.NotValidNicknameException;
 import com.recetasAPD.recetasAPD.exceptions.UserNotFoundException;
@@ -36,4 +37,11 @@ public class UsuarioHandlerException {
     public ResponseEntity<String> handleUserNotFoundException(Exception e){
         return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(IncompleteRegistrationException.class)
+    public ResponseEntity<String> handleIncompleteRegistrationException(Exception e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+
 }
