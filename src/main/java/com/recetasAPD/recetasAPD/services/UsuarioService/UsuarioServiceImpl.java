@@ -57,8 +57,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario findById(Integer idUsuario){
-        return Optional.ofNullable(usuarioRepository.findById(idUsuario).get())
-                .orElseThrow(() -> new UserNotFoundException("¡No se encontro un usuario con este ID!"));
+        if(usuarioRepository.findById(idUsuario).isPresent()){
+            return usuarioRepository.findById(idUsuario).get();
+        }else{
+            throw new UserNotFoundException("¡No se encontro a un usuario con ese ID!");
+        }
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.recetasAPD.recetasAPD.common;
 
+import com.recetasAPD.recetasAPD.dtos.RecetaDTO;
 import com.recetasAPD.recetasAPD.dtos.UsuarioResponseDTO;
+import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.entities.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,15 @@
 package com.recetasAPD.recetasAPD.controladores;
 
+import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
+import com.recetasAPD.recetasAPD.dtos.RecetaDTO;
 import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class ControladorRecetas {
@@ -11,9 +17,15 @@ public class ControladorRecetas {
     @Autowired
     private RecetaService recetaService;
 
+    @Autowired
+    private EntityDtoConverter entityDtoConverter;
+
     public void CrearReceta(){
         Receta x = new Receta();
 
     }
+
+
+
 
 }
