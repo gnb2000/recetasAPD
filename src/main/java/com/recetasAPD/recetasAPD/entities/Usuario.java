@@ -23,7 +23,7 @@ public class Usuario {
     private String password; //Para evitar problemas con la "ñ", despues habria que cambiar esto por "password"
     private boolean habilitado;
     private String nombre;
-    private String avatar; // ver esto
+    private String avatar; // Dejar como string pero en realidad tenemos que hacer una relacion con la entidad Foto
     private Integer tipoUsuario;
 
     @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL, orphanRemoval = true)

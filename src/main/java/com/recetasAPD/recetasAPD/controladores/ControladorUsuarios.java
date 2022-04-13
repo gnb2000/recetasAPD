@@ -1,5 +1,6 @@
 package com.recetasAPD.recetasAPD.controladores;
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
+import com.recetasAPD.recetasAPD.dtos.CompleteRegisterRequest;
 import com.recetasAPD.recetasAPD.dtos.UsuarioResponseDTO;
 import com.recetasAPD.recetasAPD.entities.Usuario;
 import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
@@ -44,10 +45,20 @@ public class ControladorUsuarios {
     }
 
     @GetMapping("/usuario/{idUsuario}")
-        public ResponseEntity<UsuarioResponseDTO> getUserById(@PathVariable(value ="idUsuario") Integer idUsuario){
-            Usuario u = usuarioService.findById(idUsuario);
-            return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(u),HttpStatus.OK);
-        }
+    public ResponseEntity<UsuarioResponseDTO> getUserById(@PathVariable(value ="idUsuario") Integer idUsuario){
+        Usuario u = usuarioService.findById(idUsuario);
+        return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(u),HttpStatus.OK);
+    }
+
+    @PutMapping("/register")
+    public ResponseEntity<String> completeRegistration(@RequestBody CompleteRegisterRequest request){
+        Usuario u = usuarioService.findById(request.getIdUsuario());
+        u.setAvatar(request.getAvatar());
+        u.setNombre(request.getNombre());
+        u.setHabilitado(true);
+        usuarioService.update(u);
+        return new ResponseEntity<>("Datos actualizados con exito",HttpStatus.OK);
+    }
 
 
 
