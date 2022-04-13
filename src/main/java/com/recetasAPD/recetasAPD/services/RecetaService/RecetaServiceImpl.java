@@ -30,12 +30,6 @@ public class RecetaServiceImpl implements RecetaService{
         recetaRepository.delete(receta);
 
     }
-    @Override
-    public Receta findByTitulo(String titulo) {
-        return recetaRepository.findByTitulo(titulo);
-    }
-
-
 
     @Override
     public List<Receta> getAll()  {

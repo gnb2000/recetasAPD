@@ -31,6 +31,11 @@ public class EntityDtoConverter {
     }
 
 
+    public RecetaDTO convertRecetaToRecetaDTO(Receta r){
+        return modelMapper.map(r,RecetaDTO.class);
+    }
+
+
     //Ustedes lo unico que van a tener que agregar son los metodos como arriba
 
 

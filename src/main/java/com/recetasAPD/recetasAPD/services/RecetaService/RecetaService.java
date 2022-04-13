@@ -8,6 +8,5 @@ public interface RecetaService {
     void save(Receta receta);
     void update(Receta receta);
     void delete(Receta receta);
-    Receta findByTitulo(String titulo);
     List<Receta> getAll();
 }
