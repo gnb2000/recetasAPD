@@ -22,7 +22,7 @@ public class EntityDtoConverter {
         return modelMapper.map(u,UsuarioResponseDTO.class); //Primer parametro: Clase a convertir, Segundo parametro: A que clase la quiero convertir
     }
 
-    public List<RecetaDTO> convertRecetasToRecetasDTO(List<Receta> r){
+    public List<RecetaDTO> convertListRecetasToRecetasDTO(List<Receta> r){
         List<RecetaDTO> recetas = new ArrayList<RecetaDTO>();
         for(Receta aux : r){
             recetas.add(modelMapper.map(aux,RecetaDTO.class));

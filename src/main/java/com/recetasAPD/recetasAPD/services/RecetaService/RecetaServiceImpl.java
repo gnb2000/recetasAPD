@@ -6,6 +6,8 @@ import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,6 +39,19 @@ public class RecetaServiceImpl implements RecetaService{
             throw new RecetasEmptyException("No tenemos recetas cargadas aun!");
         }
         return recetaRepository.findAll();
+    }
+
+    @Override
+    public List<Receta> findByTitulo(String nombre, String orden) {
+        if(!recetaRepository.findByTitulo(nombre).isEmpty()){
+            if(orden == "1"){
+                return recetaRepository.findByTituloOrderByFechaAsc(nombre);
+            }else {
+                return recetaRepository.findByTitulo(nombre);
+            }
+        }else{
+            throw new RecetasEmptyException("No hay recetas con ese Titulo");
+        }
     }
 
 

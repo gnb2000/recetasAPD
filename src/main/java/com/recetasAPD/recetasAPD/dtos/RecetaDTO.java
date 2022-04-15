@@ -8,6 +8,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +24,5 @@ public class RecetaDTO {
     private Integer cantidadPersonas;
    // @Column(length = 1000)
     private String descripcion;
+    private LocalDateTime fecha;
 }
