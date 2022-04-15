@@ -11,5 +11,5 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
 
     List<Receta> findByTituloOrderByFechaAsc(String titulo);
     List<Receta> findByTitulo(String titulo);
-
+    Receta findTop1ByOrderByFechaDesc(); // devuelve el primer resultado
 }

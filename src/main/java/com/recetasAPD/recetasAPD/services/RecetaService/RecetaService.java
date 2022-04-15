@@ -10,4 +10,5 @@ public interface RecetaService {
     void delete(Receta receta);
     List<Receta> getAll();
     List<Receta> findByTitulo(String nombre, Integer orden);
+    Receta getLast();
 }

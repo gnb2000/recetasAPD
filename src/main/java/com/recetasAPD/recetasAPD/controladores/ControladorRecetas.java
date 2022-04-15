@@ -37,4 +37,11 @@ public class ControladorRecetas {
 
     }
 
+    @GetMapping("/recetas/last")
+    public ResponseEntity<RecetaDTO> getLastReceta(){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaDTO(recetaService.getLast()),HttpStatus.OK);
+    }
+
+
+
 }

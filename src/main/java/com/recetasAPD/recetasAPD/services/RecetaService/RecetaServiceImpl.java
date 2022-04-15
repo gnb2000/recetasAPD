@@ -50,7 +50,16 @@ public class RecetaServiceImpl implements RecetaService{
                 return recetaRepository.findByTitulo(nombre);
             }
         }else{
-            throw new RecetasEmptyException("No hay recetas con ese Titulo");
+            throw new RecetasEmptyException("¡No hay recetas con ese nombre!");
+        }
+    }
+
+    @Override
+    public Receta getLast() {
+        if(!recetaRepository.findAll().isEmpty()){
+            return recetaRepository.findTop1ByOrderByFechaDesc();
+        }else{
+            throw new RecetasEmptyException("¡No hay recetas cargadas!");
         }
     }
 
