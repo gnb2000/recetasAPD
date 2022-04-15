@@ -42,9 +42,9 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public List<Receta> findByTitulo(String nombre, String orden) {
+    public List<Receta> findByTitulo(String nombre, Integer orden) {
         if(!recetaRepository.findByTitulo(nombre).isEmpty()){
-            if(orden == "1"){
+            if(orden == 1){
                 return recetaRepository.findByTituloOrderByFechaAsc(nombre);
             }else {
                 return recetaRepository.findByTitulo(nombre);
