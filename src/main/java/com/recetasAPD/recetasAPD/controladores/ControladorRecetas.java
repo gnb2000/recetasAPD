@@ -28,7 +28,13 @@ public class ControladorRecetas {
 
     @GetMapping("/recetas")
     public ResponseEntity<List<RecetaDTO>>getAllrecetas() {
-        return new ResponseEntity<>(entityDtoConverter.convertRecetasToRecetasDTO(recetaService.getAll()), HttpStatus.OK);
+        return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getAll()), HttpStatus.OK);
+    }
+
+    @GetMapping("/recetas/{nombre}/{orden}")
+        public ResponseEntity<List<RecetaDTO>> getRecetasByNombre(@PathVariable(value="nombre")String nombre, @PathVariable(value = "orden")Integer orden){
+        return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.findByTitulo(nombre,orden)),HttpStatus.OK);
+
     }
 
 }

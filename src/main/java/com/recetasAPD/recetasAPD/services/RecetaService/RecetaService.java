@@ -9,4 +9,5 @@ public interface RecetaService {
     void update(Receta receta);
     void delete(Receta receta);
     List<Receta> getAll();
+    List<Receta> findByTitulo(String nombre, Integer orden);
 }
