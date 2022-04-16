@@ -18,4 +18,8 @@ public class Ingrediente {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idIngrediente;
     private String nombre;
+
+    public Ingrediente(String nombre){
+        this.nombre = nombre;
+    }
 }

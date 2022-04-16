@@ -1,7 +1,9 @@
 package com.recetasAPD.recetasAPD.common;
 
+import com.recetasAPD.recetasAPD.dtos.IngredienteResponse;
 import com.recetasAPD.recetasAPD.dtos.RecetaDTO;
 import com.recetasAPD.recetasAPD.dtos.UsuarioResponseDTO;
+import com.recetasAPD.recetasAPD.entities.Ingrediente;
 import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.entities.Usuario;
 import org.modelmapper.ModelMapper;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class EntityDtoConverter {
@@ -35,8 +38,14 @@ public class EntityDtoConverter {
         return modelMapper.map(r,RecetaDTO.class);
     }
 
+    public IngredienteResponse convertIngredienteToIngredienteResponse(Ingrediente i){return modelMapper.map(i,IngredienteResponse.class);}
 
-    //Ustedes lo unico que van a tener que agregar son los metodos como arriba
+    public List<IngredienteResponse> convertIngredienteToIngredienteResponse(List<Ingrediente> i){
+        return i
+                .stream()
+                .map(ingrediente -> modelMapper.map(ingrediente, IngredienteResponse.class))
+                .collect(Collectors.toList());
+    }
 
 
 
