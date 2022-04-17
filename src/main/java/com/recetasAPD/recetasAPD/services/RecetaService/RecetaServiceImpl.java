@@ -8,6 +8,7 @@ import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.RecetasEmptyException;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import com.recetasAPD.recetasAPD.services.IngredienteService.IngredienteService;
+import com.recetasAPD.recetasAPD.services.ItemIngredienteService.ItemIngredienteService;
 import com.recetasAPD.recetasAPD.services.TipoService.TipoService;
 import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Autowired
     private EntityDtoConverter entityDtoConverter;
+
+    @Autowired
+    private ItemIngredienteService itemIngredienteService;
 
     @Override
     public void save(Receta receta) {
@@ -87,21 +91,18 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest){
+        //Poner dentro de un try catch, si entra al catch, borrar receta
         Receta receta = Receta.builder()
                 .titulo(recetaRequest.getNombre())
                 .descripcion(recetaRequest.getDescripcion())
                 .porciones(recetaRequest.getPorciones())
                 .cantidadPersonas(recetaRequest.getCantPersonas())
                 .estado(0)
+                .usuario(usuarioService.findById(recetaRequest.getIdUsuario()))
+                .tipo(tipoService.findById(recetaRequest.getTipo()))
                 .fecha(LocalDateTime.now())
                 .build();
         recetaRepository.save(receta);
-
-        Usuario u = usuarioService.findById(recetaRequest.getIdUsuario());
-        receta.setUsuario(u);
-
-        Tipo tipo = tipoService.findById(recetaRequest.getTipo());
-        receta.setTipo(tipo);
 
         List<ItemIngrediente> itemIngredientes = new ArrayList<>();
         ItemIngrediente itemIngrediente;
@@ -111,12 +112,16 @@ public class RecetaServiceImpl implements RecetaService{
             itemIngrediente = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
             itemIngrediente.setIngrediente(i);
             itemIngredientes.add(itemIngrediente);
+            itemIngrediente.setReceta(receta);
+            itemIngredienteService.save(itemIngrediente);
         }
         receta.setIngredientes(itemIngredientes);
+        recetaRepository.save(receta);
+        //receta.setIngredientes(itemIngredientes);
 
 
 
-        return recetaRepository.save(receta);
+        return receta;
 
     }
 
