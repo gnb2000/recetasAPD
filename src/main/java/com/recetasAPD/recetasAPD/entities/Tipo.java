@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tipos")
@@ -17,6 +18,6 @@ public class Tipo {
     private Integer idTipo;
     private String descripcion;
 
-    @OneToOne(mappedBy = "tipo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Receta receta;
+    @OneToMany(mappedBy = "tipo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Receta> recetas;
 }

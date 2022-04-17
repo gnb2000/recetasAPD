@@ -31,7 +31,7 @@ public class Receta {
     private String titulo;
     private Integer porciones;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "tipo_id")
     private Tipo tipo;
 
