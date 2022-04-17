@@ -11,6 +11,6 @@ public class PasoResponse {
 
     private Integer idPaso;
     private Integer nroPaso;
-    private String texto;
+    private String descripcion;
     private String url_multimedia;
 }

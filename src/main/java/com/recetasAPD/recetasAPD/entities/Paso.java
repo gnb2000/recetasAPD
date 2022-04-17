@@ -16,7 +16,7 @@ public class Paso {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idPaso;
-    private Integer numeroPaso;
+    private Integer nroPaso;
     @Column(length = 2000)
     private String descripcion;
 

@@ -100,6 +100,7 @@ public class RecetaServiceImpl implements RecetaService{
                 .estado(0)
                 .usuario(usuarioService.findById(recetaRequest.getIdUsuario()))
                 .tipo(tipoService.findById(recetaRequest.getTipo()))
+                .pasos(entityDtoConverter.convertPasoRequestToPaso(recetaRequest.getPasos()))
                 .fecha(LocalDateTime.now())
                 .build();
         recetaRepository.save(receta);
@@ -117,9 +118,6 @@ public class RecetaServiceImpl implements RecetaService{
         }
         receta.setIngredientes(itemIngredientes);
         recetaRepository.save(receta);
-        //receta.setIngredientes(itemIngredientes);
-
-
 
         return receta;
 

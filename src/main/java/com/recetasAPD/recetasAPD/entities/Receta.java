@@ -41,13 +41,13 @@ public class Receta {
     private String descripcion;
     private LocalDateTime fecha;
 
-    @OneToMany(mappedBy= "receta")
+    @OneToMany(mappedBy= "receta",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Foto> galeria;
 
     @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemIngrediente> ingredientes;
 
-    @OneToMany(mappedBy = "receta")
+    @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Paso> pasos;
 
 
