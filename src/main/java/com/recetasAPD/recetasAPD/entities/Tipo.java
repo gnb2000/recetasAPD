@@ -15,6 +15,8 @@ public class Tipo {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idTipo;
-
     private String descripcion;
+
+    @OneToOne(mappedBy = "tipo", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Receta receta;
 }

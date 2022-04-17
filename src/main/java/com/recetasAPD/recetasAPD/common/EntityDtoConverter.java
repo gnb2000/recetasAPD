@@ -1,15 +1,12 @@
 package com.recetasAPD.recetasAPD.common;
 
-import com.recetasAPD.recetasAPD.dtos.IngredienteResponse;
-import com.recetasAPD.recetasAPD.dtos.RecetaDTO;
-import com.recetasAPD.recetasAPD.dtos.UsuarioResponseDTO;
-import com.recetasAPD.recetasAPD.entities.Ingrediente;
-import com.recetasAPD.recetasAPD.entities.Receta;
-import com.recetasAPD.recetasAPD.entities.Usuario;
+import com.recetasAPD.recetasAPD.dtos.*;
+import com.recetasAPD.recetasAPD.entities.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +43,15 @@ public class EntityDtoConverter {
                 .map(ingrediente -> modelMapper.map(ingrediente, IngredienteResponse.class))
                 .collect(Collectors.toList());
     }
+
+    public List<ItemIngrediente> convertItemIngredienteRequestListToItemIngredienteList(List<ItemIngredienteRequest> itemIngredientes){
+        return itemIngredientes
+                .stream()
+                .map(item -> modelMapper.map(item, ItemIngrediente.class))
+                .collect(Collectors.toList());
+    }
+
+
 
 
 

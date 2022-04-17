@@ -1,5 +1,6 @@
 package com.recetasAPD.recetasAPD.services.RecetaService;
 
+import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.Receta;
 
 import java.util.List;
@@ -11,4 +12,5 @@ public interface RecetaService {
     List<Receta> getAll();
     List<Receta> findByTitulo(String nombre, Integer orden);
     Receta getLast();
+    Receta addReceta(RecetaRequest r);
 }

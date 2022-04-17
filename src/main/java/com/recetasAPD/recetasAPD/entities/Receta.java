@@ -2,6 +2,7 @@ package com.recetasAPD.recetasAPD.entities;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name="Recetas")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Receta {
@@ -21,11 +23,20 @@ public class Receta {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idReceta;
-    private Integer idUsuario;
+
+    @ManyToOne()
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     private String titulo;
     private Integer porciones;
-    private Integer idTipo;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_id")
+    private Tipo tipo;
+
     private Integer cantidadPersonas;
+    private Integer estado; // 0 = Pendiente, 1 = Rechazada , 2 = Aceptada
     @Column(length = 1000)
     private String descripcion;
     private LocalDateTime fecha;
@@ -34,7 +45,7 @@ public class Receta {
     private List<Foto> galeria;
 
     @OneToMany(mappedBy = "receta")
-    private List<ItemIngrediente> Ingredientes;
+    private List<ItemIngrediente> ingredientes;
 
     @OneToMany(mappedBy = "receta")
     private List<Paso> pasos;

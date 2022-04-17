@@ -27,6 +27,9 @@ public class Usuario {
     private Integer tipoUsuario;
     private String recoveryCode;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Receta> recetas;
+
     @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Favorita> favoritos;
 

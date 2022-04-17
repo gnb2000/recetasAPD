@@ -31,8 +31,10 @@ public class IngredienteServiceImpl implements IngredienteService{
 
     @Override
     public Ingrediente findById(Integer id) {
-        return Optional.ofNullable(ingredienteRepository.findById(id).get())
-                .orElseThrow(() -> new IngredienteNotFoundException("No se encontro un Ingrediente con el ID ingresado"));
+        if (ingredienteRepository.findById(id).isPresent()){
+            return ingredienteRepository.findById(id).get();
+        }
+        throw new IngredienteNotFoundException("No se encontro un Ingrediente con el ID ingresado");
     }
 
     @Override
