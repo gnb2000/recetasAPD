@@ -1,0 +1,17 @@
+package com.recetasAPD.recetasAPD.dtos;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ItemIngredienteResponse {
+
+    private Integer idItemIngrediente;
+    private IngredienteResponse ingrediente;
+    private Integer cantidad;
+   // private Integer idUnidad;
+    private String observaciones;
+}

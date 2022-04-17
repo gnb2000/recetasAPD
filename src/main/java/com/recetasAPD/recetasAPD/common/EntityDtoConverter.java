@@ -51,6 +51,27 @@ public class EntityDtoConverter {
                 .collect(Collectors.toList());
     }
 
+    public ItemIngrediente convertItemIngredienteRequestToItemIngrediente(ItemIngredienteRequest item){
+        return modelMapper.map(item,ItemIngrediente.class);
+    }
+
+    public RecetaResponse convertRecetaToRecetaResponse(Receta r){
+
+        RecetaResponse recetaResponse = modelMapper.map(r,RecetaResponse.class);
+        //recetaResponse.setUsuario(this.convertUsuarioToUsuarioResponseDTO(r.getUsuario()));
+        //recetaResponse.setTipo(this.convertTipoToTipoResponse(r.getTipo()));
+
+        return recetaResponse;
+
+
+
+
+    }
+
+    public TipoResponse convertTipoToTipoResponse(Tipo tipo){
+        return modelMapper.map(tipo,TipoResponse.class);
+    }
+
 
 
 

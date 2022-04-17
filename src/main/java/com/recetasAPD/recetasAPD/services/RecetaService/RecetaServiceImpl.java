@@ -1,6 +1,8 @@
 package com.recetasAPD.recetasAPD.services.RecetaService;
 
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
+import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
+import com.recetasAPD.recetasAPD.dtos.ItemIngredienteResponse;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.RecetasEmptyException;
@@ -11,8 +13,10 @@ import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -91,6 +95,7 @@ public class RecetaServiceImpl implements RecetaService{
                 .estado(0)
                 .fecha(LocalDateTime.now())
                 .build();
+        recetaRepository.save(receta);
 
         Usuario u = usuarioService.findById(recetaRequest.getIdUsuario());
         receta.setUsuario(u);
@@ -98,7 +103,15 @@ public class RecetaServiceImpl implements RecetaService{
         Tipo tipo = tipoService.findById(recetaRequest.getTipo());
         receta.setTipo(tipo);
 
-        List<ItemIngrediente> itemIngredientes = entityDtoConverter.convertItemIngredienteRequestListToItemIngredienteList(recetaRequest.getItemIngredientes());
+        List<ItemIngrediente> itemIngredientes = new ArrayList<>();
+        ItemIngrediente itemIngrediente;
+        Ingrediente i;
+        for (ItemIngredienteRequest item : recetaRequest.getItemIngredientes()){
+            i = ingredienteService.findById(item.getIdIngrediente());
+            itemIngrediente = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
+            itemIngrediente.setIngrediente(i);
+            itemIngredientes.add(itemIngrediente);
+        }
         receta.setIngredientes(itemIngredientes);
 
 

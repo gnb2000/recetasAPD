@@ -3,6 +3,7 @@ package com.recetasAPD.recetasAPD.controladores;
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
 import com.recetasAPD.recetasAPD.dtos.RecetaDTO;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
+import com.recetasAPD.recetasAPD.dtos.RecetaResponse;
 import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class ControladorRecetas {
     private EntityDtoConverter entityDtoConverter;
 
     @PostMapping("/receta")
-    public Receta addReceta(@RequestBody RecetaRequest receta){
-        return recetaService.addReceta(receta);
+    public RecetaResponse addReceta(@RequestBody RecetaRequest receta){
+        return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta));
     }
 
 
