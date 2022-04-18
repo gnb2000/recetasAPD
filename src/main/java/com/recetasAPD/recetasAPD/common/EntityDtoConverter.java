@@ -1,8 +1,10 @@
 package com.recetasAPD.recetasAPD.common;
 
+import com.recetasAPD.recetasAPD.dtos.FotoResponse;
 import com.recetasAPD.recetasAPD.dtos.IngredienteResponse;
 import com.recetasAPD.recetasAPD.dtos.RecetaDTO;
 import com.recetasAPD.recetasAPD.dtos.UsuarioResponseDTO;
+import com.recetasAPD.recetasAPD.entities.Foto;
 import com.recetasAPD.recetasAPD.entities.Ingrediente;
 import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.entities.Usuario;
@@ -45,6 +47,10 @@ public class EntityDtoConverter {
                 .stream()
                 .map(ingrediente -> modelMapper.map(ingrediente, IngredienteResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    public FotoResponse convertFotoToFotoResponse(Foto foto){
+        return modelMapper.map(foto, FotoResponse.class);
     }
 
 
