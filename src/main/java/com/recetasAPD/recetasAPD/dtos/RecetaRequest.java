@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class RecetaRequest {
 
+    private Integer idReceta; //Edita la receta -> Este ID viene con valor, Si hace una nuevo, no va a tener valor
     private Integer idUsuario;
     private String nombre;
     private String descripcion;

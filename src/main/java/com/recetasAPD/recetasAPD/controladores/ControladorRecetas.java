@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,8 +27,11 @@ public class ControladorRecetas {
 
     @PostMapping(value = "/receta",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public RecetaResponse addReceta(@RequestPart("receta") RecetaRequest receta, @RequestPart("fotos") List<MultipartFile> fotos){
+        //ArrayList<ArrayList<MultipartFile>> graph = new ArrayList<>();
         return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta,fotos));
     }
+
+
 
 
     @GetMapping("/recetas")

@@ -98,7 +98,6 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos){
-        //Me falta hacerlo transactional
          Receta receta = Receta.builder()
                 .titulo(recetaRequest.getNombre())
                 .descripcion(recetaRequest.getDescripcion())
@@ -125,6 +124,7 @@ public class RecetaServiceImpl implements RecetaService{
 
             return receta;
         } else {
+            //Aca nunca va a entrar porque en la interfaz los ingredientes van a estar en un select y entonces esos EXISTEN
             throw new RecetaNotCreatedException("Algun ingrediente no existe");
         }
 
