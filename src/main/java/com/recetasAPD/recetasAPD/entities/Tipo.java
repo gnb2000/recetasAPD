@@ -1,15 +1,14 @@
 package com.recetasAPD.recetasAPD.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "tipos")
-@Data //LOMBOOK: Te genera los Getters y Setters automaticos de los atributos de la clase
+@Getter
+@Setter
 @AllArgsConstructor //LOMBOOK: Genera un constructor con todos los atributos de la clase
 @NoArgsConstructor //LOMBOOK: Genera el constructor vacio
 public class Tipo {

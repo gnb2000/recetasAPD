@@ -22,8 +22,8 @@ public class ControladorFotos {
     private EntityDtoConverter entityDtoConverter;
 
     @PostMapping("/photo")
-    public ResponseEntity<FotoResponse> uploadPhoto(@RequestParam("photo") MultipartFile photo, @RequestParam("title") String title){
+    public ResponseEntity<FotoResponse> uploadPhoto(@RequestParam("photo") MultipartFile photo){
         String url = fotoService.uploadPhoto(photo);
-        return new ResponseEntity<>(entityDtoConverter.convertFotoToFotoResponse(fotoService.savePhotoByUrlAndTitle(url,title)), HttpStatus.OK);
+        return new ResponseEntity<>(entityDtoConverter.convertFotoToFotoResponse(fotoService.savePhotoByUrlAndTitle(url)), HttpStatus.OK);
     }
 }

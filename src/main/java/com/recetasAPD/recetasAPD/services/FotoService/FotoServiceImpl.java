@@ -54,10 +54,9 @@ public class FotoServiceImpl implements FotoService {
     }
 
     @Override
-    public Foto savePhotoByUrlAndTitle(String url, String title) {
+    public Foto savePhotoByUrlAndTitle(String url) {
         Foto foto = Foto.builder()
                 .urlFoto(url)
-                .title(title)
                 .build();
         return fotoRepository.save(foto);
     }

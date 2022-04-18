@@ -1,12 +1,12 @@
 package com.recetasAPD.recetasAPD.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecetaRequest {
@@ -14,10 +14,9 @@ public class RecetaRequest {
     private Integer idUsuario;
     private String nombre;
     private String descripcion;
-    private String foto; //Esto despues va a cambiar
     private Integer porciones;
     private Integer cantPersonas;
     private Integer tipo; //Buscar el tipo por este ID
-    private List<ItemIngredienteRequest> ItemIngredientes;
+    private List<ItemIngredienteRequest> itemIngredientes;
     private List<PasoRequest> pasos;
 }

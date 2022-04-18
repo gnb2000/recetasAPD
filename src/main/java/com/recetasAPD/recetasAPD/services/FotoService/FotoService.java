@@ -9,5 +9,5 @@ public interface FotoService {
     void update(Foto foto);
     void delete(Foto foto);
     String uploadPhoto(MultipartFile photo);
-    Foto savePhotoByUrlAndTitle(String url, String title);
+    Foto savePhotoByUrlAndTitle(String url);
 }

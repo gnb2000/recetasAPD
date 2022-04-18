@@ -69,7 +69,16 @@ public class EntityDtoConverter {
                 .stream()
                 .map(paso -> modelMapper.map(paso,Paso.class))
                 .collect(Collectors.toList());
+    }
 
+    public FotoResponse convertFotoToFotoResponse(Foto foto){
+        return modelMapper.map(foto, FotoResponse.class);
+    }
+
+    public List<FotoResponse> convertFotoToFotoResponse(List<Foto> fotos){
+        return fotos.stream()
+                .map(foto -> modelMapper.map(foto,FotoResponse.class))
+                .collect(Collectors.toList());
     }
 
 

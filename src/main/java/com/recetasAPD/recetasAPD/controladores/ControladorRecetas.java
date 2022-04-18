@@ -8,8 +8,10 @@ import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,19 +24,19 @@ public class ControladorRecetas {
     @Autowired
     private EntityDtoConverter entityDtoConverter;
 
-    @PostMapping("/receta")
-    public RecetaResponse addReceta(@RequestBody RecetaRequest receta){
-        return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta));
+    @PostMapping(value = "/receta",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    public RecetaResponse addReceta(@RequestPart("receta") RecetaRequest receta, @RequestPart("fotos") List<MultipartFile> fotos){
+        return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta,fotos));
     }
 
 
     @GetMapping("/recetas")
-    public ResponseEntity<List<RecetaDTO>>getAllrecetas() {
+    public ResponseEntity<List<RecetaDTO>> getAllrecetas() {
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getAll()), HttpStatus.OK);
     }
 
     @GetMapping("/recetas/{nombre}/{orden}")
-        public ResponseEntity<List<RecetaDTO>> getRecetasByNombre(@PathVariable(value="nombre")String nombre, @PathVariable(value = "orden")Integer orden){
+    public ResponseEntity<List<RecetaDTO>> getRecetasByNombre(@PathVariable(value="nombre")String nombre, @PathVariable(value = "orden")Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.findByTitulo(nombre,orden)),HttpStatus.OK);
 
     }

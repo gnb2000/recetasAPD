@@ -7,12 +7,14 @@ import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.RecetasEmptyException;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
+import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
 import com.recetasAPD.recetasAPD.services.IngredienteService.IngredienteService;
 import com.recetasAPD.recetasAPD.services.ItemIngredienteService.ItemIngredienteService;
 import com.recetasAPD.recetasAPD.services.TipoService.TipoService;
 import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Service
 public class RecetaServiceImpl implements RecetaService{
+
     @Autowired // Sirve para inyectar lo del repositorio y para que funcione como singleton.
     private RecetaRepository recetaRepository;
 
@@ -39,6 +42,9 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Autowired
     private ItemIngredienteService itemIngredienteService;
+
+    @Autowired
+    private FotoService fotoService;
 
     @Override
     public void save(Receta receta) {
@@ -86,11 +92,11 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public Receta addReceta(RecetaRequest r) {
-        return this.convertRecetaRequestToReceta(r);
+    public Receta addReceta(RecetaRequest r,List<MultipartFile> fotos) {
+        return this.convertRecetaRequestToReceta(r,fotos);
     }
 
-    private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest){
+    private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos){
         //Poner dentro de un try catch, si entra al catch, borrar receta
         Receta receta = Receta.builder()
                 .titulo(recetaRequest.getNombre())
@@ -100,15 +106,30 @@ public class RecetaServiceImpl implements RecetaService{
                 .estado(0)
                 .usuario(usuarioService.findById(recetaRequest.getIdUsuario()))
                 .tipo(tipoService.findById(recetaRequest.getTipo()))
-                .pasos(entityDtoConverter.convertPasoRequestToPaso(recetaRequest.getPasos()))
+                //.pasos(entityDtoConverter.convertPasoRequestToPaso(recetaRequest.getPasos()))
                 .fecha(LocalDateTime.now())
                 .build();
-        recetaRepository.save(receta);
+        System.out.println(receta.toString());
+        recetaRepository.save(receta); //Para generar el id
 
+
+        //Items ingredientes
+        receta.setIngredientes(this.convertAndSaveItemIngredienteRequestToItemIngrediente(recetaRequest.getItemIngredientes(), receta));
+        this.update(receta);
+
+        //Fotos de la receta (NO LOS PASOS)
+        receta.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,receta));
+        this.update(receta);
+
+
+        return receta;
+    }
+
+    private List<ItemIngrediente> convertAndSaveItemIngredienteRequestToItemIngrediente(List<ItemIngredienteRequest> items, Receta receta){
         List<ItemIngrediente> itemIngredientes = new ArrayList<>();
         ItemIngrediente itemIngrediente;
         Ingrediente i;
-        for (ItemIngredienteRequest item : recetaRequest.getItemIngredientes()){
+        for (ItemIngredienteRequest item : items){
             i = ingredienteService.findById(item.getIdIngrediente());
             itemIngrediente = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
             itemIngrediente.setIngrediente(i);
@@ -116,11 +137,19 @@ public class RecetaServiceImpl implements RecetaService{
             itemIngrediente.setReceta(receta);
             itemIngredienteService.save(itemIngrediente);
         }
-        receta.setIngredientes(itemIngredientes);
-        recetaRepository.save(receta);
+        return itemIngredientes;
+    }
 
-        return receta;
-
+    private List<Foto> convertAndSaveFotoImageFileToFoto(List<MultipartFile> fotos, Receta receta){
+        List<Foto> fotosGuardadas = new ArrayList<>();
+        for (MultipartFile foto : fotos){
+            String url = fotoService.uploadPhoto(foto); //Subimos la foto a Cloudinary y obtenemos el link
+            Foto f = fotoService.savePhotoByUrlAndTitle(url);
+            f.setReceta(receta);
+            fotoService.update(f);
+            fotosGuardadas.add(f);
+        }
+        return fotosGuardadas;
     }
 
 
