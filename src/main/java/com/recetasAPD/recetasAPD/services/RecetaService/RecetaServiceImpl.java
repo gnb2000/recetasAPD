@@ -5,7 +5,7 @@ import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
 import com.recetasAPD.recetasAPD.dtos.ItemIngredienteResponse;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
-import com.recetasAPD.recetasAPD.exceptions.RecetasEmptyException;
+import com.recetasAPD.recetasAPD.exceptions.*;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
 import com.recetasAPD.recetasAPD.services.IngredienteService.IngredienteService;
@@ -92,13 +92,14 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
+    //@Transactional(rollbackOn = {UserNotFoundException.class, TipoNotFoundException.class, IngredienteNotFoundException.class})
     public Receta addReceta(RecetaRequest r,List<MultipartFile> fotos) {
         return this.convertRecetaRequestToReceta(r,fotos);
     }
 
     private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos){
         //Me falta hacerlo transactional
-        Receta receta = Receta.builder()
+         Receta receta = Receta.builder()
                 .titulo(recetaRequest.getNombre())
                 .descripcion(recetaRequest.getDescripcion())
                 .porciones(recetaRequest.getPorciones())
@@ -109,35 +110,47 @@ public class RecetaServiceImpl implements RecetaService{
                 .pasos(entityDtoConverter.convertPasoRequestToPaso(recetaRequest.getPasos()))
                 .fecha(LocalDateTime.now())
                 .build();
-        recetaRepository.save(receta); //Para generar el id
-        System.out.println(receta.getIdReceta());
+        recetaRepository.save(receta);//Para generar el id
 
         //Items ingredientes
-        receta.setIngredientes(this.convertAndSaveItemIngredienteRequestToItemIngrediente(recetaRequest.getItemIngredientes(), receta));
-        this.update(receta);
+        List<ItemIngrediente> items = this.convertAndSaveItemIngredienteRequestToItemIngrediente(recetaRequest.getItemIngredientes(), receta);
+        if (items != null){
+            receta.setIngredientes(items);
+            this.update(receta);
 
-        //Fotos de la receta (NO LOS PASOS)
-        receta.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,receta));
-        this.update(receta);
+            //Fotos de la receta (NO LOS PASOS)
+            receta.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,receta));
+            this.update(receta);
 
-        recetaRepository.delete(receta);
 
-        return receta;
+            return receta;
+        } else {
+            throw new RecetaNotCreatedException("Algun ingrediente no existe");
+        }
+
     }
 
     private List<ItemIngrediente> convertAndSaveItemIngredienteRequestToItemIngrediente(List<ItemIngredienteRequest> items, Receta receta){
         List<ItemIngrediente> itemIngredientes = new ArrayList<>();
         ItemIngrediente itemIngrediente;
         Ingrediente i;
-        for (ItemIngredienteRequest item : items){
-            i = ingredienteService.findById(item.getIdIngrediente());
-            itemIngrediente = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
-            itemIngrediente.setIngrediente(i);
-            itemIngredientes.add(itemIngrediente);
-            itemIngrediente.setReceta(receta);
-            itemIngredienteService.save(itemIngrediente);
+
+        try {
+            for (ItemIngredienteRequest item : items) {
+                i = ingredienteService.findById(item.getIdIngrediente());
+                itemIngrediente = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
+                itemIngrediente.setIngrediente(i);
+                itemIngredientes.add(itemIngrediente);
+                itemIngrediente.setReceta(receta);
+                itemIngredienteService.save(itemIngrediente);
+            }
+            return itemIngredientes;
+        } catch (IngredienteNotFoundException e){
+            recetaRepository.delete(receta);
+            itemIngredientes = null;
+            return itemIngredientes;
         }
-        return itemIngredientes;
+
     }
 
     private List<Foto> convertAndSaveFotoImageFileToFoto(List<MultipartFile> fotos, Receta receta){
