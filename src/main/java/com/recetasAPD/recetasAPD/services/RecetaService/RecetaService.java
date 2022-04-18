@@ -12,6 +12,8 @@ public interface RecetaService {
     void delete(Receta receta);
     List<Receta> getAll();
     List<Receta> findByTitulo(String nombre, Integer orden);
+    List<Receta> findByTipo(String tipo, Integer orden);
     Receta getLast();
     Receta addReceta(RecetaRequest r, List<MultipartFile> fotos, List<MultipartFile> fotosMultimedia);
+
 }

@@ -83,6 +83,19 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
+    public List<Receta> findByTipo(String tipo, Integer orden) {
+        if(!recetaRepository.findByTipo(tipo).isEmpty()){
+            if(orden == 1){
+                return recetaRepository.findByTipoAlfa(tipo);
+            }else{
+                return recetaRepository.findByTipoFecha(tipo);
+            }
+        }else{
+            throw new RecetasEmptyException("¡No se encuentran receteas de ese tipo!");
+        }
+    }
+
+    @Override
     public Receta getLast() {
         if(!recetaRepository.findAll().isEmpty()){
             return recetaRepository.findTop1ByOrderByFechaDesc();
