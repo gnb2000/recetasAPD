@@ -26,9 +26,9 @@ public class ControladorRecetas {
     private EntityDtoConverter entityDtoConverter;
 
     @PostMapping(value = "/receta",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public RecetaResponse addReceta(@RequestPart("receta") RecetaRequest receta, @RequestPart("fotos") List<MultipartFile> fotos, @RequestPart("multimediaPasos") List<MultipartFile> multimediaPasos){
+    public RecetaResponse addReceta(@RequestPart("receta") RecetaRequest receta, @RequestPart("fotos") List<MultipartFile> fotos, @RequestPart("multimediaPasos") List<List<MultipartFile>> multimediaPasos){
         //ArrayList<ArrayList<MultipartFile>> graph = new ArrayList<>();
-        return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta,fotos));
+        return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta,fotos,multimediaPasos));
     }
 
 

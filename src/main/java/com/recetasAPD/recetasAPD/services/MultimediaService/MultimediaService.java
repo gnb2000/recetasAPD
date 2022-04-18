@@ -10,5 +10,5 @@ public interface MultimediaService {
     void save(Multimedia multimedia);
     void update(Multimedia multimedia);
     void delete(Multimedia multimedia);
-    String uploadAndSaveFile(MultipartFile photoOrVideo, Paso paso);
+    Multimedia uploadAndSaveFile(MultipartFile photoOrVideo, Paso paso);
 }

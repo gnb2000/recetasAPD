@@ -3,6 +3,7 @@ package com.recetasAPD.recetasAPD.services.RecetaService;
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
 import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
 import com.recetasAPD.recetasAPD.dtos.ItemIngredienteResponse;
+import com.recetasAPD.recetasAPD.dtos.PasoRequest;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.*;
@@ -10,6 +11,8 @@ import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
 import com.recetasAPD.recetasAPD.services.IngredienteService.IngredienteService;
 import com.recetasAPD.recetasAPD.services.ItemIngredienteService.ItemIngredienteService;
+import com.recetasAPD.recetasAPD.services.MultimediaService.MultimediaService;
+import com.recetasAPD.recetasAPD.services.PasoService.PasoService;
 import com.recetasAPD.recetasAPD.services.TipoService.TipoService;
 import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,12 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Autowired
     private FotoService fotoService;
+
+    @Autowired
+    private MultimediaService multimediaService;
+
+    @Autowired
+    private PasoService pasoService;
 
     @Override
     public void save(Receta receta) {
@@ -93,11 +102,11 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     //@Transactional(rollbackOn = {UserNotFoundException.class, TipoNotFoundException.class, IngredienteNotFoundException.class})
-    public Receta addReceta(RecetaRequest r,List<MultipartFile> fotos, List<MultipartFile> fotosMultimedia) {
-        return this.convertRecetaRequestToReceta(r,fotos);
+    public Receta addReceta(RecetaRequest r,List<MultipartFile> fotos, List<List<MultipartFile>> fotosMultimedia) {
+        return this.convertRecetaRequestToReceta(r,fotos,fotosMultimedia);
     }
 
-    private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos){
+    private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos, List<List<MultipartFile>> multimediaFotoOrVideo){
          Receta receta = Receta.builder()
                 .titulo(recetaRequest.getNombre())
                 .descripcion(recetaRequest.getDescripcion())
@@ -106,7 +115,6 @@ public class RecetaServiceImpl implements RecetaService{
                 .estado(0)
                 .usuario(usuarioService.findById(recetaRequest.getIdUsuario()))
                 .tipo(tipoService.findById(recetaRequest.getTipo()))
-                .pasos(entityDtoConverter.convertPasoRequestToPaso(recetaRequest.getPasos()))
                 .fecha(LocalDateTime.now())
                 .build();
         recetaRepository.save(receta);//Para generar el id
@@ -115,14 +123,12 @@ public class RecetaServiceImpl implements RecetaService{
         List<ItemIngrediente> items = this.convertAndSaveItemIngredienteRequestToItemIngrediente(recetaRequest.getItemIngredientes(), receta);
         if (items != null){
             receta.setIngredientes(items);
-            this.update(receta);
 
             //Fotos de la receta (NO LOS PASOS)
             receta.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,receta));
+
+            receta.setPasos(this.convertAndSavePasoRequestToPaso(recetaRequest.getPasos(),multimediaFotoOrVideo,receta));
             this.update(receta);
-
-
-
 
             return receta;
         } else {
@@ -165,6 +171,23 @@ public class RecetaServiceImpl implements RecetaService{
             fotosGuardadas.add(f);
         }
         return fotosGuardadas;
+    }
+
+    private List<Paso> convertAndSavePasoRequestToPaso(List<PasoRequest> pasosRequest,  List<List<MultipartFile>> multimedias, Receta receta){
+        List<Paso> pasos = entityDtoConverter.convertPasoRequestToPaso(pasosRequest); //Ya tiene el nroPaso y descripcion
+        Multimedia m;
+        for (Paso paso : pasos){
+            List<Multimedia> multimediaPaso = new ArrayList<>();
+            pasoService.save(paso); //Se persiste y tiene ID
+            //Guardar cada archivo multimedia, asignarle la receta y al paso agregarle ese listado de archivos multimedia y actualizar
+            for (MultipartFile multimedia : multimedias.get(paso.getNroPaso())){
+               multimediaPaso.add(multimediaService.uploadAndSaveFile(multimedia, paso));
+            }
+            paso.setGaleria(multimediaPaso);
+            paso.setReceta(receta);
+            pasoService.update(paso);
+        }
+        return pasos;
     }
 
 

@@ -42,7 +42,7 @@ public class MultimediaServiceImpl implements MultimediaService{
     }
 
     @Override
-    public String uploadAndSaveFile(MultipartFile photoOrVideo, Paso paso) {
+    public Multimedia uploadAndSaveFile(MultipartFile photoOrVideo, Paso paso) {
         try {
             File uploadedFile = convertMultiPartToFile(photoOrVideo);
             Map uploadResult;
@@ -64,9 +64,9 @@ public class MultimediaServiceImpl implements MultimediaService{
                     .extension(StringUtils.getFilenameExtension(photoOrVideo.getOriginalFilename()))
                     .paso(paso)
                     .build();
-            multimediaRepository.save(multimedia);
 
-            return  uploadResult.get("url").toString();
+
+            return  multimediaRepository.save(multimedia);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
