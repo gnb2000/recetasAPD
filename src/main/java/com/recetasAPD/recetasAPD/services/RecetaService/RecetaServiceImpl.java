@@ -106,12 +106,10 @@ public class RecetaServiceImpl implements RecetaService{
                 .estado(0)
                 .usuario(usuarioService.findById(recetaRequest.getIdUsuario()))
                 .tipo(tipoService.findById(recetaRequest.getTipo()))
-                //.pasos(entityDtoConverter.convertPasoRequestToPaso(recetaRequest.getPasos()))
+                .pasos(entityDtoConverter.convertPasoRequestToPaso(recetaRequest.getPasos()))
                 .fecha(LocalDateTime.now())
                 .build();
-        System.out.println(receta.toString());
         recetaRepository.save(receta); //Para generar el id
-
 
         //Items ingredientes
         receta.setIngredientes(this.convertAndSaveItemIngredienteRequestToItemIngrediente(recetaRequest.getItemIngredientes(), receta));
@@ -120,7 +118,6 @@ public class RecetaServiceImpl implements RecetaService{
         //Fotos de la receta (NO LOS PASOS)
         receta.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,receta));
         this.update(receta);
-
 
         return receta;
     }
