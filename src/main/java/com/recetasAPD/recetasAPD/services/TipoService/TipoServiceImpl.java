@@ -18,7 +18,6 @@ public class TipoServiceImpl implements TipoService{
     public Tipo findById(Integer id) {
         Optional<Tipo> tipo = tipoRepository.findById(id);
         if (tipo.isPresent()){
-            System.out.println(tipo.toString());
             return tipo.get();
         }
         throw new TipoNotFoundException("No se encontro un Tipo con ese ID");

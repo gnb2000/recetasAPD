@@ -97,7 +97,7 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos){
-        //Poner dentro de un try catch, si entra al catch, borrar receta
+        //Me falta hacerlo transactional
         Receta receta = Receta.builder()
                 .titulo(recetaRequest.getNombre())
                 .descripcion(recetaRequest.getDescripcion())
@@ -110,6 +110,7 @@ public class RecetaServiceImpl implements RecetaService{
                 .fecha(LocalDateTime.now())
                 .build();
         recetaRepository.save(receta); //Para generar el id
+        System.out.println(receta.getIdReceta());
 
         //Items ingredientes
         receta.setIngredientes(this.convertAndSaveItemIngredienteRequestToItemIngrediente(recetaRequest.getItemIngredientes(), receta));
@@ -118,6 +119,8 @@ public class RecetaServiceImpl implements RecetaService{
         //Fotos de la receta (NO LOS PASOS)
         receta.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,receta));
         this.update(receta);
+
+        recetaRepository.delete(receta);
 
         return receta;
     }

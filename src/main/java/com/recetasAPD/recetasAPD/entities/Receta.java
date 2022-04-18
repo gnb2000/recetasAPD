@@ -39,10 +39,10 @@ public class Receta {
     private String descripcion;
     private LocalDateTime fecha;
 
-    @OneToMany(mappedBy= "receta",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy= "receta",cascade = CascadeType.ALL)
     private List<Foto> galeria;
 
-    @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL)
     private List<ItemIngrediente> ingredientes;
 
     @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL, orphanRemoval = true)
