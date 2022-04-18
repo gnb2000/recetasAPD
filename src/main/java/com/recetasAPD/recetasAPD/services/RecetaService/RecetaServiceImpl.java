@@ -93,7 +93,7 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     //@Transactional(rollbackOn = {UserNotFoundException.class, TipoNotFoundException.class, IngredienteNotFoundException.class})
-    public Receta addReceta(RecetaRequest r,List<MultipartFile> fotos) {
+    public Receta addReceta(RecetaRequest r,List<MultipartFile> fotos, List<MultipartFile> fotosMultimedia) {
         return this.convertRecetaRequestToReceta(r,fotos);
     }
 
@@ -120,6 +120,8 @@ public class RecetaServiceImpl implements RecetaService{
             //Fotos de la receta (NO LOS PASOS)
             receta.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,receta));
             this.update(receta);
+
+
 
 
             return receta;

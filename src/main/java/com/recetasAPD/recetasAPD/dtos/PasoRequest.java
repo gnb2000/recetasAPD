@@ -13,5 +13,5 @@ public class PasoRequest {
 
     private Integer nroPaso;
     private String descripcion;
-    //private List<MultimediaRequest> galeria; ESPERAR A QUE SEPAMOS COMO HACER LO DE LAS FOTOS / VIDEOS
+    //private List<MultipleFile> galeria; ESPERAR A QUE SEPAMOS COMO HACER LO DE LAS FOTOS / VIDEOS
 }

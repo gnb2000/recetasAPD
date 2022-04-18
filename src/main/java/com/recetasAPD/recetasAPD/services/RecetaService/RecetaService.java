@@ -13,5 +13,5 @@ public interface RecetaService {
     List<Receta> getAll();
     List<Receta> findByTitulo(String nombre, Integer orden);
     Receta getLast();
-    Receta addReceta(RecetaRequest r, List<MultipartFile> fotos);
+    Receta addReceta(RecetaRequest r, List<MultipartFile> fotos, List<MultipartFile> fotosMultimedia);
 }
