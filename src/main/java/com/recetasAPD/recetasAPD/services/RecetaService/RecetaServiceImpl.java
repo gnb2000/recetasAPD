@@ -130,12 +130,22 @@ public class RecetaServiceImpl implements RecetaService{
         return nuevaReceta;
     }
 
+    @Override
+    public Receta updateRecetaFieldsOnCreation(RecetaRequest recetaDTO, List<MultipartFile> fotos) {
+        Receta r = entityDtoConverter.convertRecetaRequestToReceta(recetaDTO);
+        r.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,r));
+        r.setTipo(tipoService.findById(recetaDTO.getTipo()));
+        r.setUsuario(usuarioService.findById(recetaDTO.getIdUsuario()));
+        this.update(r);
+        return r;
+    }
+
     private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos, List<List<MultipartFile>> multimediaFotoOrVideo){
          Receta receta = Receta.builder()
-                .titulo(recetaRequest.getNombre())
+                .titulo(recetaRequest.getTitulo())
                 .descripcion(recetaRequest.getDescripcion())
                 .porciones(recetaRequest.getPorciones())
-                .cantidadPersonas(recetaRequest.getCantPersonas())
+                .cantidadPersonas(recetaRequest.getCantidadPersonas())
                 .estado(0)
                 .usuario(usuarioService.findById(recetaRequest.getIdUsuario()))
                 .tipo(tipoService.findById(recetaRequest.getTipo()))

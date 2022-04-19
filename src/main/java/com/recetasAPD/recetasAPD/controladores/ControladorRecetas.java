@@ -9,6 +9,7 @@ import com.recetasAPD.recetasAPD.entities.Usuario;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -61,6 +62,11 @@ public class ControladorRecetas {
     @PostMapping("/recetas/create/with/{nombre}/{idUsuario}")
     public ResponseEntity<RecetaResponse> crearRecetaByNombreAndUsuario(@PathVariable String nombre, @PathVariable Integer idUsuario){
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.crearRecetaByNombreAndTitulo(nombre,idUsuario)), HttpStatus.OK );
+    }
+
+    @PutMapping(value="/recetas/update/fields", consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<RecetaResponse> updateRecetaFields(@RequestPart RecetaRequest receta, @RequestPart List<MultipartFile> fotos){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.updateRecetaFieldsOnCreation(receta,fotos)), HttpStatus.OK);
     }
 
 

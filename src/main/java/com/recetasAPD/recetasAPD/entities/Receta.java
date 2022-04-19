@@ -45,7 +45,7 @@ public class Receta {
     @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL)
     private List<ItemIngrediente> ingredientes;
 
-    @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL)
     private List<Paso> pasos;
 
 

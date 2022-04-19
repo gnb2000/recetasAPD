@@ -60,6 +60,10 @@ public class EntityDtoConverter {
         return recetaResponse;
     }
 
+    public Receta convertRecetaRequestToReceta(RecetaRequest r){
+        return modelMapper.map(r,Receta.class);
+    }
+
     public TipoResponse convertTipoToTipoResponse(Tipo tipo){
         return modelMapper.map(tipo,TipoResponse.class);
     }
