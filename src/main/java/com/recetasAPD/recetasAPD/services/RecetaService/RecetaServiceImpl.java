@@ -91,6 +91,7 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> getRecetaWithoutIngrediente(Integer idIngrediente, Integer orden) {
+        //falta la excepcion tambien
         List<Receta> recetas;
         if(orden == 0){
             recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(idIngrediente);
