@@ -14,5 +14,5 @@ public class PasoResponse {
     private Integer idPaso;
     private Integer nroPaso;
     private String descripcion;
-    private List<MultimediaResponse> multimedia;
+    private List<MultimediaResponse> galeria;
 }

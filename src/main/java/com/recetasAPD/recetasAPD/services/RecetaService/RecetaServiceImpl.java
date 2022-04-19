@@ -219,7 +219,6 @@ public class RecetaServiceImpl implements RecetaService{
 
     private List<Paso> convertAndSavePasoRequestToPaso(List<PasoRequest> pasosRequest,  List<List<MultipartFile>> multimedias, Receta receta){
         List<Paso> pasos = entityDtoConverter.convertPasoRequestToPaso(pasosRequest); //Ya tiene el nroPaso y descripcion
-        Multimedia m;
         for (Paso paso : pasos){
             List<Multimedia> multimediaPaso = new ArrayList<>();
             pasoService.save(paso); //Se persiste y tiene ID
@@ -227,6 +226,7 @@ public class RecetaServiceImpl implements RecetaService{
             for (MultipartFile multimedia : multimedias.get(paso.getNroPaso())){
                multimediaPaso.add(multimediaService.uploadAndSaveFile(multimedia, paso));
             }
+            System.out.println(multimediaPaso.size());
             paso.setGaleria(multimediaPaso);
             paso.setReceta(receta);
             pasoService.update(paso);
