@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ItemIngrediente {
 
     @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -26,4 +27,8 @@ public class ItemIngrediente {
     @ManyToOne
     @JoinColumn(name = "idReceta")
     private Receta receta;
+
+    @ManyToOne
+    @JoinColumn(name = "idUnidad")
+    private Unidad unidad;
 }

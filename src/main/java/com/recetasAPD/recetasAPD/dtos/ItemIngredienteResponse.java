@@ -12,6 +12,6 @@ public class ItemIngredienteResponse {
     private Integer idItemIngrediente;
     private IngredienteResponse ingrediente;
     private Integer cantidad;
-   // private Integer idUnidad;
+    private Integer idUnidad;
     private String observaciones;
 }

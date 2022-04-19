@@ -17,4 +17,5 @@ public interface RecetaService {
     Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta updateRecetaFieldsOnCreation(RecetaRequest receta, List<MultipartFile> fotos);
+    Receta findById(Integer id);
 }

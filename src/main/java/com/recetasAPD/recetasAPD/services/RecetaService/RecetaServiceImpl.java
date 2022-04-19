@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecetaServiceImpl implements RecetaService{
@@ -138,6 +139,15 @@ public class RecetaServiceImpl implements RecetaService{
         r.setUsuario(usuarioService.findById(recetaDTO.getIdUsuario()));
         this.update(r);
         return r;
+    }
+
+    @Override
+    public Receta findById(Integer id) {
+        Optional<Receta> r = recetaRepository.findById(id);
+        if (r.isPresent()){
+            return r.get();
+        }
+        throw new RecetaNotCreatedException("No existe una receta con ID "+ id);
     }
 
     private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos, List<List<MultipartFile>> multimediaFotoOrVideo){

@@ -1,5 +1,6 @@
 package com.recetasAPD.recetasAPD.services.IngredienteService;
 
+import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
 import com.recetasAPD.recetasAPD.entities.Ingrediente;
 import com.recetasAPD.recetasAPD.exceptions.IngredienteNotFoundException;
 import com.recetasAPD.recetasAPD.repositories.IngredienteRepository;
@@ -47,6 +48,8 @@ public class IngredienteServiceImpl implements IngredienteService{
         }
         throw new IngredienteNotFoundException("No se encontraron ingredientes en el sistema");
     }
+
+
 
 
 }

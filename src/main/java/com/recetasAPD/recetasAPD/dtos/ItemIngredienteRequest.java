@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ItemIngredienteRequest {
 
+    private Integer idReceta;
     private Integer idIngrediente;
     private Integer cantidad;
     private Integer idUnidad;

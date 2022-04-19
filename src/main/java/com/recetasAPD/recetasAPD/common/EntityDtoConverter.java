@@ -55,6 +55,10 @@ public class EntityDtoConverter {
         return modelMapper.map(item,ItemIngrediente.class);
     }
 
+    public ItemIngredienteResponse convertItemIngredienteToItemIngredienteResponse(ItemIngrediente i){
+        return modelMapper.map(i, ItemIngredienteResponse.class);
+    }
+
     public RecetaResponse convertRecetaToRecetaResponse(Receta r){
         RecetaResponse recetaResponse = modelMapper.map(r,RecetaResponse.class);
         return recetaResponse;
@@ -83,6 +87,10 @@ public class EntityDtoConverter {
         return fotos.stream()
                 .map(foto -> modelMapper.map(foto,FotoResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    public UnidadResponse convertUnidadToUnidadResponse(Unidad u){
+        return modelMapper.map(u,UnidadResponse.class);
     }
 
 
