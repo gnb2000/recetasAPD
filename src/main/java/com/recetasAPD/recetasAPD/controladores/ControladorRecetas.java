@@ -29,11 +29,11 @@ public class ControladorRecetas {
     @Autowired
     private EntityDtoConverter entityDtoConverter;
 
-    @PostMapping(value = "/receta",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
+   /* @PostMapping(value = "/receta",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
     public RecetaResponse addReceta(@RequestPart("receta") RecetaRequest receta, @RequestPart("fotos") List<MultipartFile> fotos, @RequestPart("multimediaPasos") List<List<MultipartFile>> multimediaPasos){
         //ArrayList<ArrayList<MultipartFile>> graph = new ArrayList<>();
         return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta,fotos,multimediaPasos));
-    }
+    }*/
 
     @GetMapping("/recetas")
     public ResponseEntity<List<RecetaDTO>> getAllrecetas() {

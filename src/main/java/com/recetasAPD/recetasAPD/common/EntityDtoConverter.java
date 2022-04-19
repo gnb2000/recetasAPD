@@ -78,12 +78,20 @@ public class EntityDtoConverter {
         return modelMapper.map(tipo,TipoResponse.class);
     }
 
-    public List<Paso> convertPasoRequestToPaso(List<PasoRequest> pasos){
+    public List<Paso> convertPasoToPasoResponse(List<PasoRequest> pasos){
         return pasos
                 .stream()
                 .map(paso -> modelMapper.map(paso,Paso.class))
                 .collect(Collectors.toList());
     }
+
+    public List<PasoResponse> convertPasoRequestToPaso(List<Paso> pasos){
+        return pasos
+                .stream()
+                .map(paso -> modelMapper.map(paso,PasoResponse.class))
+                .collect(Collectors.toList());
+    }
+
 
     public FotoResponse convertFotoToFotoResponse(Foto foto){
         return modelMapper.map(foto, FotoResponse.class);

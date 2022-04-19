@@ -13,7 +13,6 @@ public interface RecetaService {
     List<Receta> getAll();
     List<Receta> findByTitulo(String nombre, Integer orden);
     Receta getLast();
-    Receta addReceta(RecetaRequest r, List<MultipartFile> fotos, List<List<MultipartFile>> fotosMultimedia);
     Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta updateRecetaFieldsOnCreation(RecetaRequest receta, List<MultipartFile> fotos);

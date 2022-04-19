@@ -55,4 +55,10 @@ public class PasoServiceImpl implements PasoService{
         this.update(p);
         return p;
     }
+
+    @Override
+    public List<Paso> getPasosByReceta(Integer idReceta) {
+        Receta r = recetaService.findById(idReceta);
+        return pasoRepository.findByReceta(r);
+    }
 }

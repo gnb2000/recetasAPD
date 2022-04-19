@@ -99,12 +99,6 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    //@Transactional(rollbackOn = {UserNotFoundException.class, TipoNotFoundException.class, IngredienteNotFoundException.class})
-    public Receta addReceta(RecetaRequest r,List<MultipartFile> fotos, List<List<MultipartFile>> fotosMultimedia) {
-        return this.convertRecetaRequestToReceta(r,fotos,fotosMultimedia);
-    }
-
-    @Override
     public Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
         Usuario u = usuarioService.findById(idUsuario);
         Receta r = recetaRepository.findByTituloAndUsuario(nombre,u);
@@ -126,6 +120,7 @@ public class RecetaServiceImpl implements RecetaService{
                 .titulo(nombre)
                 .usuario(usuarioService.findById(idUsuario))
                 .fecha(LocalDateTime.now())
+                .estado(0)
                 .build();
         recetaRepository.save(nuevaReceta);
         return nuevaReceta;
@@ -150,37 +145,7 @@ public class RecetaServiceImpl implements RecetaService{
         throw new RecetaNotCreatedException("No existe una receta con ID "+ id);
     }
 
-    private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos, List<List<MultipartFile>> multimediaFotoOrVideo){
-         Receta receta = Receta.builder()
-                .titulo(recetaRequest.getTitulo())
-                .descripcion(recetaRequest.getDescripcion())
-                .porciones(recetaRequest.getPorciones())
-                .cantidadPersonas(recetaRequest.getCantidadPersonas())
-                .estado(0)
-                .usuario(usuarioService.findById(recetaRequest.getIdUsuario()))
-                .tipo(tipoService.findById(recetaRequest.getTipo()))
-                .fecha(LocalDateTime.now())
-                .build();
-        recetaRepository.save(receta);//Para generar el id
 
-        //Items ingredientes
-        List<ItemIngrediente> items = this.convertAndSaveItemIngredienteRequestToItemIngrediente(recetaRequest.getItemIngredientes(), receta);
-        if (items != null){
-            receta.setIngredientes(items);
-
-            //Fotos de la receta (NO LOS PASOS)
-            receta.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,receta));
-
-            receta.setPasos(this.convertAndSavePasoRequestToPaso(recetaRequest.getPasos(),multimediaFotoOrVideo,receta));
-            this.update(receta);
-
-            return receta;
-        } else {
-            //Aca nunca va a entrar porque en la interfaz los ingredientes van a estar en un select y entonces esos EXISTEN
-            throw new RecetaNotCreatedException("Algun ingrediente no existe");
-        }
-
-    }
 
     private List<ItemIngrediente> convertAndSaveItemIngredienteRequestToItemIngrediente(List<ItemIngredienteRequest> items, Receta receta){
         List<ItemIngrediente> itemIngredientes = new ArrayList<>();
@@ -217,22 +182,7 @@ public class RecetaServiceImpl implements RecetaService{
         return fotosGuardadas;
     }
 
-    private List<Paso> convertAndSavePasoRequestToPaso(List<PasoRequest> pasosRequest,  List<List<MultipartFile>> multimedias, Receta receta){
-        List<Paso> pasos = entityDtoConverter.convertPasoRequestToPaso(pasosRequest); //Ya tiene el nroPaso y descripcion
-        for (Paso paso : pasos){
-            List<Multimedia> multimediaPaso = new ArrayList<>();
-            pasoService.save(paso); //Se persiste y tiene ID
-            //Guardar cada archivo multimedia, asignarle la receta y al paso agregarle ese listado de archivos multimedia y actualizar
-            for (MultipartFile multimedia : multimedias.get(paso.getNroPaso())){
-               multimediaPaso.add(multimediaService.uploadAndSaveFile(multimedia, paso));
-            }
-            System.out.println(multimediaPaso.size());
-            paso.setGaleria(multimediaPaso);
-            paso.setReceta(receta);
-            pasoService.update(paso);
-        }
-        return pasos;
-    }
+
 
 
 }

@@ -12,4 +12,5 @@ public interface PasoService {
     void save(Paso paso);
     void update(Paso paso);
     Paso addPasoToReceta(PasoRequest paso, List<MultipartFile> multimediaPaso);
+    List<Paso> getPasosByReceta(Integer idReceta);
 }
