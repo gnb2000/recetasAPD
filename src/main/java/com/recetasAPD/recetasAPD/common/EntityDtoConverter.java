@@ -93,6 +93,7 @@ public class EntityDtoConverter {
         return modelMapper.map(u,UnidadResponse.class);
     }
 
+    public PasoResponse convertPasoToPasoResponse(Paso p){return modelMapper.map(p,PasoResponse.class);}
 
 
 

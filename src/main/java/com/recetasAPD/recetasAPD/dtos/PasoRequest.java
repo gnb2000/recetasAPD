@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PasoRequest {
 
+    private Integer idReceta;
     private Integer nroPaso;
     private String descripcion;
     //private List<MultipleFile> galeria; ESPERAR A QUE SEPAMOS COMO HACER LO DE LAS FOTOS / VIDEOS
