@@ -4,6 +4,7 @@ import com.recetasAPD.recetasAPD.dtos.*;
 import com.recetasAPD.recetasAPD.entities.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -100,11 +101,5 @@ public class EntityDtoConverter {
                 .map(m -> modelMapper.map(m,MultimediaResponse.class))
                 .collect(Collectors.toList());
     }
-
-
-
-
-
-
 
 }

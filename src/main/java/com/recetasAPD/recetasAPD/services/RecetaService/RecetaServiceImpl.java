@@ -91,11 +91,13 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> getRecetaWithoutIngrediente(Integer idIngrediente, Integer orden) {
+        List<Receta> recetas;
         if(orden == 0){
-             List<Receta> recetas = recetaRepository.getAllRecetaWithoutIngredient(idIngrediente);
+            recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(idIngrediente);
+        }else {
+            recetas = recetaRepository.getAllRecetaWithoutIngredientAntiguedad(idIngrediente);
         }
-
-        return null;
+        return recetas;
     }
 
     @Override

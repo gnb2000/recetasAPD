@@ -52,8 +52,8 @@ public class ControladorRecetas {
     }
 
     @GetMapping("/recetas/without/{ingrediente}/{orden}")
-    public ResponseEntity<RecetaDTO> getRecetaWithountIngredient(@PathVariable Integer idIngrediente,@PathVariable Integer orden){
-        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaDTO(recetaService.getLast()),HttpStatus.OK);
+    public ResponseEntity<List<RecetaDTO>> getRecetaWithountIngredient(@PathVariable Integer idIngrediente,@PathVariable Integer orden){
+        return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getRecetaWithoutIngrediente(idIngrediente,orden)),HttpStatus.OK);
     }
 
     //Nuevo cargar receta
