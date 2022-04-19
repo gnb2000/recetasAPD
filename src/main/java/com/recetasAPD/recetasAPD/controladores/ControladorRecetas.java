@@ -5,7 +5,10 @@ import com.recetasAPD.recetasAPD.dtos.RecetaDTO;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.dtos.RecetaResponse;
 import com.recetasAPD.recetasAPD.entities.Receta;
+import com.recetasAPD.recetasAPD.entities.Usuario;
+import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
+import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,9 +34,6 @@ public class ControladorRecetas {
         return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta,fotos,multimediaPasos));
     }
 
-
-
-
     @GetMapping("/recetas")
     public ResponseEntity<List<RecetaDTO>> getAllrecetas() {
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getAll()), HttpStatus.OK);
@@ -49,6 +49,20 @@ public class ControladorRecetas {
     public ResponseEntity<RecetaDTO> getLastReceta(){
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaDTO(recetaService.getLast()),HttpStatus.OK);
     }
+
+    //Nuevo cargar receta
+
+    @PostMapping("/recetas/check/{nombre}/{idUsuario}")
+    public ResponseEntity<RecetaResponse> checkRecetaNombrePlato(@PathVariable String nombre, @PathVariable Integer idUsuario){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.existeRecetaByNombreAndTitulo(nombre,idUsuario)), HttpStatus.OK );
+    }
+
+
+    @PostMapping("/recetas/create/with/{nombre}/{idUsuario}")
+    public ResponseEntity<RecetaResponse> crearRecetaByNombreAndUsuario(@PathVariable String nombre, @PathVariable Integer idUsuario){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.crearRecetaByNombreAndTitulo(nombre,idUsuario)), HttpStatus.OK );
+    }
+
 
 
 

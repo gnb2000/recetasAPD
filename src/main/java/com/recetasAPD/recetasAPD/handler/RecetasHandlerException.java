@@ -1,6 +1,7 @@
 package com.recetasAPD.recetasAPD.handler;
 
 import com.recetasAPD.recetasAPD.exceptions.EmailNotSendException;
+import com.recetasAPD.recetasAPD.exceptions.RecetaAlreadyCreatedException;
 import com.recetasAPD.recetasAPD.exceptions.RecetaNotCreatedException;
 import com.recetasAPD.recetasAPD.exceptions.RecetasEmptyException;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,11 @@ public class RecetasHandlerException {
 
     @ExceptionHandler(RecetaNotCreatedException.class)
     public ResponseEntity<String> handleRecetaNotCreatedException(Exception e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RecetaAlreadyCreatedException.class)
+    public ResponseEntity<String> handleRecetaAlreadyCreatedException(Exception e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

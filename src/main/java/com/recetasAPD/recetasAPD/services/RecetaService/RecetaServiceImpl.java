@@ -2,7 +2,6 @@ package com.recetasAPD.recetasAPD.services.RecetaService;
 
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
 import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
-import com.recetasAPD.recetasAPD.dtos.ItemIngredienteResponse;
 import com.recetasAPD.recetasAPD.dtos.PasoRequest;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
@@ -19,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +101,33 @@ public class RecetaServiceImpl implements RecetaService{
     //@Transactional(rollbackOn = {UserNotFoundException.class, TipoNotFoundException.class, IngredienteNotFoundException.class})
     public Receta addReceta(RecetaRequest r,List<MultipartFile> fotos, List<List<MultipartFile>> fotosMultimedia) {
         return this.convertRecetaRequestToReceta(r,fotos,fotosMultimedia);
+    }
+
+    @Override
+    public Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
+        Usuario u = usuarioService.findById(idUsuario);
+        Receta r = recetaRepository.findByTituloAndUsuario(nombre,u);
+        if (r == null){
+            //No existe la receta
+            Receta nuevaReceta = Receta.builder()
+                    .titulo(nombre)
+                    .usuario(u)
+                    .fecha(LocalDateTime.now())
+                    .build();
+            return recetaRepository.save(nuevaReceta);
+        }
+        throw new RecetaAlreadyCreatedException("Ya tiene un receta con este nombre, desea editar o reemplazar?");
+    }
+
+    @Override
+    public Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
+        Receta nuevaReceta = Receta.builder()
+                .titulo(nombre)
+                .usuario(usuarioService.findById(idUsuario))
+                .fecha(LocalDateTime.now())
+                .build();
+        recetaRepository.save(nuevaReceta);
+        return nuevaReceta;
     }
 
     private Receta convertRecetaRequestToReceta(RecetaRequest recetaRequest, List<MultipartFile> fotos, List<List<MultipartFile>> multimediaFotoOrVideo){
