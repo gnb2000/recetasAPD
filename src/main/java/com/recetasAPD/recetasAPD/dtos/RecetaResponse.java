@@ -18,6 +18,7 @@ public class RecetaResponse {
     private Integer porciones;
     private TipoResponse tipo;
     private Integer cantidadPersonas;
+    private Integer estado;
     private String descripcion;
     private LocalDateTime fecha;
     private List<FotoResponse> galeria;

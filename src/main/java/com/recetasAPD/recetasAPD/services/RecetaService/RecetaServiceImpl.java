@@ -108,6 +108,7 @@ public class RecetaServiceImpl implements RecetaService{
                     .titulo(nombre)
                     .usuario(u)
                     .fecha(LocalDateTime.now())
+                    .estado(0)
                     .build();
             return recetaRepository.save(nuevaReceta);
         }
