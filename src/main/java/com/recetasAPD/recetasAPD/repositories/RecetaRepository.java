@@ -16,7 +16,7 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
     Receta findTop1ByOrderByFechaDesc(); // devuelve el primer resultado
     Receta findByTituloAndUsuario(String titulo, Usuario usuario);
 
-    @Query("SELECT r FROM Receta r, ItemIngrediente i WHERE r.idReceta = i.idReceta AND i.ingrediente != ?1 GROUP BY r")
+    @Query("SELECT distinct  Recetas.idReceta FROM Recetas r WHERE r.idReceta not in (SELECT ItemIngrediente.idReceta FROM ItemIngrediente WHERE ItemIngrediente.idIngrediente = ?1) ")
     List<Receta> getAllRecetaWithoutIngredient(Integer ingrediente);
 
 }
