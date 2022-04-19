@@ -55,6 +55,12 @@ public class EntityDtoConverter {
         return modelMapper.map(item,ItemIngrediente.class);
     }
 
+    public List<ItemIngredienteResponse> convertItemIngredienteToItemIngredienteResponse(List<ItemIngrediente> ingredientes){
+        return ingredientes.stream()
+                .map(i -> modelMapper.map(i,ItemIngredienteResponse.class))
+                .collect(Collectors.toList());
+    }
+
     public ItemIngredienteResponse convertItemIngredienteToItemIngredienteResponse(ItemIngrediente i){
         return modelMapper.map(i, ItemIngredienteResponse.class);
     }

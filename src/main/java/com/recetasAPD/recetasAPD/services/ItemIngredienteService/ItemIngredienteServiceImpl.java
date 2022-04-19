@@ -12,6 +12,8 @@ import com.recetasAPD.recetasAPD.services.UnidadService.UnidadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ItemIngredienteServiceImpl implements ItemIngredienteService{
 
@@ -55,8 +57,14 @@ public class ItemIngredienteServiceImpl implements ItemIngredienteService{
                 .observaciones(itemIngredienteRequest.getObservaciones())
                 .build();
         itemIngredienteRepository.save(item);
-        //r.getIngredientes().add(item);
-        //recetaService.update(r);
+        r.getIngredientes().add(item);
+        recetaService.update(r);
         return item;
+    }
+
+    @Override
+    public List<ItemIngrediente> getItemIngredientesByReceta(Integer idReceta) {
+        Receta r = recetaService.findById(idReceta);
+        return itemIngredienteRepository.findByReceta(r);
     }
 }
