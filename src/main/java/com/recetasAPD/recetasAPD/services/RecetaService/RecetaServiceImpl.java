@@ -90,6 +90,15 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
+    public List<Receta> getRecetaWithoutIngrediente(Integer idIngrediente, Integer orden) {
+        if(orden == 0){
+            List<Receta> recetas = recetaRepository.
+        }
+
+        return null;
+    }
+
+    @Override
     public Receta getLast() {
         if(!recetaRepository.findAll().isEmpty()){
             return recetaRepository.findTop1ByOrderByFechaDesc();
