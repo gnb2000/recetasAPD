@@ -146,6 +146,11 @@ public class RecetaServiceImpl implements RecetaService{
         throw new RecetaNotCreatedException("No existe una receta con ID "+ id);
     }
 
+    @Override
+    public List<Receta> findRecetaByTipo(Integer idTipo, Integer orden) {
+        Tipo tipo = tipoService.findById(idTipo);
+        return recetaRepository.findByTipo(tipo);
+    }
 
 
     private List<ItemIngrediente> convertAndSaveItemIngredienteRequestToItemIngrediente(List<ItemIngredienteRequest> items, Receta receta){
