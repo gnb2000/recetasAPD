@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Multimedia {

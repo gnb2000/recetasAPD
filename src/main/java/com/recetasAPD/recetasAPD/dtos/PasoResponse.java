@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,5 +14,5 @@ public class PasoResponse {
     private Integer idPaso;
     private Integer nroPaso;
     private String descripcion;
-    private String url_multimedia;
+    private List<MultimediaResponse> multimedia;
 }

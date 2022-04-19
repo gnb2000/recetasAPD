@@ -95,6 +95,12 @@ public class EntityDtoConverter {
 
     public PasoResponse convertPasoToPasoResponse(Paso p){return modelMapper.map(p,PasoResponse.class);}
 
+    public List<MultimediaResponse> convertMultimediaToMultimediaResponse(List<Multimedia> multimedia){
+        return multimedia.stream()
+                .map(m -> modelMapper.map(m,MultimediaResponse.class))
+                .collect(Collectors.toList());
+    }
+
 
 
 

@@ -43,6 +43,7 @@ public class PasoServiceImpl implements PasoService{
         Paso p = Paso.builder()
                 .descripcion(paso.getDescripcion())
                 .receta(r)
+                .nroPaso(paso.getNroPaso())
                 .build();
         pasoRepository.save(p);
 
