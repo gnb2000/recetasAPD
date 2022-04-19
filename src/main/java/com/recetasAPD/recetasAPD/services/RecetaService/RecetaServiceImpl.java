@@ -149,8 +149,14 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public List<Receta> findRecetaByTipo(Integer idTipo, Integer orden) {
         Tipo tipo = tipoService.findById(idTipo);
-        return recetaRepository.findByTipo(tipo);
-    }
+            if(orden == 1){
+                return recetaRepository.findByTipoOrderByTitulo(tipo);
+            }else {
+                return recetaRepository.findByTipoOrderByFecha(tipo);
+            }
+        }
+
+
 
 
     private List<ItemIngrediente> convertAndSaveItemIngredienteRequestToItemIngrediente(List<ItemIngredienteRequest> items, Receta receta){
