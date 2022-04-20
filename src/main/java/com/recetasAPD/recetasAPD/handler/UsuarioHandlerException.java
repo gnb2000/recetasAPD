@@ -30,6 +30,11 @@ public class UsuarioHandlerException {
         return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(AccountAlreadyCreatedException.class)
+    public ResponseEntity<String> handleAccountAlreadyCreatedException(Exception e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(Exception e){
         return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);

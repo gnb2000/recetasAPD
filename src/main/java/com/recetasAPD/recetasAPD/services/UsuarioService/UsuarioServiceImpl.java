@@ -125,7 +125,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         } else if (Optional.ofNullable(usuarioRepository.findByMail(mail)).isPresent()) {
             if (usuarioRepository.findByMail(mail).isHabilitado()){
                 //Proceso de registracion completo
-                throw new NotValidMailException("Ya existe una cuenta registrada con el mail ingresado, se le enviara un correo al mail ya registrado para poder recuperar la clave");
+                throw new AccountAlreadyCreatedException("Ya existe una cuenta registrada con el mail ingresado, se le enviara un correo al mail ya registrado para poder recuperar la clave");
             }
             throw new NotValidMailException("El mail esta asociado a una cuenta con el proceso de registracion incompleto, por favor contacte con soporte del sitio");
         }
