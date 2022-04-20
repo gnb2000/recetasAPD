@@ -71,7 +71,7 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public List<Receta> getAll()  {
         if(recetaRepository.findAll().isEmpty()){
-            throw new RecetasEmptyException("No tenemos recetas cargadas aun!");
+            throw new RecetasEmptyException("No se encontraron recetas");
         }
         return recetaRepository.findAll();
     }
@@ -85,7 +85,7 @@ public class RecetaServiceImpl implements RecetaService{
                 return recetaRepository.findByTitulo(nombre);
             }
         }else{
-            throw new RecetasEmptyException("¡No hay recetas con ese nombre!");
+            throw new RecetasEmptyException("El nombre ingresado no corresponde a una receta");
         }
     }
 
@@ -152,12 +152,16 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public List<Receta> findRecetaByTipo(Integer idTipo, Integer orden) {
         Tipo tipo = tipoService.findById(idTipo);
-            if(orden == 1){
+        if (!recetaRepository.findByTipoOrderByTitulo(tipo).isEmpty()) {
+            if (orden == 1) {
                 return recetaRepository.findByTipoOrderByTitulo(tipo);
-            }else {
+            } else {
                 return recetaRepository.findByTipoOrderByFecha(tipo);
             }
+        }else{
+            throw new RecetasEmptyException("No se encontro una receta asociada a este tipo");
         }
+    }
 
 
 

@@ -16,7 +16,7 @@ public class RecetasHandlerException {
 
     @ExceptionHandler(RecetasEmptyException.class)
     public ResponseEntity<String> handleRecetasEmptyException(Exception e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(RecetaNotCreatedException.class)

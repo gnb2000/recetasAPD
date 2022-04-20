@@ -40,7 +40,7 @@ public class ControladorRecetas {
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getAll()), HttpStatus.OK);
     }
 
-    @GetMapping("/recetas/{nombre}/{orden}")
+    @GetMapping("/recetas/nombre/{nombre}/{orden}")
     public ResponseEntity<List<RecetaDTO>> getRecetasByNombre(@PathVariable(value="nombre")String nombre, @PathVariable(value = "orden")Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.findByTitulo(nombre,orden)),HttpStatus.OK);
 

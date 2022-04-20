@@ -25,7 +25,7 @@ public class ControladorUsuarios {
     private EntityDtoConverter entityDtoConverter;
 
 
-    @GetMapping("/login/{nickname}/{password}")
+    @GetMapping("/login/{mailOrNickname}/{password}")
     public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable(value = "nickname") String nickname, @PathVariable(value = "contraseña") String contraseña) throws Exception{
         Usuario usuario = usuarioService.findByNicknameAndPassword(nickname,contraseña);
         return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(usuario), HttpStatus.OK);
