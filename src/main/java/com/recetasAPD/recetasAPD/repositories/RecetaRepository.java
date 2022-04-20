@@ -23,4 +23,11 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
     @Query("SELECT distinct r FROM Receta r WHERE r.idReceta not in (SELECT i.receta FROM ItemIngrediente i WHERE i.ingrediente = ?1) ORDER BY r.fecha ASC")
     List<Receta> getAllRecetaWithoutIngredientAntiguedad(Ingrediente ingrediente);
 
+    @Query("SELECT distinct r FROM Receta r WHERE r.idReceta in (SELECT i.receta FROM ItemIngrediente i WHERE i.ingrediente = ?1) ORDER BY r.titulo ASC")
+    List<Receta> getAllRecetaWithIngredientTitulo(Ingrediente ingrediente);
+
+    @Query("SELECT distinct r FROM Receta r WHERE r.idReceta in (SELECT i.receta FROM ItemIngrediente i WHERE i.ingrediente = ?1) ORDER BY r.fecha ASC")
+    List<Receta> getAllRecetaWithIngredientAntiguedad(Ingrediente ingrediente);
+
+
 }

@@ -102,6 +102,18 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
+    public List<Receta> getRecetaWithIngrediente(Integer idIngrediente, Integer orden) {
+            //falta la excepcion tambien
+            List<Receta> recetas;
+            if(orden == 0){
+                recetas = recetaRepository.getAllRecetaWithIngredientTitulo(ingredienteService.findById(idIngrediente));
+            }else {
+                recetas = recetaRepository.getAllRecetaWithIngredientAntiguedad(ingredienteService.findById(idIngrediente));
+            }
+            return recetas;
+        }
+
+    @Override
     public Receta getLast() {
         if(!recetaRepository.findAll().isEmpty()){
             return recetaRepository.findTop1ByOrderByFechaDesc();

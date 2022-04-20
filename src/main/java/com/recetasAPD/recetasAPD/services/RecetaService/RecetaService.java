@@ -12,7 +12,8 @@ public interface RecetaService {
     void delete(Receta receta);
     List<Receta> getAll();
     List<Receta> findByTitulo(String nombre, Integer orden);
-    List<Receta> getRecetaWithoutIngrediente(Integer idIngrediente,Integer orden);
+    List<Receta> getRecetaWithoutIngrediente(Integer ingrediente,Integer orden);
+    List<Receta> getRecetaWithIngrediente(Integer ingrediente, Integer orden);
     Receta getLast();
     Receta addReceta(RecetaRequest r, List<MultipartFile> fotos, List<List<MultipartFile>> fotosMultimedia);
     Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
