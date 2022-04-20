@@ -23,8 +23,7 @@ public class ControladorIngredientes {
 
     @PostMapping("/{nombre}")
     public ResponseEntity<String> addIngrediente(@PathVariable String nombre){
-        Ingrediente i = new Ingrediente(nombre);
-        ingredienteService.save(i);
+        ingredienteService.addNewIngrediente(nombre);
         return new ResponseEntity<>("Ingrediente agregado con exito", HttpStatus.OK);
     }
 

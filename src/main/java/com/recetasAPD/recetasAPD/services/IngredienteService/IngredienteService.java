@@ -12,5 +12,6 @@ public interface IngredienteService {
     void delete(Ingrediente ingrediente);
     Ingrediente findById(Integer id);
     List<Ingrediente> findAll();
+    void addNewIngrediente(String nombre);
 
 }
