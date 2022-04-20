@@ -58,7 +58,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         if(usuarioRepository.findById(idUsuario).isPresent()){
             return usuarioRepository.findById(idUsuario).get();
         }
-        throw new UserNotFoundException("¡No se encontro a un usuario con ese ID!");
+        throw new UserNotFoundException("Usuario NO encontrado");
     }
 
     @Override
