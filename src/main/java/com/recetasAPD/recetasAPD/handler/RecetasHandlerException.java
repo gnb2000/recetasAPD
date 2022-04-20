@@ -26,6 +26,6 @@ public class RecetasHandlerException {
 
     @ExceptionHandler(RecetaAlreadyCreatedException.class)
     public ResponseEntity<String> handleRecetaAlreadyCreatedException(Exception e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
     }
 }
