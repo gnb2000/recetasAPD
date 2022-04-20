@@ -12,6 +12,6 @@ import lombok.Setter;
 public class MultimediaResponse {
 
     private Integer idMultimedia;
-    private String tipo_contenido;
+    private String tipoContenido;
     private String urlContenido;
 }
