@@ -102,6 +102,7 @@ public class RecetaServiceImpl implements RecetaService{
             throw new RecetasEmptyException("No existen recetas que no contengan ese ingrediente");
         }
         return recetas;
+
     }
 
     @Override
