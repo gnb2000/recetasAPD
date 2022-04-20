@@ -19,7 +19,8 @@ public class EntityDtoConverter {
 
     //Convertir de Usuario Entity a UsuarioResponseDto
     public UsuarioResponseDTO convertUsuarioToUsuarioResponseDTO(Usuario u){
-        return modelMapper.map(u,UsuarioResponseDTO.class); //Primer parametro: Clase a convertir, Segundo parametro: A que clase la quiero convertir
+        return
+                modelMapper.map(u,UsuarioResponseDTO.class); //Primer parametro: Clase a convertir, Segundo parametro: A que clase la quiero convertir
     }
 
     public List<RecetaDTO> convertListRecetasToRecetasDTO(List<Receta> r){

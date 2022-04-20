@@ -22,7 +22,8 @@ public class Usuario {
     private String password; //Para evitar problemas con la "ñ", despues habria que cambiar esto por "password"
     private boolean habilitado;
     private String nombre;
-    private String avatar; // Dejar como string pero en realidad tenemos que hacer una relacion con la entidad Foto
+
+    private String avatar; // Analizar si conviene guardar directamente el link o hacer una clase Avatar
     private Integer tipoUsuario;
     private String recoveryCode;
 
