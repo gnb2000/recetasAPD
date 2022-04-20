@@ -94,9 +94,9 @@ public class RecetaServiceImpl implements RecetaService{
         //falta la excepcion tambien
         List<Receta> recetas;
         if(orden == 0){
-            recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(idIngrediente);
+            recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(ingredienteService.findById(idIngrediente));
         }else {
-            recetas = recetaRepository.getAllRecetaWithoutIngredientAntiguedad(idIngrediente);
+            recetas = recetaRepository.getAllRecetaWithoutIngredientAntiguedad(ingredienteService.findById(idIngrediente));
         }
         return recetas;
     }
