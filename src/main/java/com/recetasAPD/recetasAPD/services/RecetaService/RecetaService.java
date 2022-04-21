@@ -19,6 +19,6 @@ public interface RecetaService {
     Receta updateRecetaFieldsOnCreation(RecetaRequest receta, List<MultipartFile> fotos);
     Receta findById(Integer id);
     Receta generarRecetaConDistintasPorciones(RecetaRequest receta,Integer cantidadPorciones); // El usuario elige la cantidad de porciones q quiere.
-    Receta generarRecetaConDistintasCantidades(RecetaRequest receta, String multiplo, Usuario usuario); // El usuario elige si quiere la cantidad o el doble de la receta.
+    Receta generarRecetaConDistintasCantidades(Receta receta, String multiplo, Usuario usuario); // El usuario elige si quiere la cantidad o el doble de la receta.
     Receta generarRecetaConDistintaCantidadIngrediente(RecetaRequest receta,String ingrediente, Integer cantidad); // El usuario ingresa la cantidad de un ingrediente y a partir de eso calculo el resto.
 }

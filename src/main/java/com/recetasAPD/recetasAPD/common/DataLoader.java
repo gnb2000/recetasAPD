@@ -46,7 +46,7 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-       /* crearRecetas();
+        crearRecetas();
         crearFotos();
         crearTipo();
         crearPasos();
@@ -55,7 +55,7 @@ public class DataLoader implements ApplicationRunner {
         crearUnidad();
         crearItemIngrediente();
         crearUsuario();
-        completarReceta();*/
+        completarReceta();
         generarReceta();
 
         }
@@ -145,14 +145,13 @@ public class DataLoader implements ApplicationRunner {
     }
     private void completarReceta(){
         Receta r = recetaService.findById(1);
-        System.out.println(r.getIdReceta());
-        System.out.println(r.getTitulo());
         r.setTipo(tipoRepository.getById(1));
         r.setUsuario(usuarioRepository.getById(1));
         recetaService.save(r);
     }
     private void generarReceta() {
-        recetaService.generarRecetaConDistintasCantidades(entityDtoConverter.converRecetaToRecetaRequest(recetaService.findById(1)),"Doble",usuarioRepository.getById(1));
+
+        recetaService.generarRecetaConDistintasCantidades(recetaService.findById(1),"Doble",usuarioRepository.getById(1));
 
 
     }

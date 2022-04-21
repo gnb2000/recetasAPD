@@ -190,34 +190,38 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public Receta generarRecetaConDistintasCantidades(RecetaRequest receta, String multiplo,Usuario usuario) {
+    public Receta generarRecetaConDistintasCantidades(Receta receta, String multiplo,Usuario usuario) {
         float variable;
+
         Receta recetaAux = this.findById(receta.getIdReceta());
-        Receta nuevaReceta = new Receta();
         LocalDateTime Fecha = LocalDateTime.now();
-        List<ItemIngrediente> IngredientesNuevos = recetaAux.getIngredientes();
+        List<ItemIngrediente> ingredientesViejos = recetaAux.getIngredientes();
+        List<ItemIngrediente> ingredientesNuevos = new ArrayList<>();
 
 
         if (multiplo.equalsIgnoreCase("Doble")){
             variable = 2;
-            System.out.println("Entre al doble");
+
         }else{
             variable = 0.5F;
         }
-        nuevaReceta = recetaAux;
-        nuevaReceta.setUsuario(usuario);
-        nuevaReceta.setIdReceta(null);
-        nuevaReceta.setIngredientes(null);
-        nuevaReceta.setPorciones((int) (recetaAux.getPorciones()*variable));
-        nuevaReceta.setCantidadPersonas((int) (recetaAux.getCantidadPersonas()*variable));
-        recetaRepository.save(nuevaReceta);
-        for (ItemIngrediente i: IngredientesNuevos){
-            ItemIngrediente nuevoItemIngrediente = new ItemIngrediente(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),nuevaReceta,i.getUnidad());
+        recetaAux.setUsuario(usuario);
+        recetaAux.setIdReceta(null);
+        recetaAux.setPorciones((int) (recetaAux.getPorciones()*variable));
+        recetaAux.setCantidadPersonas((int) (recetaAux.getCantidadPersonas()*variable));
+        recetaRepository.save(recetaAux);
+        for (ItemIngrediente i: ingredientesViejos){
+            ItemIngrediente nuevoItemIngrediente = new ItemIngrediente(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),recetaAux,i.getUnidad());
             itemIngredienteService.save(nuevoItemIngrediente);
-            System.out.println("ItemIngrediente");
-        }
+            ingredientesNuevos.add(nuevoItemIngrediente);
 
-        return nuevaReceta;
+
+        }
+        recetaAux.setIngredientes(ingredientesNuevos);
+        recetaRepository.save(recetaAux);
+
+
+        return recetaAux;
     }
 
     @Override
