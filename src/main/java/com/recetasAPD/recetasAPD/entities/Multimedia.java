@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Multimedia")
+@Table(name = "multimedia")
 @Getter
 @Setter
 @Builder
@@ -16,10 +16,11 @@ import javax.persistence.*;
 public class Multimedia {
 
     @Id @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Integer idMultimedia;
-    private String tipoContenido;
+    private Integer idContenido;
+    private String tipo_contenido;
     private String extension;
     private String urlContenido;
+
 
     @ManyToOne
     @JoinColumn(name = "idPaso")

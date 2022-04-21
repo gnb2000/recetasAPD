@@ -59,7 +59,7 @@ public class MultimediaServiceImpl implements MultimediaService{
             }
 
             Multimedia multimedia = Multimedia.builder()
-                    .tipoContenido(tipo_contenido)
+                    .tipo_contenido(tipo_contenido)
                     .urlContenido(uploadResult.get("url").toString())
                     .extension(StringUtils.getFilenameExtension(photoOrVideo.getOriginalFilename()))
                     .paso(paso)

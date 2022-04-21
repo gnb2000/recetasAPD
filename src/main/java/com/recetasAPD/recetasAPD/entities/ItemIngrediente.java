@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name="itemIngredientes")
+@Table(name="utilizados")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class ItemIngrediente {
     private Integer idItemIngrediente;
 
     @ManyToOne()
-    @JoinColumn(name = "ingrediente_id")
+    @JoinColumn(name = "idIngrediente")
     private Ingrediente ingrediente;
 
     private float cantidad;

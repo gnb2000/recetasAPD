@@ -61,7 +61,7 @@ public class DataLoader implements ApplicationRunner {
         }
     private void crearRecetas() {
         Receta receta = Receta.builder()
-                .titulo("RecetaPrueba1")
+                .nombre("RecetaPrueba1")
                 .porciones(4)
                 .cantidadPersonas(8)
                 .estado(3)
@@ -75,7 +75,6 @@ public class DataLoader implements ApplicationRunner {
     private void crearFotos() {
         Foto foto = Foto.builder()
                 .urlFoto("probandoFoto1")
-                .title("FotoPrueba")
                 .receta(recetaService.findById(1))
                 .build();
         fotoRepository.save(foto);
@@ -91,9 +90,9 @@ public class DataLoader implements ApplicationRunner {
 
     private void crearPasos(){
         Paso paso = Paso.builder()
-                .descripcion("Es el primero paso de la reseta")
+                .texto("Es el primero paso de la reseta")
                 .nroPaso(1)
-                .descripcion("Esto es una prueba")
+                .texto("Esto es una prueba")
                 .receta(recetaService.findById(1))
                 .build();
         pasoRepository.save(paso);
@@ -104,7 +103,7 @@ public class DataLoader implements ApplicationRunner {
         Multimedia multimedia = Multimedia.builder()
                 .paso(pasoRepository.getById(1))
                 .extension(".jpg")
-                .tipoContenido("foto")
+                .tipo_contenido("foto")
                 .urlContenido("estoesunaprueba")
                 .build();
         multimediaRepository.save(multimedia);

@@ -2,7 +2,6 @@ package com.recetasAPD.recetasAPD.services.RecetaService;
 
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
 import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
-import com.recetasAPD.recetasAPD.dtos.PasoRequest;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.*;
@@ -78,11 +77,11 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> findByTitulo(String nombre, Integer orden) {
-        if(!recetaRepository.findByTitulo(nombre).isEmpty()){
+        if(!recetaRepository.findByNombre(nombre).isEmpty()){
             if(orden == 1){
-                return recetaRepository.findByTituloOrderByFechaAsc(nombre);
+                return recetaRepository.findByNombreOrderByFechaAsc(nombre);
             }else {
-                return recetaRepository.findByTitulo(nombre);
+                return recetaRepository.findByNombre(nombre);
             }
         }else{
             throw new RecetasEmptyException("El nombre ingresado no corresponde a una receta");
@@ -132,11 +131,11 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
         Usuario u = usuarioService.findById(idUsuario);
-        Receta r = recetaRepository.findByTituloAndUsuario(nombre,u);
+        Receta r = recetaRepository.findByNombreAndUsuario(nombre,u);
         if (r == null){
             //No existe la receta
             Receta nuevaReceta = Receta.builder()
-                    .titulo(nombre)
+                    .nombre(nombre)
                     .usuario(u)
                     .fecha(LocalDateTime.now())
                     .estado(0)
@@ -149,7 +148,7 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
         Receta nuevaReceta = Receta.builder()
-                .titulo(nombre)
+                .nombre(nombre)
                 .usuario(usuarioService.findById(idUsuario))
                 .fecha(LocalDateTime.now())
                 .estado(0)
@@ -164,7 +163,7 @@ public class RecetaServiceImpl implements RecetaService{
         r.setPorciones(recetaDTO.getPorciones());
         r.setCantidadPersonas(recetaDTO.getCantidadPersonas());
         r.setDescripcion(recetaDTO.getDescripcion());
-        r.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,r));
+        r.setFoto(this.convertAndSaveFotoImageFileToFoto(fotos,r));
         r.setTipo(tipoService.findById(recetaDTO.getTipo()));
         r.setUsuario(usuarioService.findById(recetaDTO.getIdUsuario()));
         this.update(r);
@@ -183,9 +182,9 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public List<Receta> findRecetaByTipo(Integer idTipo, Integer orden) {
         Tipo tipo = tipoService.findById(idTipo);
-        if (!recetaRepository.findByTipoOrderByTitulo(tipo).isEmpty()) {
+        if (!recetaRepository.findByTipoOrderByNombre(tipo).isEmpty()) {
             if (orden == 1) {
-                return recetaRepository.findByTipoOrderByTitulo(tipo);
+                return recetaRepository.findByTipoOrderByNombre(tipo);
             } else {
                 return recetaRepository.findByTipoOrderByFecha(tipo);
             }

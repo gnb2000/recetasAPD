@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Calificaciones")
+@Table(name = "calificaciones")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +15,7 @@ public class Calificacion {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCalificacion;
+    private Integer idUsuario;
     private Integer idReceta;
     private Integer calificacion;
     private String Comentario; // Preguntar

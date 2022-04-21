@@ -4,12 +4,11 @@ package com.recetasAPD.recetasAPD.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name="Recetas")
+@Table(name="recetas")
 @Getter
 @Setter
 @Builder
@@ -23,30 +22,32 @@ public class Receta {
     private Integer idReceta;
 
     @ManyToOne()
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "idUsuario")
     private Usuario usuario;
 
-    private String titulo;
+    private String nombre;
     private Integer porciones;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_id")
+    @JoinColumn(name = "idTipo")
     private Tipo tipo;
 
     private Integer cantidadPersonas;
     private Integer estado; // 0 = Pendiente, 1 = Rechazada , 2 = Aceptada,3 = Favorita (Personalizada)
     @Column(length = 1000)
     private String descripcion;
-    private LocalDateTime fecha;
 
     @OneToMany(mappedBy= "receta",cascade = CascadeType.ALL)
-    private List<Foto> galeria;
+    private List<Foto> foto;
 
     @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL)
     private List<ItemIngrediente> ingredientes;
 
     @OneToMany(mappedBy = "receta",cascade = CascadeType.ALL)
     private List<Paso> pasos;
+
+    @OneToOne(mappedBy = "receta",cascade = CascadeType.ALL)
+    private RecetaExt recetaExt;
 
 
 }

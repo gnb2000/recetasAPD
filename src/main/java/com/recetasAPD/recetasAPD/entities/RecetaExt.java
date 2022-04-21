@@ -6,22 +6,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name="fotos")
+@Table(name="RecetaExt")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Foto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idFoto;
-    private String urlFoto;
-    private String extension; //Hace falta este atributo??
+public class RecetaExt {
 
+    @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idRecetaExt;
+    private Integer estado;
+    private LocalDateTime fecha;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idReceta")
     private Receta receta;
 }
