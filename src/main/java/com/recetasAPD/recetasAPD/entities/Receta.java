@@ -34,7 +34,7 @@ public class Receta {
     private Tipo tipo;
 
     private Integer cantidadPersonas;
-    private Integer estado; // 0 = Pendiente, 1 = Rechazada , 2 = Aceptada
+    private Integer estado; // 0 = Pendiente, 1 = Rechazada , 2 = Aceptada,3 = Favorita (Personalizada)
     @Column(length = 1000)
     private String descripcion;
     private LocalDateTime fecha;

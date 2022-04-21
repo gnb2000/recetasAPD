@@ -24,4 +24,11 @@ public class Foto {
     @ManyToOne
     @JoinColumn(name = "idReceta")
     private Receta receta;
+
+    public Foto(String urlFoto, String extension, String title,Receta receta) {
+        this.urlFoto = urlFoto;
+        this.extension = extension;
+        this.title = title;
+        this.receta = receta;
+    }
 }

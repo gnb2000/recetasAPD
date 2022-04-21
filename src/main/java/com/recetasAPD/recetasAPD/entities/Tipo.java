@@ -9,6 +9,7 @@ import java.util.List;
 @Table(name = "tipos")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor //LOMBOOK: Genera un constructor con todos los atributos de la clase
 @NoArgsConstructor //LOMBOOK: Genera el constructor vacio
 public class Tipo {

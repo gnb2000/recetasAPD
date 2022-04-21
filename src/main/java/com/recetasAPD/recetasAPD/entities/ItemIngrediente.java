@@ -21,7 +21,7 @@ public class ItemIngrediente {
     @JoinColumn(name = "ingrediente_id")
     private Ingrediente ingrediente;
 
-    private Integer cantidad;
+    private float cantidad;
     private String observaciones;
 
     @ManyToOne
@@ -31,4 +31,13 @@ public class ItemIngrediente {
     @ManyToOne
     @JoinColumn(name = "idUnidad")
     private Unidad unidad;
+
+    public ItemIngrediente(Ingrediente ingrediente, float cantidad, String observaciones, Receta nuevaReceta, Unidad unidad) {
+        this.ingrediente = ingrediente;
+        this.cantidad = cantidad;
+        this.observaciones = observaciones;
+        this.receta = nuevaReceta;
+        this.unidad = unidad;
+
+    }
 }

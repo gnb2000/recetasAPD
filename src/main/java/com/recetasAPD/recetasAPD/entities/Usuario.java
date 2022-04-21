@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name="Usuarios")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Usuario {

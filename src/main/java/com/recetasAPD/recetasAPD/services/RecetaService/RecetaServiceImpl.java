@@ -17,7 +17,6 @@ import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +51,7 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Autowired
     private PasoService pasoService;
+
 
     @Override
     public void save(Receta receta) {
@@ -184,6 +184,46 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
 
+    @Override
+    public Receta generarRecetaConDistintasPorciones(RecetaRequest receta, Integer cantidadPorciones) {
+        return null;
+    }
+
+    @Override
+    public Receta generarRecetaConDistintasCantidades(RecetaRequest receta, String multiplo,Usuario usuario) {
+        float variable;
+        Receta recetaAux = this.findById(receta.getIdReceta());
+        Receta nuevaReceta = new Receta();
+        LocalDateTime Fecha = LocalDateTime.now();
+        List<ItemIngrediente> IngredientesNuevos = recetaAux.getIngredientes();
+
+
+        if (multiplo.equalsIgnoreCase("Doble")){
+            variable = 2;
+            System.out.println("Entre al doble");
+        }else{
+            variable = 0.5F;
+        }
+        nuevaReceta = recetaAux;
+        nuevaReceta.setUsuario(usuario);
+        nuevaReceta.setIdReceta(null);
+        nuevaReceta.setIngredientes(null);
+        nuevaReceta.setPorciones((int) (recetaAux.getPorciones()*variable));
+        nuevaReceta.setCantidadPersonas((int) (recetaAux.getCantidadPersonas()*variable));
+        recetaRepository.save(nuevaReceta);
+        for (ItemIngrediente i: IngredientesNuevos){
+            ItemIngrediente nuevoItemIngrediente = new ItemIngrediente(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),nuevaReceta,i.getUnidad());
+            itemIngredienteService.save(nuevoItemIngrediente);
+            System.out.println("ItemIngrediente");
+        }
+
+        return nuevaReceta;
+    }
+
+    @Override
+    public Receta generarRecetaConDistintaCantidadIngrediente(RecetaRequest receta, String ingrediente, Integer cantidad) {
+        return null;
+    }
 
 
 }
