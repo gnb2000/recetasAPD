@@ -239,13 +239,14 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public Receta generarRecetaConDistintasCantidades(Receta receta, String multiplo,Usuario usuario) {
+    public Receta generarRecetaConDistintasCantidades(Integer idReceta, String multiplo,Integer idUsuario) {
         float variable;
 
-        Receta recetaAux = this.findById(receta.getIdReceta());
+        Receta recetaAux = this.findById(idReceta);
         LocalDateTime Fecha = LocalDateTime.now();
         List<ItemIngrediente> ingredientesViejos = recetaAux.getIngredientes();
         List<ItemIngrediente> ingredientesNuevos = new ArrayList<>();
+        Usuario usuario = usuarioService.findById(1);
 
 
         if (multiplo.equalsIgnoreCase("Doble")){

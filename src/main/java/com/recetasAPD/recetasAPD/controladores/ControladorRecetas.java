@@ -94,6 +94,10 @@ public class ControladorRecetas {
     public ResponseEntity<List<RecetaResponse>> getRecetasByTipo(@PathVariable Integer tipo, @PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetaByTipo(tipo,orden)),HttpStatus.OK);
     }
+    @PostMapping("/proporciones/{idUsuario}/{proporcion}")
+    public ResponseEntity<RecetaResponse> proporcionReceta(@PathVariable Integer idUsuario,@PathVariable String proporcion,@PathVariable Integer idReceta){
+        return new ResponseEntity<RecetaResponse>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.generarRecetaConDistintasCantidades(idReceta,proporcion,idUsuario)),HttpStatus.OK);
+    }
 
 
 
