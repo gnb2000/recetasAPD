@@ -151,7 +151,7 @@ public class DataLoader implements ApplicationRunner {
     }
     private void generarReceta() {
 
-        recetaService.generarRecetaConDistintasCantidades(recetaService.findById(1),"Doble",usuarioRepository.getById(1));
+        recetaService.generarRecetaConDistintasCantidades(1,"Doble",1);
 
 
     }
