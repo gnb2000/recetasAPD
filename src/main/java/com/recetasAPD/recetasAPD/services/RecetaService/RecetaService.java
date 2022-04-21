@@ -2,6 +2,7 @@ package com.recetasAPD.recetasAPD.services.RecetaService;
 
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.Receta;
+import com.recetasAPD.recetasAPD.entities.Usuario;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
