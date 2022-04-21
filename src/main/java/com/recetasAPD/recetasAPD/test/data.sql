@@ -1,0 +1,1 @@
+INSERT INTO usuarios VALUES ('3', 'hola', '1', 'gonzaloj@hotmail.com', 'gonzaloj', 'Gonza Julian', '2');

@@ -4,7 +4,9 @@ package com.recetasAPD.recetasAPD.services.FotoService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.recetasAPD.recetasAPD.entities.Foto;
+import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.repositories.FotoRepository;
+import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,10 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class FotoServiceImpl implements FotoService {
+
+    @Autowired
+    private RecetaService recetaService;
 
     @Autowired
     private FotoRepository fotoRepository;
@@ -34,6 +40,12 @@ public class FotoServiceImpl implements FotoService {
     @Override
     public void delete(Foto foto) {
     fotoRepository.delete(foto);
+    }
+
+    @Override
+    public List<Foto> getFotosByReceta(Integer idReceta) {
+        Receta r = recetaService.findById(idReceta);
+        return fotoRepository.findByReceta(r);
     }
 
     @Override

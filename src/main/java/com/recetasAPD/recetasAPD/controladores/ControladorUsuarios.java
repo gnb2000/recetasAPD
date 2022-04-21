@@ -17,6 +17,17 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class ControladorUsuarios {
 
+    private static ControladorUsuarios instancia;
+
+    public ControladorUsuarios() {
+    }
+
+    public static ControladorUsuarios getInstance() {
+        if (instancia == null)
+            instancia = new ControladorUsuarios();
+        return instancia;
+    }
+
     @Autowired
     private UsuarioService usuarioService;
 
