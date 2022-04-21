@@ -33,7 +33,6 @@ public class ControladorUsuarios {
 
     @PostMapping("/register/{usuario}/{mail}")
     public ResponseEntity<String> register(@PathVariable(value = "usuario") String usuario, @PathVariable(value = "mail") String mail){
-        //TODO Verificar que valor darle por defecto a tipo_usuario y habilitado. Ademas, armar el endpoint para que rellene los datos
         usuarioService.registerNewUser(usuario,mail);
         return new ResponseEntity<>("Usuario creado con exito, se ha enviado un correo al mail ingresado para rellenar el resto de sus datos", HttpStatus.OK);
 
