@@ -6,10 +6,12 @@ import com.recetasAPD.recetasAPD.entities.Usuario;
 import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
 
 import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
@@ -68,6 +70,11 @@ public class ControladorUsuarios {
     @GetMapping("/check/code/{idUsuario}/{code}")
     public ResponseEntity<Boolean> checkRecoveryCode(@PathVariable Integer idUsuario, @PathVariable String code){
         return new ResponseEntity<>(usuarioService.checkRecoveryCode(idUsuario,code), HttpStatus.OK);
+    }
+
+    @PutMapping("/usuario/avatar/{idUsuario}")
+    public ResponseEntity<String> updateAvatarByUsuario(@PathVariable Integer idUsuario, @RequestPart MultipartFile foto){
+        return new ResponseEntity<>(usuarioService.updateAvatar(idUsuario,foto),HttpStatus.OK);
     }
 
 

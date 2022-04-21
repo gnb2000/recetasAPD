@@ -1,5 +1,6 @@
 package com.recetasAPD.recetasAPD.repositories;
 
+import com.recetasAPD.recetasAPD.entities.Ingrediente;
 import com.recetasAPD.recetasAPD.entities.Receta;
 import com.recetasAPD.recetasAPD.entities.Tipo;
 import com.recetasAPD.recetasAPD.entities.Usuario;

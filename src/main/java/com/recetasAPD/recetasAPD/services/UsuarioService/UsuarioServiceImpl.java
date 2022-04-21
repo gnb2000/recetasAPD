@@ -5,8 +5,10 @@ import com.recetasAPD.recetasAPD.entities.Usuario;
 import com.recetasAPD.recetasAPD.exceptions.*;
 import com.recetasAPD.recetasAPD.repositories.UsuarioRepository;
 import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
+import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private FotoService fotoService;
 
     @Override
     public void save(Usuario usuario) {
@@ -105,6 +110,15 @@ public class UsuarioServiceImpl implements UsuarioService {
             return true;
         }
         throw new IncorrectCodeRecoveryException(false);
+    }
+
+    @Override
+    public String updateAvatar(Integer idUsuario, MultipartFile foto) {
+        Usuario u = this.findById(idUsuario);
+        String url = fotoService.uploadPhoto(foto);
+        u.setAvatar(url);
+        this.update(u);
+        return url;
     }
 
     private boolean existeNicknameOrMail(String nickname, String mail) {

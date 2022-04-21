@@ -1,6 +1,7 @@
 package com.recetasAPD.recetasAPD.services.UsuarioService;
 
 import com.recetasAPD.recetasAPD.entities.Usuario;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UsuarioService {
     void save(Usuario usuario);
@@ -13,5 +14,6 @@ public interface UsuarioService {
     void updatePassword(Integer idUsuario, String password);
     void accountRecovery(Integer idUsuario);
     boolean checkRecoveryCode(Integer idUsuario, String code);
+    String updateAvatar(Integer idUsuario, MultipartFile foto);
 
 }
