@@ -12,10 +12,13 @@ public interface RecetaService {
     void delete(Receta receta);
     List<Receta> getAll();
     List<Receta> findByTitulo(String nombre, Integer orden);
+    List<Receta> getRecetaWithoutIngrediente(Integer ingrediente,Integer orden);
+    List<Receta> getRecetaWithIngrediente(Integer ingrediente, Integer orden);
     Receta getLast();
     Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta updateRecetaFieldsOnCreation(RecetaRequest receta, List<MultipartFile> fotos);
     Receta findById(Integer id);
     List<Receta> findRecetaByTipo(Integer idTipo, Integer orden);
+
 }

@@ -90,6 +90,37 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
+    public List<Receta> getRecetaWithoutIngrediente(Integer idIngrediente, Integer orden) {
+        //falta la excepcion tambien
+        List<Receta> recetas;
+        if(orden == 0){
+            recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(ingredienteService.findById(idIngrediente));
+        }else {
+            recetas = recetaRepository.getAllRecetaWithoutIngredientAntiguedad(ingredienteService.findById(idIngrediente));
+        }
+        if(recetas.isEmpty()){
+            throw new RecetasEmptyException("No existen recetas que no contengan ese ingrediente");
+        }
+        return recetas;
+
+    }
+
+    @Override
+    public List<Receta> getRecetaWithIngrediente(Integer idIngrediente, Integer orden) {
+            //falta la excepcion tambien
+            List<Receta> recetas;
+            if(orden == 0){
+                recetas = recetaRepository.getAllRecetaWithIngredientTitulo(ingredienteService.findById(idIngrediente));
+            }else {
+                recetas = recetaRepository.getAllRecetaWithIngredientAntiguedad(ingredienteService.findById(idIngrediente));
+            }
+            if(recetas.isEmpty()){
+                throw new RecetasEmptyException("No existen recetas con ese ingrediente");
+            }
+            return recetas;
+        }
+
+    @Override
     public Receta getLast() {
         if(!recetaRepository.findAll().isEmpty()){
             return recetaRepository.findTop1ByOrderByFechaDesc();
