@@ -22,6 +22,6 @@ public class RecetaResponse {
     private String descripcion;
     private LocalDateTime fecha;
     private List<FotoResponse> galeria;
-    private List<ItemIngredienteResponse> ingredientes;
+    private List<UtilizadoResponse> ingredientes;
     private List<PasoResponse> pasos;
 }

@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="RecetaExt")
+@Table(name="recetas_ext")
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,7 +18,7 @@ public class RecetaExt {
 
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idRecetaExt;
-    private Integer estado;
+    private Integer estado; // 0 = Pendiente, 1 = Rechazada , 2 = Aceptada,3 = Favorita (Personalizada)
     private LocalDateTime fecha;
 
     @OneToOne

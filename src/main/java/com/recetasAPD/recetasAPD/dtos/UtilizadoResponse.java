@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemIngredienteResponse {
+public class UtilizadoResponse {
 
     private Integer idItemIngrediente;
     private IngredienteResponse ingrediente;

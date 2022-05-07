@@ -1,4 +1,4 @@
 package com.recetasAPD.recetasAPD.dtos;
 
-public class ItemIngredienteDTO {
+public class UtilizadoDTO {
 }

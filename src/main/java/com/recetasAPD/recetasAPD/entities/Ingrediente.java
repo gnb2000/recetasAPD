@@ -23,7 +23,7 @@ public class Ingrediente {
     private String nombre;
 
     @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemIngrediente> itemsIngrediente;
+    private List<Utilizado> utilizados;
 
     public Ingrediente(String nombre){
         this.nombre = nombre;

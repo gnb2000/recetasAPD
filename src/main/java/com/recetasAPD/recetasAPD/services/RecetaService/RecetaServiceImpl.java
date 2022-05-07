@@ -1,14 +1,14 @@
 package com.recetasAPD.recetasAPD.services.RecetaService;
 
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
-import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
+import com.recetasAPD.recetasAPD.dtos.UtilizadoRequest;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.*;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
 import com.recetasAPD.recetasAPD.services.IngredienteService.IngredienteService;
-import com.recetasAPD.recetasAPD.services.ItemIngredienteService.ItemIngredienteService;
+import com.recetasAPD.recetasAPD.services.UtilizadoService.UtilizadoService;
 import com.recetasAPD.recetasAPD.services.MultimediaService.MultimediaService;
 import com.recetasAPD.recetasAPD.services.PasoService.PasoService;
 import com.recetasAPD.recetasAPD.services.TipoService.TipoService;
@@ -40,7 +40,7 @@ public class RecetaServiceImpl implements RecetaService{
     private EntityDtoConverter entityDtoConverter;
 
     @Autowired
-    private ItemIngredienteService itemIngredienteService;
+    private UtilizadoService utilizadoService;
 
     @Autowired
     private FotoService fotoService;
@@ -137,8 +137,8 @@ public class RecetaServiceImpl implements RecetaService{
             Receta nuevaReceta = Receta.builder()
                     .nombre(nombre)
                     .usuario(u)
-                    .fecha(LocalDateTime.now())
-                    .estado(0)
+                    //.fecha(LocalDateTime.now())
+                    //.estado(0)
                     .build();
             return recetaRepository.save(nuevaReceta);
         }
@@ -150,10 +150,14 @@ public class RecetaServiceImpl implements RecetaService{
         Receta nuevaReceta = Receta.builder()
                 .nombre(nombre)
                 .usuario(usuarioService.findById(idUsuario))
-                .fecha(LocalDateTime.now())
-                .estado(0)
+                .recetaExt(RecetaExt.builder()
+                        .fecha(LocalDateTime.now())
+                        .estado(0)
+                        //.receta()
+                        .build())
                 .build();
         recetaRepository.save(nuevaReceta);
+
         return nuevaReceta;
     }
 
@@ -196,25 +200,25 @@ public class RecetaServiceImpl implements RecetaService{
 
 
 
-    private List<ItemIngrediente> convertAndSaveItemIngredienteRequestToItemIngrediente(List<ItemIngredienteRequest> items, Receta receta){
-        List<ItemIngrediente> itemIngredientes = new ArrayList<>();
-        ItemIngrediente itemIngrediente;
+    private List<Utilizado> convertAndSaveItemIngredienteRequestToItemIngrediente(List<UtilizadoRequest> items, Receta receta){
+        List<Utilizado> utilizados = new ArrayList<>();
+        Utilizado utilizado;
         Ingrediente i;
 
         try {
-            for (ItemIngredienteRequest item : items) {
+            for (UtilizadoRequest item : items) {
                 i = ingredienteService.findById(item.getIdIngrediente());
-                itemIngrediente = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
-                itemIngrediente.setIngrediente(i);
-                itemIngredientes.add(itemIngrediente);
-                itemIngrediente.setReceta(receta);
-                itemIngredienteService.save(itemIngrediente);
+                utilizado = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
+                utilizado.setIngrediente(i);
+                utilizados.add(utilizado);
+                utilizado.setReceta(receta);
+                utilizadoService.save(utilizado);
             }
-            return itemIngredientes;
+            return utilizados;
         } catch (IngredienteNotFoundException e){
             recetaRepository.delete(receta);
-            itemIngredientes = null;
-            return itemIngredientes;
+            utilizados = null;
+            return utilizados;
         }
 
     }
@@ -243,8 +247,8 @@ public class RecetaServiceImpl implements RecetaService{
 
         Receta recetaAux = this.findById(receta.getIdReceta());
         LocalDateTime Fecha = LocalDateTime.now();
-        List<ItemIngrediente> ingredientesViejos = recetaAux.getIngredientes();
-        List<ItemIngrediente> ingredientesNuevos = new ArrayList<>();
+        List<Utilizado> ingredientesViejos = recetaAux.getIngredientes();
+        List<Utilizado> ingredientesNuevos = new ArrayList<>();
 
 
         if (multiplo.equalsIgnoreCase("Doble")){
@@ -258,10 +262,10 @@ public class RecetaServiceImpl implements RecetaService{
         recetaAux.setPorciones((int) (recetaAux.getPorciones()*variable));
         recetaAux.setCantidadPersonas((int) (recetaAux.getCantidadPersonas()*variable));
         recetaRepository.save(recetaAux);
-        for (ItemIngrediente i: ingredientesViejos){
-            ItemIngrediente nuevoItemIngrediente = new ItemIngrediente(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),recetaAux,i.getUnidad());
-            itemIngredienteService.save(nuevoItemIngrediente);
-            ingredientesNuevos.add(nuevoItemIngrediente);
+        for (Utilizado i: ingredientesViejos){
+            Utilizado nuevoUtilizado = new Utilizado(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),recetaAux,i.getUnidad());
+            utilizadoService.save(nuevoUtilizado);
+            ingredientesNuevos.add(nuevoUtilizado);
 
 
         }

@@ -18,8 +18,7 @@ public class Foto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idFoto;
     private String urlFoto;
-    private String extension; //Hace falta este atributo??
-
+    private String extension;
 
     @ManyToOne
     @JoinColumn(name = "idReceta")

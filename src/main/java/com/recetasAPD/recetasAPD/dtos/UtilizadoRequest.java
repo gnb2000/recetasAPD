@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ItemIngredienteRequest {
+public class UtilizadoRequest {
 
     private Integer idReceta;
     private Integer idIngrediente;

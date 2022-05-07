@@ -1,7 +1,6 @@
 package com.recetasAPD.recetasAPD.dtos;
 
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,6 +17,6 @@ public class RecetaRequest {
     private Integer porciones;
     private Integer cantidadPersonas;
     private Integer tipo; //Buscar el tipo por este ID
-    private List<ItemIngredienteRequest> itemIngredientes;
+    private List<UtilizadoRequest> itemIngredientes;
     private List<PasoRequest> pasos;
 }

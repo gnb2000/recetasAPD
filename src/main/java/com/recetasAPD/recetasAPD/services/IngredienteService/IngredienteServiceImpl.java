@@ -1,6 +1,5 @@
 package com.recetasAPD.recetasAPD.services.IngredienteService;
 
-import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
 import com.recetasAPD.recetasAPD.entities.Ingrediente;
 import com.recetasAPD.recetasAPD.exceptions.IngredienteAlreadyCreatedException;
 import com.recetasAPD.recetasAPD.exceptions.IngredienteNotFoundException;
@@ -8,9 +7,7 @@ import com.recetasAPD.recetasAPD.repositories.IngredienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class IngredienteServiceImpl implements IngredienteService{

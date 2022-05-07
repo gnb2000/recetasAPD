@@ -21,7 +21,6 @@ public class Multimedia {
     private String extension;
     private String urlContenido;
 
-
     @ManyToOne
     @JoinColumn(name = "idPaso")
     private Paso paso;

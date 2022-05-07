@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,25 +44,25 @@ public class EntityDtoConverter {
                 .collect(Collectors.toList());
     }
 
-    public List<ItemIngrediente> convertItemIngredienteRequestListToItemIngredienteList(List<ItemIngredienteRequest> itemIngredientes){
+    public List<Utilizado> convertItemIngredienteRequestListToItemIngredienteList(List<UtilizadoRequest> itemIngredientes){
         return itemIngredientes
                 .stream()
-                .map(item -> modelMapper.map(item, ItemIngrediente.class))
+                .map(item -> modelMapper.map(item, Utilizado.class))
                 .collect(Collectors.toList());
     }
 
-    public ItemIngrediente convertItemIngredienteRequestToItemIngrediente(ItemIngredienteRequest item){
-        return modelMapper.map(item,ItemIngrediente.class);
+    public Utilizado convertItemIngredienteRequestToItemIngrediente(UtilizadoRequest item){
+        return modelMapper.map(item, Utilizado.class);
     }
 
-    public List<ItemIngredienteResponse> convertItemIngredienteToItemIngredienteResponse(List<ItemIngrediente> ingredientes){
+    public List<UtilizadoResponse> convertItemIngredienteToItemIngredienteResponse(List<Utilizado> ingredientes){
         return ingredientes.stream()
-                .map(i -> modelMapper.map(i,ItemIngredienteResponse.class))
+                .map(i -> modelMapper.map(i, UtilizadoResponse.class))
                 .collect(Collectors.toList());
     }
 
-    public ItemIngredienteResponse convertItemIngredienteToItemIngredienteResponse(ItemIngrediente i){
-        return modelMapper.map(i, ItemIngredienteResponse.class);
+    public UtilizadoResponse convertItemIngredienteToItemIngredienteResponse(Utilizado i){
+        return modelMapper.map(i, UtilizadoResponse.class);
     }
 
     public RecetaResponse convertRecetaToRecetaResponse(Receta r){

@@ -2,7 +2,9 @@ package com.recetasAPD.recetasAPD.services.UsuarioService;
 
 
 import com.recetasAPD.recetasAPD.entities.Usuario;
+import com.recetasAPD.recetasAPD.entities.UsuarioExt;
 import com.recetasAPD.recetasAPD.exceptions.*;
+import com.recetasAPD.recetasAPD.repositories.UsuarioExtRepository;
 import com.recetasAPD.recetasAPD.repositories.UsuarioRepository;
 import com.recetasAPD.recetasAPD.services.EmailService.EmailService;
 import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
@@ -26,6 +28,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Autowired
     private FotoService fotoService;
+
+    @Autowired
+    private UsuarioExtRepository usuarioExtRepository;
 
     @Override
     public void save(Usuario usuario) {
@@ -72,8 +77,17 @@ public class UsuarioServiceImpl implements UsuarioService {
         this.existeNicknameOrMail(nickname,mail);
 
         //Creamos el usuario y lo persistimos
-        Usuario u = new Usuario(mail,nickname);
+        Usuario u = Usuario.builder()
+                .mail(mail)
+                .nickname(nickname)
+                .build();
+
         usuarioRepository.save(u);
+
+        UsuarioExt usuarioExt = UsuarioExt.builder().build();
+        usuarioExt.setUsuario(u);
+        usuarioExtRepository.save(usuarioExt);
+
 
         //Enviamos el correo
         emailService.sendEmail(mail,"COMPLETAR DATOS","Aca va un LINK");
@@ -83,7 +97,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public void updatePassword(Integer idUsuario, String password) {
         if(usuarioRepository.findById(idUsuario).isPresent()){
             Usuario u = usuarioRepository.findById(idUsuario).get();
-            u.setPassword(password);
+            u.getUsuarioExt().setPassword(password);
             usuarioRepository.save(u);
         }else{
             throw new UserNotFoundException("No se encontro un usuario con este ID");
@@ -93,9 +107,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public void accountRecovery(Integer idUsuario) {
         Usuario u = this.findById(idUsuario);
+
         if (u.isHabilitado()){
             String code = this.generateRecoveryCode();
-            u.setRecoveryCode(code);
+            u.getUsuarioExt().setRecoveryCode(code);
             usuarioRepository.save(u);
             emailService.sendEmail(u.getMail(),"RECOVERY CODE","Este es tu codigo de recuperacion de cuenta : "+ code + ". Por favor ingresarlo en la aplicacion para recuperar su cuenta.");
         } else {
@@ -106,7 +121,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public boolean checkRecoveryCode(Integer idUsuario, String code) {
         Usuario u = this.findById(idUsuario);
-        if (u.getRecoveryCode().equals(code)){
+        if (u.getUsuarioExt().getRecoveryCode().equals(code)){
             return true;
         }
         throw new IncorrectCodeRecoveryException(false);

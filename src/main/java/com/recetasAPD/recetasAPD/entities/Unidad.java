@@ -19,5 +19,5 @@ public class Unidad {
     private String descripcion;
 
     @OneToMany(mappedBy = "unidad", cascade = CascadeType.ALL)
-    private List<ItemIngrediente> itemsIngrediente;
+    private List<Utilizado> itemsIngrediente;
 }

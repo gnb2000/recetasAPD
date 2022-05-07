@@ -44,6 +44,12 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     private ItemIngredienteRepository itemIngredienteRepository;
 
+    @Autowired
+    private RecetaExtRepository recetaExtRepository;
+
+    @Autowired
+    private UsuarioExtRepository usuarioExtRepository;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         crearRecetas();
@@ -64,12 +70,16 @@ public class DataLoader implements ApplicationRunner {
                 .nombre("RecetaPrueba1")
                 .porciones(4)
                 .cantidadPersonas(8)
-                .estado(3)
                 .descripcion("Prueba")
-                .fecha(LocalDateTime.now())
                 .build();
         recetaService.save(receta);
 
+        RecetaExt rExt = RecetaExt.builder()
+                        .estado(3)
+                        .fecha(LocalDateTime.now())
+                        .receta(receta)
+                        .build();
+        recetaExtRepository.save(rExt);
     }
 
     private void crearFotos() {
@@ -122,14 +132,14 @@ public class DataLoader implements ApplicationRunner {
         unidadRepository.save(unidad);
     }
     private void crearItemIngrediente(){
-        ItemIngrediente itemIngrediente = ItemIngrediente.builder()
+        Utilizado utilizado = Utilizado.builder()
                 .ingrediente(ingredienteRepository.getById(1))
                 .cantidad(250)
                 .receta(recetaService.findById(1))
                 .observaciones("estoesunaprueba")
                 .unidad(unidadRepository.getById(1))
                 .build();
-        itemIngredienteRepository.save(itemIngrediente);
+        itemIngredienteRepository.save(utilizado);
     }
     private void crearUsuario(){
         Usuario usuario = Usuario.builder()
@@ -137,10 +147,18 @@ public class DataLoader implements ApplicationRunner {
                 .avatar("estoesunaprueba")
                 .mail("iviglia.j@hotmail.com")
                 .nombre("JuanJose")
-                .password("123456")
+                //.password("123456")
                 .nickname("juaniviglia")
                 .build();
         usuarioRepository.save(usuario);
+
+        UsuarioExt usuarioExt = UsuarioExt.builder()
+                .password("123456")
+                .usuario(usuario)
+                .build();
+        usuarioExtRepository.save(usuarioExt);
+
+
     }
     private void completarReceta(){
         Receta r = recetaService.findById(1);
