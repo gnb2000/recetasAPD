@@ -14,7 +14,7 @@ import java.util.List;
 public interface RecetaRepository extends JpaRepository<Receta,Integer> {
 
     //TODO todos ordenados por fehcha con @query
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.nombre = ?1 ORDER BY rExt.fecha")
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.nombre = ?1 ORDER BY rExt.fecha DESC")
     List<Receta> findByNombreOrderByFechaAsc(String titulo);
     List<Receta> findByNombre(String titulo);
     @Query(value = "SELECT TOP 1 r FROM Receta r JOIN r.recetaExt rExt ORDER BY r.fecha DESC", nativeQuery = true)
@@ -23,25 +23,25 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
 
     List<Receta> findByTipoOrderByNombre(Tipo tipo);
 
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.tipo = ?1 ORDER BY rExt.fecha")
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.tipo = ?1 ORDER BY rExt.fecha DESC")
     List<Receta> findByTipoOrderByFecha(Tipo tipo);
 
     @Query("SELECT distinct r FROM Receta r WHERE r.idReceta not in (SELECT i.receta FROM Utilizado i WHERE i.ingrediente = ?1) ORDER BY r.nombre ASC")
     List<Receta> getAllRecetaWithoutIngredientTitulo(Ingrediente ingrediente);
 
-    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE r.idReceta not in (SELECT i.receta FROM Utilizado i JOIN r.recetaExt rExt WHERE i.ingrediente = ?1) ORDER BY rExt.fecha ASC")
+    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE r.idReceta not in (SELECT i.receta FROM Utilizado i JOIN r.recetaExt rExt WHERE i.ingrediente = ?1) ORDER BY rExt.fecha DESC")
     List<Receta> getAllRecetaWithoutIngredientAntiguedad(Ingrediente ingrediente);
 
     @Query("SELECT distinct r FROM Receta r WHERE r.idReceta in (SELECT i.receta FROM Utilizado i WHERE i.ingrediente = ?1) ORDER BY r.nombre ASC")
     List<Receta> getAllRecetaWithIngredientTitulo(Ingrediente ingrediente);
 
-    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE r.idReceta in (SELECT i.receta FROM Utilizado i WHERE i.ingrediente = ?1) ORDER BY rExt.fecha ASC")
+    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE r.idReceta in (SELECT i.receta FROM Utilizado i WHERE i.ingrediente = ?1) ORDER BY rExt.fecha DESC")
     List<Receta> getAllRecetaWithIngredientAntiguedad(Ingrediente ingrediente);
 
 
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.usuario = ?1 ORDER BY r.nombre")
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.usuario = ?1 ORDER BY r.nombre ASC")
     List<Receta> findByUsuarioTipoOrderByNombre(Usuario user);
 
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.usuario = ?1 ORDER BY rExt.fecha")
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.usuario = ?1 ORDER BY rExt.fecha DESC")
     List<Receta> findByUsuarioTipoOrderByFecha(Usuario user);
 }

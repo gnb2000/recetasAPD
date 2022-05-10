@@ -96,8 +96,8 @@ public class ControladorRecetas {
     }
 
     @GetMapping("/recetas/invitado/{invitado}/{orden}")
-    public ResponseEntity<List<RecetaResponse>> getRecetasUsuario(@PathVariable Integer usuario, @PathVariable Integer orden){
-        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetasUsuario(usuario,orden)),HttpStatus.OK);
+    public ResponseEntity<List<RecetaResponse>> getRecetasUsuario(@PathVariable Integer invitado, @PathVariable Integer orden){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetasUsuario(invitado,orden)),HttpStatus.OK);
     }
 
 

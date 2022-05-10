@@ -14,7 +14,7 @@ public class RecetaResponse {
 
     private Integer idReceta;
     private UsuarioResponseDTO usuario;
-    private String titulo;
+    private String nombre;
     private Integer porciones;
     private TipoResponse tipo;
     private Integer cantidadPersonas;
