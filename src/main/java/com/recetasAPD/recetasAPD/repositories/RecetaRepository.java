@@ -39,4 +39,9 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
     List<Receta> getAllRecetaWithIngredientAntiguedad(Ingrediente ingrediente);
 
 
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.usuario = ?1 ORDER BY r.nombre")
+    List<Receta> findByUsuarioTipoOrderByNombre(Usuario user);
+
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.usuario = ?1 ORDER BY rExt.fecha")
+    List<Receta> findByUsuarioTipoOrderByFecha(Usuario user);
 }

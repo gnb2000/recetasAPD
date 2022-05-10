@@ -90,7 +90,6 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> getRecetaWithoutIngrediente(Integer idIngrediente, Integer orden) {
-        //falta la excepcion tambien
         List<Receta> recetas;
         if(orden == 0){
             recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(ingredienteService.findById(idIngrediente));
@@ -106,7 +105,6 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> getRecetaWithIngrediente(Integer idIngrediente, Integer orden) {
-            //falta la excepcion tambien
             List<Receta> recetas;
             if(orden == 0){
                 recetas = recetaRepository.getAllRecetaWithIngredientTitulo(ingredienteService.findById(idIngrediente));
@@ -197,7 +195,20 @@ public class RecetaServiceImpl implements RecetaService{
         }
     }
 
-
+    @Override
+    public  List<Receta>  findRecetasUsuario(Integer usuario, Integer orden) {
+        Usuario user = usuarioService.findById(usuario);
+        List<Receta> recetas;
+        if (orden == 1) {
+            recetas = recetaRepository.findByUsuarioTipoOrderByNombre(user);
+        } else {
+            recetas = recetaRepository.findByUsuarioTipoOrderByFecha(user);
+        }
+        if(recetas.isEmpty()){
+            throw new RecetasEmptyException("No se encontro una receta asociada a este usuario");
+        }
+        return recetas;
+    }
 
 
     private List<Utilizado> convertAndSaveItemIngredienteRequestToItemIngrediente(List<UtilizadoRequest> items, Receta receta){

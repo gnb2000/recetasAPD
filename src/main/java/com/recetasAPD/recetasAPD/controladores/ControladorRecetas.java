@@ -95,6 +95,12 @@ public class ControladorRecetas {
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetaByTipo(tipo,orden)),HttpStatus.OK);
     }
 
+    @GetMapping("/recetas/invitado/{invitado}/{orden}")
+    public ResponseEntity<List<RecetaResponse>> getRecetasUsuario(@PathVariable Integer usuario, @PathVariable Integer orden){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetasUsuario(usuario,orden)),HttpStatus.OK);
+    }
+
+
 
 
 
