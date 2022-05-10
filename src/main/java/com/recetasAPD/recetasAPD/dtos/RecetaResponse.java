@@ -14,7 +14,7 @@ public class RecetaResponse {
 
     private Integer idReceta;
     private UsuarioResponseDTO usuario;
-    private String titulo;
+    private String nombre;
     private Integer porciones;
     private TipoResponse tipo;
     private Integer cantidadPersonas;
@@ -22,6 +22,6 @@ public class RecetaResponse {
     private String descripcion;
     private LocalDateTime fecha;
     private List<FotoResponse> galeria;
-    private List<ItemIngredienteResponse> ingredientes;
+    private List<UtilizadoResponse> ingredientes;
     private List<PasoResponse> pasos;
 }

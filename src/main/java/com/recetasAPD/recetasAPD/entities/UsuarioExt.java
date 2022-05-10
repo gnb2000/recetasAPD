@@ -1,29 +1,26 @@
 package com.recetasAPD.recetasAPD.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "calificaciones")
+@Table(name = "usuarios_ext")
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Calificacion {
+public class UsuarioExt {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCalificacion;
+    private Integer idUsuarioExt;
+    private String password;
+    private String recoveryCode;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "idUsuario")
     private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "idReceta")
-    private Receta receta;
-
-    private Integer calificacion;
-    private String comentarios;
 }

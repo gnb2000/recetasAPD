@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="Pasos")
+@Table(name="pasos")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,10 +18,10 @@ public class Paso {
     private Integer idPaso;
     private Integer nroPaso;
     @Column(length = 2000)
-    private String descripcion;
+    private String texto;
 
     @OneToMany(mappedBy= "paso")
-    private List<Multimedia> galeria;
+    private List<Multimedia> multimedia;
 
     @ManyToOne
     @JoinColumn(name = "idReceta")

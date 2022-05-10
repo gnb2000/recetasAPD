@@ -24,5 +24,5 @@ public interface RecetaService {
     Receta generarRecetaConDistintasCantidades(Integer idReceta, String multiplo, Integer idUsuario); // El usuario elige si quiere la cantidad o el doble de la receta.
     Receta generarRecetaConDistintaCantidadIngrediente(RecetaRequest receta,String ingrediente, Integer cantidad); // El usuario ingresa la cantidad de un ingrediente y a partir de eso calculo el resto.
     List<Receta> findRecetaByTipo(Integer idTipo, Integer orden);
-
+    List<Receta>  findRecetasUsuario(Integer usuario, Integer orden);
 }

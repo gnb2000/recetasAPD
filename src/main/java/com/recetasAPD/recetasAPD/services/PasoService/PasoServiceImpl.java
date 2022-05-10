@@ -41,7 +41,7 @@ public class PasoServiceImpl implements PasoService{
     public Paso addPasoToReceta(PasoRequest paso, List<MultipartFile> multimediaPaso) {
         Receta r = recetaService.findById(paso.getIdReceta());
         Paso p = Paso.builder()
-                .descripcion(paso.getDescripcion())
+                .texto(paso.getDescripcion())
                 .receta(r)
                 .nroPaso(paso.getNroPaso())
                 .build();
@@ -51,7 +51,7 @@ public class PasoServiceImpl implements PasoService{
         for (MultipartFile m : multimediaPaso){
             multimedia.add(multimediaService.uploadAndSaveFile(m, p));
         }
-        p.setGaleria(multimedia);
+        p.setMultimedia(multimedia);
         this.update(p);
         return p;
     }

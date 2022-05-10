@@ -1,15 +1,14 @@
 package com.recetasAPD.recetasAPD.services.RecetaService;
 
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
-import com.recetasAPD.recetasAPD.dtos.ItemIngredienteRequest;
-import com.recetasAPD.recetasAPD.dtos.PasoRequest;
+import com.recetasAPD.recetasAPD.dtos.UtilizadoRequest;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.*;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
 import com.recetasAPD.recetasAPD.services.IngredienteService.IngredienteService;
-import com.recetasAPD.recetasAPD.services.ItemIngredienteService.ItemIngredienteService;
+import com.recetasAPD.recetasAPD.services.UtilizadoService.UtilizadoService;
 import com.recetasAPD.recetasAPD.services.MultimediaService.MultimediaService;
 import com.recetasAPD.recetasAPD.services.PasoService.PasoService;
 import com.recetasAPD.recetasAPD.services.TipoService.TipoService;
@@ -41,7 +40,7 @@ public class RecetaServiceImpl implements RecetaService{
     private EntityDtoConverter entityDtoConverter;
 
     @Autowired
-    private ItemIngredienteService itemIngredienteService;
+    private UtilizadoService utilizadoService;
 
     @Autowired
     private FotoService fotoService;
@@ -78,11 +77,11 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> findByTitulo(String nombre, Integer orden) {
-        if(!recetaRepository.findByTitulo(nombre).isEmpty()){
+        if(!recetaRepository.findByNombre(nombre).isEmpty()){
             if(orden == 1){
-                return recetaRepository.findByTituloOrderByFechaAsc(nombre);
+                return recetaRepository.findByNombreOrderByFechaAsc(nombre);
             }else {
-                return recetaRepository.findByTitulo(nombre);
+                return recetaRepository.findByNombre(nombre);
             }
         }else{
             throw new RecetasEmptyException("El nombre ingresado no corresponde a una receta");
@@ -91,7 +90,6 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> getRecetaWithoutIngrediente(Integer idIngrediente, Integer orden) {
-        //falta la excepcion tambien
         List<Receta> recetas;
         if(orden == 0){
             recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(ingredienteService.findById(idIngrediente));
@@ -107,7 +105,6 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> getRecetaWithIngrediente(Integer idIngrediente, Integer orden) {
-            //falta la excepcion tambien
             List<Receta> recetas;
             if(orden == 0){
                 recetas = recetaRepository.getAllRecetaWithIngredientTitulo(ingredienteService.findById(idIngrediente));
@@ -132,14 +129,14 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
         Usuario u = usuarioService.findById(idUsuario);
-        Receta r = recetaRepository.findByTituloAndUsuario(nombre,u);
+        Receta r = recetaRepository.findByNombreAndUsuario(nombre,u);
         if (r == null){
             //No existe la receta
             Receta nuevaReceta = Receta.builder()
-                    .titulo(nombre)
+                    .nombre(nombre)
                     .usuario(u)
-                    .fecha(LocalDateTime.now())
-                    .estado(0)
+                    //.fecha(LocalDateTime.now())
+                    //.estado(0)
                     .build();
             return recetaRepository.save(nuevaReceta);
         }
@@ -149,12 +146,16 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
         Receta nuevaReceta = Receta.builder()
-                .titulo(nombre)
+                .nombre(nombre)
                 .usuario(usuarioService.findById(idUsuario))
-                .fecha(LocalDateTime.now())
-                .estado(0)
+                .recetaExt(RecetaExt.builder()
+                        .fecha(LocalDateTime.now())
+                        .estado(0)
+                        //.receta()
+                        .build())
                 .build();
         recetaRepository.save(nuevaReceta);
+
         return nuevaReceta;
     }
 
@@ -164,7 +165,7 @@ public class RecetaServiceImpl implements RecetaService{
         r.setPorciones(recetaDTO.getPorciones());
         r.setCantidadPersonas(recetaDTO.getCantidadPersonas());
         r.setDescripcion(recetaDTO.getDescripcion());
-        r.setGaleria(this.convertAndSaveFotoImageFileToFoto(fotos,r));
+        r.setFoto(this.convertAndSaveFotoImageFileToFoto(fotos,r));
         r.setTipo(tipoService.findById(recetaDTO.getTipo()));
         r.setUsuario(usuarioService.findById(recetaDTO.getIdUsuario()));
         this.update(r);
@@ -183,9 +184,9 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public List<Receta> findRecetaByTipo(Integer idTipo, Integer orden) {
         Tipo tipo = tipoService.findById(idTipo);
-        if (!recetaRepository.findByTipoOrderByTitulo(tipo).isEmpty()) {
+        if (!recetaRepository.findByTipoOrderByNombre(tipo).isEmpty()) {
             if (orden == 1) {
-                return recetaRepository.findByTipoOrderByTitulo(tipo);
+                return recetaRepository.findByTipoOrderByNombre(tipo);
             } else {
                 return recetaRepository.findByTipoOrderByFecha(tipo);
             }
@@ -194,28 +195,41 @@ public class RecetaServiceImpl implements RecetaService{
         }
     }
 
+    @Override
+    public  List<Receta>  findRecetasUsuario(Integer usuario, Integer orden) {
+        Usuario user = usuarioService.findById(usuario);
+        List<Receta> recetas;
+        if (orden == 1) {
+            recetas = recetaRepository.findByUsuarioTipoOrderByNombre(user);
+        } else {
+            recetas = recetaRepository.findByUsuarioTipoOrderByFecha(user);
+        }
+        if(recetas.isEmpty()){
+            throw new RecetasEmptyException("No se encontro una receta asociada a este usuario");
+        }
+        return recetas;
+    }
 
 
-
-    private List<ItemIngrediente> convertAndSaveItemIngredienteRequestToItemIngrediente(List<ItemIngredienteRequest> items, Receta receta){
-        List<ItemIngrediente> itemIngredientes = new ArrayList<>();
-        ItemIngrediente itemIngrediente;
+    private List<Utilizado> convertAndSaveItemIngredienteRequestToItemIngrediente(List<UtilizadoRequest> items, Receta receta){
+        List<Utilizado> utilizados = new ArrayList<>();
+        Utilizado utilizado;
         Ingrediente i;
 
         try {
-            for (ItemIngredienteRequest item : items) {
+            for (UtilizadoRequest item : items) {
                 i = ingredienteService.findById(item.getIdIngrediente());
-                itemIngrediente = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
-                itemIngrediente.setIngrediente(i);
-                itemIngredientes.add(itemIngrediente);
-                itemIngrediente.setReceta(receta);
-                itemIngredienteService.save(itemIngrediente);
+                utilizado = entityDtoConverter.convertItemIngredienteRequestToItemIngrediente(item);
+                utilizado.setIngrediente(i);
+                utilizados.add(utilizado);
+                utilizado.setReceta(receta);
+                utilizadoService.save(utilizado);
             }
-            return itemIngredientes;
+            return utilizados;
         } catch (IngredienteNotFoundException e){
             recetaRepository.delete(receta);
-            itemIngredientes = null;
-            return itemIngredientes;
+            utilizados = null;
+            return utilizados;
         }
 
     }
@@ -239,14 +253,13 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public Receta generarRecetaConDistintasCantidades(Integer idReceta, String multiplo,Integer idUsuario) {
+    public Receta generarRecetaConDistintasCantidades(Receta receta, String multiplo,Usuario usuario) {
         float variable;
 
-        Receta recetaAux = this.findById(idReceta);
+        Receta recetaAux = this.findById(receta.getIdReceta());
         LocalDateTime Fecha = LocalDateTime.now();
-        List<ItemIngrediente> ingredientesViejos = recetaAux.getIngredientes();
-        List<ItemIngrediente> ingredientesNuevos = new ArrayList<>();
-        Usuario usuario = usuarioService.findById(1);
+        List<Utilizado> ingredientesViejos = recetaAux.getIngredientes();
+        List<Utilizado> ingredientesNuevos = new ArrayList<>();
 
 
         if (multiplo.equalsIgnoreCase("Doble")){
@@ -260,10 +273,10 @@ public class RecetaServiceImpl implements RecetaService{
         recetaAux.setPorciones((int) (recetaAux.getPorciones()*variable));
         recetaAux.setCantidadPersonas((int) (recetaAux.getCantidadPersonas()*variable));
         recetaRepository.save(recetaAux);
-        for (ItemIngrediente i: ingredientesViejos){
-            ItemIngrediente nuevoItemIngrediente = new ItemIngrediente(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),recetaAux,i.getUnidad());
-            itemIngredienteService.save(nuevoItemIngrediente);
-            ingredientesNuevos.add(nuevoItemIngrediente);
+        for (Utilizado i: ingredientesViejos){
+            Utilizado nuevoUtilizado = new Utilizado(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),recetaAux,i.getUnidad());
+            utilizadoService.save(nuevoUtilizado);
+            ingredientesNuevos.add(nuevoUtilizado);
 
 
         }

@@ -10,8 +10,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor //LOMBOOK: Genera un constructor con todos los atributos de la clase
-@NoArgsConstructor //LOMBOOK: Genera el constructor vacio
+@AllArgsConstructor
+@NoArgsConstructor
 public class Tipo {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

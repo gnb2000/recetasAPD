@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Fotos")
+@Table(name="fotos")
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,17 +18,9 @@ public class Foto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idFoto;
     private String urlFoto;
-    private String extension; //Hace falta este atributo??
-    private String title;
+    private String extension;
 
     @ManyToOne
     @JoinColumn(name = "idReceta")
     private Receta receta;
-
-    public Foto(String urlFoto, String extension, String title,Receta receta) {
-        this.urlFoto = urlFoto;
-        this.extension = extension;
-        this.title = title;
-        this.receta = receta;
-    }
 }

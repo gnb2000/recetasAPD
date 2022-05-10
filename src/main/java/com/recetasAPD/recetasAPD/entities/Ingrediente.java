@@ -10,7 +10,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="Ingredientes")
+@Table(name="ingredientes")
 @Data
 @Builder
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class Ingrediente {
     private String nombre;
 
     @OneToMany(mappedBy = "ingrediente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItemIngrediente> itemsIngrediente;
+    private List<Utilizado> utilizados;
 
     public Ingrediente(String nombre){
         this.nombre = nombre;
