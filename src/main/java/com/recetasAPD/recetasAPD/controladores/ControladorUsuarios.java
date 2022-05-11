@@ -15,18 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @RestController
+@RequestMapping("/usuario")
 public class ControladorUsuarios {
-
-    private static ControladorUsuarios instancia;
-
-    public ControladorUsuarios() {
-    }
-
-    public static ControladorUsuarios getInstance() {
-        if (instancia == null)
-            instancia = new ControladorUsuarios();
-        return instancia;
-    }
 
     @Autowired
     private UsuarioService usuarioService;
@@ -56,7 +46,7 @@ public class ControladorUsuarios {
         return new ResponseEntity<>("Contraseña modificada con exito", HttpStatus.OK);
     }
 
-    @GetMapping("/usuario/{idUsuario}")
+    @GetMapping("/{idUsuario}")
     public ResponseEntity<UsuarioResponseDTO> getUserById(@PathVariable(value ="idUsuario") Integer idUsuario){
         Usuario u = usuarioService.findById(idUsuario);
         return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(u),HttpStatus.OK);
@@ -83,7 +73,7 @@ public class ControladorUsuarios {
         return new ResponseEntity<>(usuarioService.checkRecoveryCode(idUsuario,code), HttpStatus.OK);
     }
 
-    @PutMapping("/usuario/avatar/{idUsuario}")
+    @PutMapping("/avatar/{idUsuario}")
     public ResponseEntity<String> updateAvatarByUsuario(@PathVariable Integer idUsuario, @RequestPart MultipartFile foto){
         return new ResponseEntity<>(usuarioService.updateAvatar(idUsuario,foto),HttpStatus.OK);
     }

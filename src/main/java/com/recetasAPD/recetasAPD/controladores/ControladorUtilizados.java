@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class ControladorItemIngredientes {
+public class ControladorUtilizados {
 
     @Autowired
     private UtilizadoService utilizadoService;
@@ -20,13 +20,13 @@ public class ControladorItemIngredientes {
     @Autowired
     private EntityDtoConverter entityDtoConverter;
 
-    @PostMapping("/itemIngredientes")
+    @PostMapping("/utilizado")
     public ResponseEntity<UtilizadoResponse> nuevoItemIngrediente(@RequestBody UtilizadoRequest utilizadoRequest){
         return new ResponseEntity<>(entityDtoConverter.convertItemIngredienteToItemIngredienteResponse(utilizadoService.addIngredienteToReceta(utilizadoRequest)), HttpStatus.OK);
     }
 
     //LISTAR LOS DE UNA RECETA
-    @GetMapping("/itemIngredientes/{idReceta}")
+    @GetMapping("/utilizado/{idReceta}")
     public ResponseEntity<List<UtilizadoResponse>> getItemIngredientesByReceta(@PathVariable Integer idReceta){
         return new ResponseEntity<>(entityDtoConverter.convertItemIngredienteToItemIngredienteResponse(utilizadoService.getItemIngredientesByReceta(idReceta)),HttpStatus.OK);
     }
