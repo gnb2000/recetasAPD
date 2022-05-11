@@ -53,7 +53,7 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-      /* crearRecetas();
+        crearRecetas();
         crearFotos();
         crearTipo();
         crearPasos();
@@ -63,10 +63,10 @@ public class DataLoader implements ApplicationRunner {
         crearItemIngrediente();
         crearUsuario();
         completarReceta();
-        */
+
 
         generarReceta();
-        /*
+/*
         List<Receta> recetas =recetaRepository.findByNombreOrderByFechaAsc("RecetaPrueba1");
         for (Receta r: recetas){
             System.out.println(r.getIdReceta());

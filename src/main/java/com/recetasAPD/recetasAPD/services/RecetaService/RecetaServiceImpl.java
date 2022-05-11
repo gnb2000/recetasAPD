@@ -291,6 +291,7 @@ public class RecetaServiceImpl implements RecetaService{
         Usuario usuario = usuarioService.findById(idUsuario);
 
 
+
         if (multiplo.equalsIgnoreCase("Doble")){
             variable = 2;
 
@@ -299,26 +300,29 @@ public class RecetaServiceImpl implements RecetaService{
         }
         recetaAux.setUsuario(usuario);
         recetaAux.setIdReceta(null);
+        recetaAux.setRecetaExt(null);
         recetaAux.setPorciones((int) (recetaAux.getPorciones()*variable));
         recetaAux.setCantidadPersonas((int) (recetaAux.getCantidadPersonas()*variable));
         recetaRepository.save(recetaAux);
+
+
         for (Utilizado i: ingredientesViejos){
             Utilizado nuevoItemIngrediente = new Utilizado(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),recetaAux,i.getUnidad());
             utilizadoService.save(nuevoItemIngrediente);
             ingredientesNuevos.add(nuevoItemIngrediente);
-
-
         }
         recetaAux.setIngredientes(ingredientesNuevos);
-        recetaExtrepository.save(recetaExtAux);
-        recetaRepository.save(recetaAux);
+        //recetaExtrepository.save(recetaExtAux);
+
 
         recetaExtAux.setReceta(recetaAux);
-        System.out.println(recetaAux.getIdReceta());
         recetaExtAux.setEstado(3);
         recetaExtAux.setFecha(Fecha);
         recetaExtrepository.save(recetaExtAux);
 
+        recetaAux.setRecetaExt(recetaExtAux);
+
+        recetaRepository.save(recetaAux);
         return recetaAux;
     }
 
