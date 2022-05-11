@@ -18,7 +18,7 @@ public class RecetaExt {
 
     @Id  @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idRecetaExt;
-    private Integer estado; // 0 = Pendiente, 1 = Rechazada , 2 = Aceptada,3 = Favorita (Personalizada)
+    private Integer estado; // 0 = Pendiente, 1 = Rechazada , 2 = Aceptada,3 = Personalizada
     private LocalDateTime fecha;
 
     @OneToOne

@@ -52,16 +52,18 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        crearRecetas();
+       crearRecetas();
         crearFotos();
         crearTipo();
         crearPasos();
-        crearMultimedia();
+        //crearMultimedia();
         crearIngredientes();
         crearUnidad();
         crearItemIngrediente();
         crearUsuario();
         completarReceta();
+
+
         generarReceta();
 
         }
@@ -169,6 +171,8 @@ public class DataLoader implements ApplicationRunner {
     private void generarReceta() {
 
         recetaService.generarRecetaConDistintasCantidades(1,"Doble",1);
+       // recetaService.generarRecetaConDistintasPorciones(1,8,1);
+        //recetaService.generarRecetaConDistintaCantidadIngrediente(1,1,1,500,1);
 
 
     }
