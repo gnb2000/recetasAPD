@@ -312,7 +312,9 @@ public class RecetaServiceImpl implements RecetaService{
         recetaAux.setIngredientes(ingredientesNuevos);
         recetaExtrepository.save(recetaExtAux);
         recetaRepository.save(recetaAux);
+
         recetaExtAux.setReceta(recetaAux);
+        System.out.println(recetaAux.getIdReceta());
         recetaExtAux.setEstado(3);
         recetaExtAux.setFecha(Fecha);
         recetaExtrepository.save(recetaExtAux);

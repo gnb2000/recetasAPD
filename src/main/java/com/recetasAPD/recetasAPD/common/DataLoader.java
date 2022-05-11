@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -52,20 +53,26 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-       crearRecetas();
+      /* crearRecetas();
         crearFotos();
         crearTipo();
         crearPasos();
-        //crearMultimedia();
+        //crearMultimedia(); ---> TIRA ERROR (CORREGIR)
         crearIngredientes();
         crearUnidad();
         crearItemIngrediente();
         crearUsuario();
         completarReceta();
-
+        */
 
         generarReceta();
+        /*
+        List<Receta> recetas =recetaRepository.findByNombreOrderByFechaAsc("RecetaPrueba1");
+        for (Receta r: recetas){
+            System.out.println(r.getIdReceta());
+        }
 
+    */
         }
     private void crearRecetas() {
         Receta receta = Receta.builder()
@@ -77,7 +84,7 @@ public class DataLoader implements ApplicationRunner {
         recetaService.save(receta);
 
         RecetaExt rExt = RecetaExt.builder()
-                        .estado(3)
+                        .estado(2)
                         .fecha(LocalDateTime.now())
                         .receta(receta)
                         .build();
