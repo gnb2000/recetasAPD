@@ -12,8 +12,10 @@ public interface UsuarioService {
     Usuario findById(Integer idUsuario);
     void registerNewUser(String nickname, String mail);
     void updatePassword(Integer idUsuario, String password);
-    void accountRecovery(Integer idUsuario);
+    Integer accountRecovery(String mail);
     boolean checkRecoveryCode(Integer idUsuario, String code);
     String updateAvatar(Integer idUsuario, MultipartFile foto);
+
+    void updateAlias(Integer idUsuario, String alias);
 
 }

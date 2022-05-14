@@ -90,7 +90,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 
         //Enviamos el correo
-        emailService.sendEmail(mail,"COMPLETAR DATOS","Aca va un LINK");
+        emailService.sendEmail(mail,"CUENTA CREADA CON EXITO","Bienvenido a la comunidad de Cook Now. \n " +
+                "\n" +
+                "Su cuenta ha sido creada con exito. \n " +
+                "Ingrese a la aplicacion para completar el resto de los datos de su cuenta.");
     }
 
     @Override
@@ -105,17 +108,24 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void accountRecovery(Integer idUsuario) {
-        Usuario u = this.findById(idUsuario);
+    public Integer accountRecovery(String mail) {
+        Optional<Usuario> u = Optional.ofNullable(usuarioRepository.findByMail(mail));
 
-        if (u.isHabilitado()){
-            String code = this.generateRecoveryCode();
-            u.getUsuarioExt().setRecoveryCode(code);
-            usuarioRepository.save(u);
-            emailService.sendEmail(u.getMail(),"RECOVERY CODE","Este es tu codigo de recuperacion de cuenta : "+ code + ". Por favor ingresarlo en la aplicacion para recuperar su cuenta.");
+        if (u.isPresent()){
+            if (u.get().isHabilitado()){
+                String code = this.generateRecoveryCode();
+                u.get().getUsuarioExt().setRecoveryCode(code);
+                usuarioRepository.save(u.get());
+                emailService.sendEmail(u.get().getMail(),"RECOVERY CODE","Este es tu codigo de recuperacion de cuenta : "+ code + ". Por favor ingresarlo en la aplicacion para recuperar su cuenta.");
+                return u.get().getIdUsuario();
+            } else {
+                throw new IncompleteRegistrationException("Su cuenta tiene el proceso de registracion incompleto, completelo para poder recuperar la cuenta");
+            }
         } else {
-            throw new IncompleteRegistrationException("Su cuenta tiene el proceso de registracion incompleto, completelo para poder recuperar la cuenta");
+            throw new UserNotFoundException("No existe un usuario con el mail ingresado");
         }
+
+
     }
 
     @Override
@@ -136,9 +146,16 @@ public class UsuarioServiceImpl implements UsuarioService {
         return url;
     }
 
+    @Override
+    public void updateAlias(Integer idUsuario, String alias) {
+        Usuario u = this.findById(idUsuario);
+        this.existeNicknameOrMail(alias,null);
+        u.setNickname(alias);
+        this.update(u);
+    }
+
     private boolean existeNicknameOrMail(String nickname, String mail) {
         if (Optional.ofNullable(usuarioRepository.findByNickname(nickname)).isPresent()){
-
             Random random = new Random();
             String posibleUsuario = nickname + random.nextInt(100);
             List<String> aliasRecomendados = new ArrayList<String>();

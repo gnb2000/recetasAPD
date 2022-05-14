@@ -11,5 +11,6 @@ public class CompleteRegisterRequest {
 
     private Integer idUsuario;
     private String nombre;
-    private String avatar; //Ver comentario en la entidad Usuario sobre este atributo
+    private String apellido;
+    private String password;
 }

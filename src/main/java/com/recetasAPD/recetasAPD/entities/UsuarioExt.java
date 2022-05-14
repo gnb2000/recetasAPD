@@ -19,6 +19,7 @@ public class UsuarioExt {
     private Integer idUsuarioExt;
     private String password;
     private String recoveryCode;
+    private String apellido;
 
     @OneToOne
     @JoinColumn(name = "idUsuario")

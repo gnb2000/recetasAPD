@@ -14,7 +14,6 @@ public class UsuarioResponseDTO {
     private String nickname;
     private boolean habilitado;
     private String nombre;
-    private String avatar; // ver esto
-    private Integer tipoUsuario;
+    private String avatar;
 
 }

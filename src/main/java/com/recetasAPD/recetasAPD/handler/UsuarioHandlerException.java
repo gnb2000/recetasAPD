@@ -13,11 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 //Esta clase lo que hace es estar escuchando todas las excepciones que se tiren (por ej, cuando el service ponemos new Exception)
 public class UsuarioHandlerException {
 
-    //Este metodo solo va a entrar cuando se detecte que lanzo una excepcion del tipo "Exception"
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleAllExceptions(Exception e){
-        return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 
     @ExceptionHandler(NotValidNicknameException.class)
     public ResponseEntity<NotValidNicknameExceptionResponse> handleNotValidNicknameExceptions(NotValidNicknameException e){

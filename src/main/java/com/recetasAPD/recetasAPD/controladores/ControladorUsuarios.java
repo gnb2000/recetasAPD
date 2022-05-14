@@ -37,7 +37,7 @@ public class ControladorUsuarios {
     @PostMapping("/register/{usuario}/{mail}")
     public ResponseEntity<String> register(@PathVariable(value = "usuario") String usuario, @PathVariable(value = "mail") String mail){
         usuarioService.registerNewUser(usuario,mail);
-        return new ResponseEntity<>("Usuario creado con exito, se ha enviado un correo al mail ingresado para rellenar el resto de sus datos", HttpStatus.OK);
+        return new ResponseEntity<>("Usuario creado con exito, se ha enviado un correo al mail ingresado", HttpStatus.OK);
 
     }
     @PutMapping("/password/{idUsuario}/{password}")
@@ -55,17 +55,17 @@ public class ControladorUsuarios {
     @PutMapping("/register")
     public ResponseEntity<String> completeRegistration(@RequestBody CompleteRegisterRequest request){
         Usuario u = usuarioService.findById(request.getIdUsuario());
-        u.setAvatar(request.getAvatar());
         u.setNombre(request.getNombre());
+        u.getUsuarioExt().setApellido(request.getApellido());
+        u.getUsuarioExt().setPassword(request.getPassword());
         u.setHabilitado(true);
         usuarioService.update(u);
         return new ResponseEntity<>("Datos actualizados con exito",HttpStatus.OK);
     }
 
-    @PutMapping("/account/recovery/{idUsuario}")
-    public ResponseEntity<String> accountRecovery(@PathVariable Integer idUsuario){
-        usuarioService.accountRecovery(idUsuario);
-        return new ResponseEntity<>("Se ha enviado un codigo de 6 digitos a su mail",HttpStatus.OK);
+    @PutMapping("/account/recovery/{mail}")
+    public ResponseEntity<Integer> accountRecovery(@PathVariable String mail){
+        return new ResponseEntity<>(usuarioService.accountRecovery(mail),HttpStatus.OK);
     }
 
     @GetMapping("/check/code/{idUsuario}/{code}")
@@ -75,7 +75,14 @@ public class ControladorUsuarios {
 
     @PutMapping("/avatar/{idUsuario}")
     public ResponseEntity<String> updateAvatarByUsuario(@PathVariable Integer idUsuario, @RequestPart MultipartFile foto){
-        return new ResponseEntity<>(usuarioService.updateAvatar(idUsuario,foto),HttpStatus.OK);
+        usuarioService.updateAvatar(idUsuario,foto);
+        return new ResponseEntity<>("Avatar actualizado con exito",HttpStatus.OK);
+    }
+
+    @PutMapping("/alias/{idUsuario}/{alias}")
+    public ResponseEntity<String> updateAliasByUsuario(@PathVariable Integer idUsuario, @PathVariable String alias){
+        usuarioService.updateAlias(idUsuario, alias);
+        return new ResponseEntity<>("Alias actualizado con exito", HttpStatus.OK);
     }
 
 
