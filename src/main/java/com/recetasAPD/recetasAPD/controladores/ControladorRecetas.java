@@ -51,7 +51,7 @@ public class ControladorRecetas {
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getAll()), HttpStatus.OK);
     }
 
-    @GetMapping("/recetas/nombre/{nombre}/{orden}")
+    @GetMapping("/recetas/{nombre}/{orden}")
     public ResponseEntity<List<RecetaDTO>> getRecetasByNombre(@PathVariable(value="nombre")String nombre, @PathVariable(value = "orden")Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.findByTitulo(nombre,orden)),HttpStatus.OK);
 
@@ -72,7 +72,7 @@ public class ControladorRecetas {
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getRecetaWithIngrediente(ingrediente,orden)),HttpStatus.OK);
     }
 
-    //Nuevo cargar receta
+
 
     @PostMapping("/recetas/check/{nombre}/{idUsuario}")
     public ResponseEntity<RecetaResponse> checkRecetaNombrePlato(@PathVariable String nombre, @PathVariable Integer idUsuario){
@@ -94,7 +94,7 @@ public class ControladorRecetas {
     public ResponseEntity<List<RecetaResponse>> getRecetasByTipo(@PathVariable Integer tipo, @PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetaByTipo(tipo,orden)),HttpStatus.OK);
     }
-    @PostMapping("/proporciones/{idUsuario}/{proporcion}")
+    @PostMapping("recetas/proporciones/{idUsuario}/{proporcion}/{idReceta}")
     public ResponseEntity<RecetaResponse> proporcionReceta(@PathVariable Integer idUsuario,@PathVariable String proporcion,@PathVariable Integer idReceta){
         return new ResponseEntity<RecetaResponse>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.generarRecetaConDistintasCantidades(idReceta,proporcion,idUsuario)),HttpStatus.OK);
     }

@@ -122,7 +122,7 @@ public class RecetaServiceImpl implements RecetaService{
         }
 
     @Override
-    public Receta getLast() {
+    public Receta getLast() { // REVISAR ESTE
         if(!recetaRepository.findAll().isEmpty()){
             return recetaRepository.findTop1ByOrderByFechaDesc();
         }else{
@@ -152,14 +152,16 @@ public class RecetaServiceImpl implements RecetaService{
         Receta nuevaReceta = Receta.builder()
                 .nombre(nombre)
                 .usuario(usuarioService.findById(idUsuario))
-                .recetaExt(RecetaExt.builder()
-                        .fecha(LocalDateTime.now())
-                        .estado(0)
-                        //.receta()
-                        .build())
                 .build();
         recetaRepository.save(nuevaReceta);
-
+        RecetaExt nuevaRecetaExt = RecetaExt.builder()
+                .fecha(LocalDateTime.now())
+                .estado(0)
+                .receta(nuevaReceta)
+                .build();
+        recetaExtrepository.save(nuevaRecetaExt);
+        nuevaReceta.setRecetaExt(nuevaRecetaExt);
+        recetaRepository.save(nuevaReceta);
         return nuevaReceta;
     }
 
