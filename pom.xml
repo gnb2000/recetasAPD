@@ -9,7 +9,6 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.recetasAPD</groupId>
-	<packaging>jar</packaging>
 	<artifactId>recetasAPD</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>recetasAPD</name>
