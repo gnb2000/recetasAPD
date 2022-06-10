@@ -29,8 +29,8 @@ public class ControladorUsuarios {
 
 
     @GetMapping("/login/{mailOrNickname}/{password}")
-    public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable(value = "nickname") String nickname, @PathVariable(value = "contraseña") String contraseña) throws Exception{
-        Usuario usuario = usuarioService.findByNicknameAndPassword(nickname,contraseña);
+    public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable String mailOrNickname, @PathVariable String password) throws Exception{
+        Usuario usuario = usuarioService.findByNicknameAndPassword(mailOrNickname,password);
         return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(usuario), HttpStatus.OK);
     }
 
