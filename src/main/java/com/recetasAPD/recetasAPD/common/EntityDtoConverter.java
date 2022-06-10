@@ -22,18 +22,14 @@ public class EntityDtoConverter {
                 modelMapper.map(u,UsuarioResponseDTO.class); //Primer parametro: Clase a convertir, Segundo parametro: A que clase la quiero convertir
     }
 
-    public List<RecetaDTO> convertListRecetasToRecetasDTO(List<Receta> r){
-        List<RecetaDTO> recetas = new ArrayList<RecetaDTO>();
+    public List<RecetaResponse> convertListRecetasToRecetasDTO(List<Receta> r){
+        List<RecetaResponse> recetas = new ArrayList<RecetaResponse>();
         for(Receta aux : r){
-            recetas.add(modelMapper.map(aux,RecetaDTO.class));
+            recetas.add(modelMapper.map(aux,RecetaResponse.class));
         }
         return recetas;
     }
 
-
-    public RecetaDTO convertRecetaToRecetaDTO(Receta r){
-        return modelMapper.map(r,RecetaDTO.class);
-    }
 
     public IngredienteResponse convertIngredienteToIngredienteResponse(Ingrediente i){return modelMapper.map(i,IngredienteResponse.class);}
 
