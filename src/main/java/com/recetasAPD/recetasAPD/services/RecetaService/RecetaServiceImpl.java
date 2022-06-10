@@ -144,7 +144,7 @@ public class RecetaServiceImpl implements RecetaService{
                     .build();
             return recetaRepository.save(nuevaReceta);
         }
-        throw new RecetaAlreadyCreatedException("Ya tiene un receta con este nombre, desea editar o reemplazar?");
+        throw new RecetaAlreadyCreatedException("Ya tiene un receta con este nombre, desea editar o reemplazar?", entityDtoConverter.convertRecetaToRecetaResponse(r));
     }
 
     @Override

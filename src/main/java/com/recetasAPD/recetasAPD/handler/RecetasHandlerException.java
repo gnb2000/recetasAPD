@@ -1,5 +1,6 @@
 package com.recetasAPD.recetasAPD.handler;
 
+import com.recetasAPD.recetasAPD.dtos.RecetaResponse;
 import com.recetasAPD.recetasAPD.exceptions.EmailNotSendException;
 import com.recetasAPD.recetasAPD.exceptions.RecetaAlreadyCreatedException;
 import com.recetasAPD.recetasAPD.exceptions.RecetaNotCreatedException;
@@ -25,7 +26,7 @@ public class RecetasHandlerException {
     }
 
     @ExceptionHandler(RecetaAlreadyCreatedException.class)
-    public ResponseEntity<String> handleRecetaAlreadyCreatedException(Exception e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+    public ResponseEntity<RecetaResponse> handleRecetaAlreadyCreatedException(RecetaAlreadyCreatedException e){
+        return new ResponseEntity<>(e.getReceta(), HttpStatus.CONFLICT);
     }
 }
