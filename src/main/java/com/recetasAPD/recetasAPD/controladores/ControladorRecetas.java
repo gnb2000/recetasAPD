@@ -98,6 +98,13 @@ public class ControladorRecetas {
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetasUsuario(invitado,orden)),HttpStatus.OK);
     }
 
+    @DeleteMapping("/recetas/{idReceta}")
+    public ResponseEntity<String> deleteRecetaById(@PathVariable Integer idReceta){
+        Receta receta = recetaService.findById(idReceta);
+        recetaService.delete(receta);
+        return new ResponseEntity<>("Receta eliminada con exito", HttpStatus.OK);
+    }
+
 
 
 

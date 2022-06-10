@@ -45,7 +45,7 @@ public class Receta {
     @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL)
     private List<Calificacion> calificaciones;
 
-    @OneToOne(mappedBy = "receta",cascade = CascadeType.MERGE)
+    @OneToOne(mappedBy = "receta",cascade = CascadeType.ALL)
     private RecetaExt recetaExt;
 }
 
