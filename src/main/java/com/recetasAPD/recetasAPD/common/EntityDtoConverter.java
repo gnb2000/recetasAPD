@@ -76,6 +76,13 @@ public class EntityDtoConverter {
         return modelMapper.map(tipo,TipoResponse.class);
     }
 
+    public List<TipoResponse> convertTipoToTipoResponse(List<Tipo> tipos){
+        return tipos
+                .stream()
+                .map(tipo -> modelMapper.map(tipo,TipoResponse.class))
+                .collect(Collectors.toList());
+    }
+
     public List<Paso> convertPasoToPasoResponse(List<PasoRequest> pasos){
         return pasos
                 .stream()
