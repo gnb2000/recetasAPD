@@ -22,17 +22,6 @@ import java.util.List;
 @RestController
 public class ControladorRecetas {
 
-   /* private static ControladorRecetas instancia;
-
-    public ControladorRecetas() {
-    }
-
-    public static ControladorRecetas getInstance() {
-        if (instancia == null)
-            instancia = new ControladorRecetas();
-        return instancia;
-    }
-    */
     @Autowired
     private RecetaService recetaService;
 

@@ -7,6 +7,7 @@ import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.*;
 import com.recetasAPD.recetasAPD.repositories.RecetaExtRepository;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
+import com.recetasAPD.recetasAPD.services.CalificacionService.CalificacionService;
 import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
 import com.recetasAPD.recetasAPD.services.IngredienteService.IngredienteService;
 import com.recetasAPD.recetasAPD.services.RecetaExtService.RecetaExtService;
@@ -55,6 +56,9 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Autowired
     private RecetaExtRepository recetaExtrepository;
+
+    @Autowired
+    private CalificacionService calificacionService;
 
     @Override
     public void save(Receta receta) {
@@ -216,6 +220,22 @@ public class RecetaServiceImpl implements RecetaService{
         return recetas;
     }
 
+    @Override
+    public Integer CalcularPuntuacionReceta(Integer idReceta) {
+        Integer contador = 0;
+        Integer suma = 0 ;
+        Integer promedio = 0;
+        List<Calificacion> Calificaciones;
+        Calificaciones = calificacionService.obtenerCalificacionesPorReceta(idReceta);
+        for (Calificacion c: Calificaciones){
+            contador++;
+            suma = suma +  c.getCalificacion();
+        }
+        promedio = suma / contador;
+
+        return promedio;
+    }
+
 
     private List<Utilizado> convertAndSaveItemIngredienteRequestToItemIngrediente(List<UtilizadoRequest> items, Receta receta){
         List<Utilizado> utilizados = new ArrayList<>();
@@ -364,6 +384,8 @@ public class RecetaServiceImpl implements RecetaService{
 
         return recetaAux;
     }
+
+
 
 
 }

@@ -2,6 +2,7 @@ package com.recetasAPD.recetasAPD.common;
 
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.repositories.*;
+import com.recetasAPD.recetasAPD.services.CalificacionService.CalificacionService;
 import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -12,6 +13,13 @@ import java.util.List;
 
 @Component
 public class DataLoader implements ApplicationRunner {
+    @Autowired
+    private CalificacionService calificacionService;
+
+    @Autowired
+    private CalificacionRepository calificacionRepository;
+
+
     @Autowired
     private EntityDtoConverter entityDtoConverter;
 

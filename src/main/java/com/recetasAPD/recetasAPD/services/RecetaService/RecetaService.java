@@ -24,4 +24,5 @@ public interface RecetaService {
     Receta generarRecetaConDistintaCantidadIngrediente(Integer idReceta,Integer idUsuario, Integer idIngrediente, Integer cantidad,Integer idUnidad); // El usuario ingresa la cantidad de un ingrediente y a partir de eso calculo el resto.
     List<Receta> findRecetaByTipo(Integer idTipo, Integer orden);
     List<Receta>  findRecetasUsuario(Integer usuario, Integer orden);
+    Integer CalcularPuntuacionReceta(Integer idReceta);
 }

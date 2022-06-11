@@ -106,6 +106,10 @@ public class EntityDtoConverter {
                 .collect(Collectors.toList());
     }
 
+    public CalificacionResponse convertCalificacionToCalificacionResponse(Calificacion calificacion){
+        return modelMapper.map(calificacion,CalificacionResponse.class);
+    }
+
 
     public FotoResponse convertFotoToFotoResponse(Foto foto){
         return modelMapper.map(foto, FotoResponse.class);
