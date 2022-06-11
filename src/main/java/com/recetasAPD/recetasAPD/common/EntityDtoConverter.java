@@ -17,6 +17,13 @@ public class EntityDtoConverter {
     private ModelMapper modelMapper;
 
     //Convertir de Usuario Entity a UsuarioResponseDto
+
+    public List<UnidadResponse> convertUnidadToUnidadResponse(List<Unidad> unidades){
+        return unidades
+                .stream()
+                .map(unidad -> modelMapper.map(unidad, UnidadResponse.class))
+                .collect(Collectors.toList());
+    }
     public UsuarioResponseDTO convertUsuarioToUsuarioResponseDTO(Usuario u){
         return
                 modelMapper.map(u,UsuarioResponseDTO.class); //Primer parametro: Clase a convertir, Segundo parametro: A que clase la quiero convertir

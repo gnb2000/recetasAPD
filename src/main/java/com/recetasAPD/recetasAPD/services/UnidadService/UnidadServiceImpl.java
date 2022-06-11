@@ -6,6 +6,7 @@ import com.recetasAPD.recetasAPD.repositories.UnidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,10 @@ public class UnidadServiceImpl implements UnidadService{
             return u.get();
         }
         throw new UnidadNotFoundException("No existe una unidad con ID "+ id);
+    }
+
+    @Override
+    public List<Unidad> getAllUnidades() {
+        return unidadRepository.findAll();
     }
 }
