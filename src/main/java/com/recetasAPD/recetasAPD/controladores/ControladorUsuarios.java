@@ -68,9 +68,10 @@ public class ControladorUsuarios {
         return new ResponseEntity<>(usuarioService.accountRecovery(mail),HttpStatus.OK);
     }
 
-    @GetMapping("/check/code/{idUsuario}/{code}")
-    public ResponseEntity<Boolean> checkRecoveryCode(@PathVariable Integer idUsuario, @PathVariable String code){
-        return new ResponseEntity<>(usuarioService.checkRecoveryCode(idUsuario,code), HttpStatus.OK);
+    @GetMapping("/check/code/{email}/{code}")
+    public ResponseEntity<Boolean> checkRecoveryCode(@PathVariable String email, @PathVariable String code){
+        Integer id = usuarioService.getIdUsuarioByEmail(email);
+        return new ResponseEntity<>(usuarioService.checkRecoveryCode(id,code), HttpStatus.OK);
     }
 
     @PutMapping("/avatar/{idUsuario}")
