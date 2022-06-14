@@ -105,6 +105,11 @@ public class ControladorRecetas {
         return new ResponseEntity<>("Receta eliminada con exito", HttpStatus.OK);
     }
 
+    @GetMapping("/recetas/{idReceta}")
+    public ResponseEntity<RecetaResponse> findById(@PathVariable Integer idReceta){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findById(idReceta)), HttpStatus.OK);
+    }
+
 
 
 

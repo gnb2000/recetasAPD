@@ -22,7 +22,7 @@ public class RecetaResponse {
     private Integer estado;
     private String descripcion;
     private LocalDateTime fecha;
-    private List<FotoResponse> galeria;
+    private List<FotoResponse> foto;
     private List<UtilizadoResponse> ingredientes;
     private List<PasoResponse> pasos;
 }
