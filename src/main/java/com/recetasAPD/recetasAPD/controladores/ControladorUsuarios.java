@@ -40,9 +40,10 @@ public class ControladorUsuarios {
         return new ResponseEntity<>("Usuario creado con exito, se ha enviado un correo al mail ingresado", HttpStatus.OK);
 
     }
-    @PutMapping("/password/{idUsuario}/{password}")
-    public ResponseEntity<String>updatePassword(@PathVariable(value="idUsuario")Integer idUsuario, @PathVariable(value ="password")String password){
-        usuarioService.updatePassword(idUsuario,password);
+    @PutMapping("/password/{email}/{password}")
+    public ResponseEntity<String>updatePassword(@PathVariable(value="email")String email, @PathVariable(value ="password")String password){
+        Integer id = usuarioService.getIdUsuarioByEmail(email);
+        usuarioService.updatePassword(id,password);
         return new ResponseEntity<>("Contraseña modificada con exito", HttpStatus.OK);
     }
 
