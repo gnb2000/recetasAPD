@@ -12,8 +12,10 @@ public class UsuarioResponseDTO {
     private Integer idUsuario;
     private String mail;
     private String nickname;
+    private String apellido;
     private boolean habilitado;
     private String nombre;
     private String avatar;
+
 
 }

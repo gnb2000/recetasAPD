@@ -3,9 +3,11 @@ package com.recetasAPD.recetasAPD.common;
 import com.recetasAPD.recetasAPD.dtos.*;
 import com.recetasAPD.recetasAPD.entities.*;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +28,7 @@ public class EntityDtoConverter {
     }
     public UsuarioResponseDTO convertUsuarioToUsuarioResponseDTO(Usuario u){
         return
-                modelMapper.map(u,UsuarioResponseDTO.class); //Primer parametro: Clase a convertir, Segundo parametro: A que clase la quiero convertir
+                modelMapper.typeMap(Usuario.class, UsuarioResponseDTO.class).addMapping(src -> src.getUsuarioExt().getApellido(), UsuarioResponseDTO::setApellido).map(u);
     }
 
     public List<RecetaResponse> convertListRecetasToRecetasDTO(List<Receta> r){
