@@ -15,7 +15,7 @@ public interface UsuarioService {
     Integer accountRecovery(String mail);
     boolean checkRecoveryCode(Integer idUsuario, String code);
     String updateAvatar(Integer idUsuario, MultipartFile foto);
-
     void updateAlias(Integer idUsuario, String alias);
+    Integer getIdUsuarioByEmail(String Email);
 
 }

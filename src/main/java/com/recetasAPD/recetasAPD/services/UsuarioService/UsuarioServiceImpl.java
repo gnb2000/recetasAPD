@@ -154,6 +154,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         this.update(u);
     }
 
+    @Override
+    public Integer getIdUsuarioByEmail(String email) {
+        return usuarioRepository.findByMail(email).getIdUsuario();
+    }
+
+
     private boolean existeNicknameOrMail(String nickname, String mail) {
         if (Optional.ofNullable(usuarioRepository.findByNickname(nickname)).isPresent()){
             Random random = new Random();
