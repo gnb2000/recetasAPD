@@ -87,6 +87,12 @@ public class ControladorUsuarios {
         return new ResponseEntity<>("Alias actualizado con exito", HttpStatus.OK);
     }
 
+    @GetMapping("/obtenerMail/{mail}")
+        public ResponseEntity<Integer> getIdPorMail(@PathVariable String mail){
+        return  new ResponseEntity<>(usuarioService.getIdUsuarioByEmail(mail),HttpStatus.OK);
+    }
+
+
 
 
 }
