@@ -252,10 +252,10 @@ public class DataLoader implements ApplicationRunner {
 
     private void generarCalificaciones(){
 
-        calificacionService.crearCalificacion(1,1,3,"GRAN RECETA PA");
-        calificacionService.crearCalificacion(2,1,4,"GRAN RECETA PA");
-        calificacionService.crearCalificacion(3,1,1,"hola");
-        calificacionService.crearCalificacion(4,1,5,"hola");
+        calificacionService.crearCalificacion(1,1,3.0F,"GRAN RECETA PA");
+        calificacionService.crearCalificacion(2,1,4.0F,"GRAN RECETA PA");
+        calificacionService.crearCalificacion(3,1,1.0F,"hola");
+        calificacionService.crearCalificacion(4,1,5.0F,"hola");
     }
 
 
