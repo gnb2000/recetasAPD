@@ -9,7 +9,7 @@ public interface CalificacionService {
     void save(Calificacion clasificacion);
     void delete(Calificacion clasificacion);
     void update(Calificacion clasificacion);
-    Calificacion crearCalificacion(int idReceta,int idUsuario,Integer puntuacion,String comentario);
+    Calificacion crearCalificacion(int idReceta,int idUsuario,Float puntuacion,String comentario);
     List<Calificacion> obtenerCalificacionesPorReceta(Integer idReceta);
     boolean existeCalificacionUsuario(Integer idUsuario,Integer idReceta);
 }

@@ -14,7 +14,7 @@ public class CalificacionRequest {
     private Integer idCalificacion;
     private Usuario usuario;
     private Receta receta;
-    private Integer calificacion;
+    private Float calificacion;
     private String comentarios;
 
 

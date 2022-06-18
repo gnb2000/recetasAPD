@@ -32,7 +32,7 @@ public class CalificacionServiceImpl implements CalificacionService {
     public void update(Calificacion calificacion) {calificacionRepository.save(calificacion);}
 
     @Override
-    public Calificacion crearCalificacion(int idReceta, int idUsuario, Integer puntuacion,String comentario) {
+    public Calificacion crearCalificacion(int idReceta, int idUsuario, Float puntuacion,String comentario) {
         boolean bandera = existeCalificacionUsuario(idUsuario,idReceta);
         Calificacion nuevaCalificacion;
         if (bandera == false){

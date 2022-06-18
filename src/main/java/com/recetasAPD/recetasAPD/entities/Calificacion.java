@@ -25,7 +25,7 @@ public class Calificacion {
     @JoinColumn(name = "idReceta")
     private Receta receta;
 
-    private Integer calificacion;
+    private Float calificacion;
     private String comentarios;
 
 

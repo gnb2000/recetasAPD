@@ -130,7 +130,7 @@ public class RecetaServiceImpl implements RecetaService{
     public List<Receta> obtenerMejoresRecetas(Integer cantidad) {
         List<Receta> recetas = recetaRepository.findAll();
         List<Receta> resultado = new ArrayList<>();
-        int[][] matriz = new int[2][recetas.size()];
+        float[][] matriz = new float[2][recetas.size()];
         int indice =0;
         for(Receta r: recetas){
             matriz[0][indice] = r.getIdReceta();
@@ -143,7 +143,7 @@ public class RecetaServiceImpl implements RecetaService{
         indice--;
         while(cantidad > 0){
             cantidad--;
-            resultado.add(findById(matriz[0][indice]));
+            resultado.add(findById((int) matriz[0][indice]));
             indice--;
         }
         return resultado;
@@ -246,10 +246,10 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public Integer CalcularPuntuacionReceta(Integer idReceta) {
-        Integer contador = 0;
-        Integer suma = 0 ;
-        Integer promedio = 0;
+    public Float CalcularPuntuacionReceta(Integer idReceta) {
+        Float contador = 0.0F;
+        Float suma = 0.0F;
+        Float promedio = 0.0F;
         List<Calificacion> Calificaciones;
         Calificaciones = calificacionService.obtenerCalificacionesPorReceta(idReceta);
         for (Calificacion c: Calificaciones){

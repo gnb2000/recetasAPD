@@ -28,11 +28,11 @@ public class ControladorCalificaciones {
     private EntityDtoConverter entityDtoConverter;
 
     @PostMapping("/calificacion/nueva/{calificacion}/{idReceta}/{idUsuario}/{comentario}")
-    public ResponseEntity<CalificacionResponse>crearPuntuacion(@PathVariable Integer calificacion,@PathVariable Integer idReceta,@PathVariable Integer idUsuario,@PathVariable String comentario){
-        return new ResponseEntity<>(entityDtoConverter.convertCalificacionToCalificacionResponse(calificacionService.crearCalificacion(calificacion,idReceta,idUsuario,comentario)), HttpStatus.OK);
+    public ResponseEntity<CalificacionResponse>crearPuntuacion(@PathVariable Float calificacion,@PathVariable Integer idReceta,@PathVariable Integer idUsuario,@PathVariable String comentario){
+        return new ResponseEntity<>(entityDtoConverter.convertCalificacionToCalificacionResponse(calificacionService.crearCalificacion(idReceta,idUsuario,calificacion,comentario)), HttpStatus.OK);
     }
     @GetMapping("/calificacion/{idReceta}")
-    public Integer obtenerClasificacionPromedio(@PathVariable Integer idReceta){
+    public Float obtenerClasificacionPromedio(@PathVariable Integer idReceta){
         return recetaService.CalcularPuntuacionReceta(idReceta);
     }
 
