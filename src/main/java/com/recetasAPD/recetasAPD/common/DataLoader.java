@@ -74,6 +74,7 @@ public class DataLoader implements ApplicationRunner {
 
 
         generarReceta();
+        generarCalificaciones();
 /*
         List<Receta> recetas =recetaRepository.findByNombreOrderByFechaAsc("RecetaPrueba1");
         for (Receta r: recetas){
@@ -196,7 +197,10 @@ public class DataLoader implements ApplicationRunner {
        // recetaService.generarRecetaConDistintasPorciones(1,8,1);
         //recetaService.generarRecetaConDistintaCantidadIngrediente(1,1,1,500,1);
 
+    }
 
+    private void generarCalificaciones(){
+        calificacionService.crearCalificacion(1,1,5,"GRAN RECETA PA");
     }
 
 
