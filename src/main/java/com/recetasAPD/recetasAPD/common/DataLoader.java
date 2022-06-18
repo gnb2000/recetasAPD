@@ -72,7 +72,7 @@ public class DataLoader implements ApplicationRunner {
         crearUsuario();
         completarReceta();
         generarReceta();
-        generarCalificaciones();
+       // generarCalificaciones();
 
         }
 
