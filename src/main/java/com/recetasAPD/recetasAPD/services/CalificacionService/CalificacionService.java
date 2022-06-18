@@ -11,5 +11,5 @@ public interface CalificacionService {
     void update(Calificacion clasificacion);
     Calificacion crearCalificacion(int idReceta,int idUsuario,Integer puntuacion,String comentario);
     List<Calificacion> obtenerCalificacionesPorReceta(Integer idReceta);
-    boolean existeCalificacionUsuario(Integer idUsuario);
+    boolean existeCalificacionUsuario(Integer idUsuario,Integer idReceta);
 }

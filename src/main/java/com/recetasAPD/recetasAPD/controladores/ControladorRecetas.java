@@ -99,6 +99,11 @@ public class ControladorRecetas {
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findById(idReceta)), HttpStatus.OK);
     }
 
+    @GetMapping("/recetas/calificacion/{cantidad}")
+    public ResponseEntity<List<RecetaResponse>> getMejoresRecetas(@PathVariable Integer cantidad){
+        return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.obtenerMejoresRecetas(cantidad)),HttpStatus.OK);
+    }
+
 
 
 

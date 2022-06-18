@@ -33,7 +33,7 @@ public class CalificacionServiceImpl implements CalificacionService {
 
     @Override
     public Calificacion crearCalificacion(int idReceta, int idUsuario, Integer puntuacion,String comentario) {
-        boolean bandera = existeCalificacionUsuario(idUsuario);
+        boolean bandera = existeCalificacionUsuario(idUsuario,idReceta);
         Calificacion nuevaCalificacion;
         if (bandera == false){
                     nuevaCalificacion = Calificacion.builder()
@@ -61,8 +61,8 @@ public class CalificacionServiceImpl implements CalificacionService {
     }
 
     @Override
-    public boolean existeCalificacionUsuario(Integer idUsuario) {
-       Calificacion calificacion = calificacionRepository.findByUsuario(usuarioService.findById(idUsuario));
+    public boolean existeCalificacionUsuario(Integer idUsuario,Integer idReceta) {
+       Calificacion calificacion = calificacionRepository.findByUsuarioAndReceta(usuarioService.findById(idUsuario),recetaService.findById(idReceta));
         if (calificacion == null){
             return false;
         }else{

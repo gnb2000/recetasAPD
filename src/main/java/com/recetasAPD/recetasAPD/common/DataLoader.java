@@ -61,7 +61,7 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        crearRecetas();
+       crearRecetas();
         crearFotos();
         crearTipo();
         crearPasos();
@@ -71,21 +71,15 @@ public class DataLoader implements ApplicationRunner {
         crearItemIngrediente();
         crearUsuario();
         completarReceta();
-
-
         generarReceta();
         generarCalificaciones();
-/*
-        List<Receta> recetas =recetaRepository.findByNombreOrderByFechaAsc("RecetaPrueba1");
-        for (Receta r: recetas){
-            System.out.println(r.getIdReceta());
+
         }
 
-    */
-        }
+
     private void crearRecetas() {
         Receta receta = Receta.builder()
-                .nombre("Milanesa con pure")
+                .nombre("Receta1")
                 .porciones(4)
                 .cantidadPersonas(8)
                 .descripcion("La milanesa perfecta para comer en familia")
@@ -98,6 +92,37 @@ public class DataLoader implements ApplicationRunner {
                         .receta(receta)
                         .build();
         recetaExtRepository.save(rExt);
+
+        Receta receta2 = Receta.builder()
+                .nombre("Receta2")
+                .porciones(4)
+                .cantidadPersonas(8)
+                .descripcion("La milanesa perfecta para comer en familia")
+                .build();
+        recetaService.save(receta2);
+
+        RecetaExt rExt2 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta2)
+                .build();
+        recetaExtRepository.save(rExt2);
+
+        Receta receta3 = Receta.builder()
+                .nombre("Receta3")
+                .porciones(4)
+                .cantidadPersonas(8)
+                .descripcion("La milanesa perfecta para comer en familia")
+                .build();
+        recetaService.save(receta3);
+
+        RecetaExt rExt3 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta3)
+                .build();
+        recetaExtRepository.save(rExt3);
+
     }
 
     private void crearFotos() {
@@ -183,6 +208,22 @@ public class DataLoader implements ApplicationRunner {
                 .build();
         usuarioExtRepository.save(usuarioExt);
 
+        Usuario usuario2 = Usuario.builder()
+                .tipoUsuario(1)
+                .avatar("https://www.uniformall.es/assets/blog/792388003-cocinero-jefe-cocina-de-restaurante-cenar-presentar.jpg")
+                .mail("2")
+                .nombre("2")
+                //.password("123456")
+                .nickname("2")
+                .build();
+        usuarioRepository.save(usuario2);
+
+        UsuarioExt usuarioExt2 = UsuarioExt.builder()
+                .password("123456")
+                .usuario(usuario2)
+                .build();
+        usuarioExtRepository.save(usuarioExt2);
+
 
     }
     private void completarReceta(){
@@ -190,6 +231,16 @@ public class DataLoader implements ApplicationRunner {
         r.setTipo(tipoRepository.getById(1));
         r.setUsuario(usuarioRepository.getById(1));
         recetaService.save(r);
+
+        Receta r2 = recetaService.findById(2);
+        r.setTipo(tipoRepository.getById(1));
+        r.setUsuario(usuarioRepository.getById(1));
+        recetaService.save(r2);
+
+        Receta r3 = recetaService.findById(3);
+        r.setTipo(tipoRepository.getById(1));
+        r.setUsuario(usuarioRepository.getById(1));
+        recetaService.save(r3);
     }
     private void generarReceta() {
 
@@ -200,7 +251,11 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void generarCalificaciones(){
-        calificacionService.crearCalificacion(1,1,5,"GRAN RECETA PA");
+
+        calificacionService.crearCalificacion(1,1,3,"GRAN RECETA PA");
+        calificacionService.crearCalificacion(2,1,4,"GRAN RECETA PA");
+        calificacionService.crearCalificacion(3,1,1,"hola");
+        calificacionService.crearCalificacion(4,1,5,"hola");
     }
 
 

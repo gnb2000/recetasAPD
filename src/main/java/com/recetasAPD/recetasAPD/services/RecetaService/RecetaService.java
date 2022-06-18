@@ -14,6 +14,7 @@ public interface RecetaService {
     List<Receta> findByTitulo(String nombre, Integer orden);
     List<Receta> getRecetaWithoutIngrediente(Integer ingrediente,Integer orden);
     List<Receta> getRecetaWithIngrediente(Integer ingrediente, Integer orden);
+    List<Receta> obtenerMejoresRecetas(Integer cantidad);
     Receta getLast();
     Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario);

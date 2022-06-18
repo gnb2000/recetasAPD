@@ -12,5 +12,6 @@ import java.util.List;
 public interface CalificacionRepository extends JpaRepository <Calificacion,Integer> {
 
     List<Calificacion> findByReceta(Receta receta);
+    Calificacion findByUsuarioAndReceta(Usuario usuario,Receta receta);
     Calificacion findByUsuario(Usuario usuario);
 }

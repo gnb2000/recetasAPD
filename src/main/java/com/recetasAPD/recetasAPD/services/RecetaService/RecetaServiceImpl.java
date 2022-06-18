@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,6 +127,29 @@ public class RecetaServiceImpl implements RecetaService{
         }
 
     @Override
+    public List<Receta> obtenerMejoresRecetas(Integer cantidad) {
+        List<Receta> recetas = recetaRepository.findAll();
+        List<Receta> resultado = new ArrayList<>();
+        int[][] matriz = new int[2][recetas.size()];
+        int indice =0;
+        for(Receta r: recetas){
+            matriz[0][indice] = r.getIdReceta();
+            matriz[1][indice] = CalcularPuntuacionReceta(r.getIdReceta());
+            indice++;
+        }
+        System.out.println(matriz);
+        Arrays.sort(matriz[1]);
+        System.out.println(matriz);
+        indice--;
+        while(cantidad > 0){
+            cantidad--;
+            resultado.add(findById(matriz[0][indice]));
+            indice--;
+        }
+        return resultado;
+    }
+
+    @Override
     public Receta getLast() { // REVISAR ESTE
         if(!recetaRepository.findAll().isEmpty()){
             return recetaRepository.findTop1ByOrderByFechaDesc();
@@ -133,6 +157,7 @@ public class RecetaServiceImpl implements RecetaService{
             throw new RecetasEmptyException("¡No hay recetas cargadas!");
         }
     }
+
 
     @Override
     public Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
@@ -231,7 +256,9 @@ public class RecetaServiceImpl implements RecetaService{
             contador++;
             suma = suma +  c.getCalificacion();
         }
-        promedio = suma / contador;
+        if (contador != 0) {
+            promedio = suma / contador;
+        }
 
         return promedio;
     }
