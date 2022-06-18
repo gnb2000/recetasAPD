@@ -57,7 +57,7 @@ public class DataLoader implements ApplicationRunner {
         crearFotos();
         crearTipo();
         crearPasos();
-        //crearMultimedia(); ---> TIRA ERROR (CORREGIR)
+        crearMultimedia();
         crearIngredientes();
         crearUnidad();
         crearItemIngrediente();
@@ -76,10 +76,10 @@ public class DataLoader implements ApplicationRunner {
         }
     private void crearRecetas() {
         Receta receta = Receta.builder()
-                .nombre("RecetaPrueba1")
+                .nombre("Milanesa con pure")
                 .porciones(4)
                 .cantidadPersonas(8)
-                .descripcion("Prueba")
+                .descripcion("La milanesa perfecta para comer en familia")
                 .build();
         recetaService.save(receta);
 
@@ -93,7 +93,7 @@ public class DataLoader implements ApplicationRunner {
 
     private void crearFotos() {
         Foto foto = Foto.builder()
-                .urlFoto("probandoFoto1")
+                .urlFoto("https://d1uz88p17r663j.cloudfront.net/original/03375ce3c9006f7693221eaa2f803b34__0001_SupremaPure.jpg")
                 .receta(recetaService.findById(1))
                 .build();
         fotoRepository.save(foto);
@@ -109,9 +109,8 @@ public class DataLoader implements ApplicationRunner {
 
     private void crearPasos(){
         Paso paso = Paso.builder()
-                .texto("Es el primero paso de la reseta")
+                .texto("Preparar bowl con pan rallado")
                 .nroPaso(1)
-                .texto("Esto es una prueba")
                 .receta(recetaService.findById(1))
                 .build();
         pasoRepository.save(paso);
@@ -123,7 +122,15 @@ public class DataLoader implements ApplicationRunner {
                 .paso(pasoRepository.getById(1))
                 .extension(".jpg")
                 .tipo_contenido("foto")
-                .urlContenido("estoesunaprueba")
+                .urlContenido("https://upload.wikimedia.org/wikipedia/commons/c/c3/Semmelmehl.jpg")
+                .build();
+        multimediaRepository.save(multimedia);
+
+        Multimedia multimedia2 = Multimedia.builder()
+                .paso(pasoRepository.getById(1))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("https://cookpad.com/ar/recetas/14029497-pan-rallado-sin-harina-keto")
                 .build();
         multimediaRepository.save(multimedia);
     }
@@ -136,7 +143,7 @@ public class DataLoader implements ApplicationRunner {
     }
     private void crearUnidad(){
         Unidad unidad = Unidad.builder()
-                .descripcion("Es la unidad del gramo")
+                .descripcion("KG")
                 .build();
         unidadRepository.save(unidad);
     }
@@ -145,7 +152,7 @@ public class DataLoader implements ApplicationRunner {
                 .ingrediente(ingredienteRepository.getById(1))
                 .cantidad(250)
                 .receta(recetaService.findById(1))
-                .observaciones("estoesunaprueba")
+                .observaciones("Uso restringido")
                 .unidad(unidadRepository.getById(1))
                 .build();
         itemIngredienteRepository.save(utilizado);
@@ -153,7 +160,7 @@ public class DataLoader implements ApplicationRunner {
     private void crearUsuario(){
         Usuario usuario = Usuario.builder()
                 .tipoUsuario(1)
-                .avatar("estoesunaprueba")
+                .avatar("https://www.uniformall.es/assets/blog/792388003-cocinero-jefe-cocina-de-restaurante-cenar-presentar.jpg")
                 .mail("iviglia.j@hotmail.com")
                 .nombre("JuanJose")
                 //.password("123456")
