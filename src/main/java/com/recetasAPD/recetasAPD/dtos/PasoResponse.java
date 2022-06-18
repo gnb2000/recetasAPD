@@ -1,5 +1,6 @@
 package com.recetasAPD.recetasAPD.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ public class PasoResponse {
 
     private Integer idPaso;
     private Integer nroPaso;
-    private String descripcion;
-    private List<MultimediaResponse> galeria;
+    @JsonProperty("descripcion")
+    private String texto;
+    private List<MultimediaResponse> multimedia;
 }

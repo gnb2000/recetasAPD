@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UtilizadoResponse {
 
-    private Integer idItemIngrediente;
+    private Integer idUtilizado;
     private IngredienteResponse ingrediente;
     private Integer cantidad;
     private UnidadResponse unidad;
