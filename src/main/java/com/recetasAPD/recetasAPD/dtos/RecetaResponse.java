@@ -18,11 +18,13 @@ public class RecetaResponse {
     private Integer porciones;
     private TipoResponse tipo;
     private Integer cantidadPersonas;
-    private Integer calificacion;
+    private Float calificacion;
     private Integer estado;
     private String descripcion;
     private LocalDateTime fecha;
     private List<FotoResponse> foto;
     private List<UtilizadoResponse> ingredientes;
     private List<PasoResponse> pasos;
+
+
 }

@@ -2,6 +2,7 @@ package com.recetasAPD.recetasAPD.common;
 
 import com.recetasAPD.recetasAPD.dtos.*;
 import com.recetasAPD.recetasAPD.entities.*;
+import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class EntityDtoConverter {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private RecetaService recetaService;
 
     //Convertir de Usuario Entity a UsuarioResponseDto
 
@@ -72,6 +76,7 @@ public class EntityDtoConverter {
 
     public RecetaResponse convertRecetaToRecetaResponse(Receta r){
         RecetaResponse recetaResponse = modelMapper.map(r,RecetaResponse.class);
+        recetaResponse.setCalificacion(recetaService.CalcularPuntuacionReceta(recetaResponse.getIdReceta()));
         return recetaResponse;
     }
 
