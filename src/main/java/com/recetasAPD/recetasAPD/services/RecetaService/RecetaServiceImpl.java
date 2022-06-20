@@ -20,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RecetaServiceImpl implements RecetaService{
@@ -130,20 +127,18 @@ public class RecetaServiceImpl implements RecetaService{
     public List<Receta> obtenerMejoresRecetas(Integer cantidad) {
         List<Receta> recetas = recetaRepository.findAll();
         List<Receta> resultado = new ArrayList<>();
-        float[][] matriz = new float[2][recetas.size()];
+        float[][] matriz = new float[recetas.size()][2];
         int indice =0;
         for(Receta r: recetas){
-            matriz[0][indice] = r.getIdReceta();
-            matriz[1][indice] = CalcularPuntuacionReceta(r.getIdReceta());
+            matriz[indice][0] = r.getIdReceta();
+            matriz[indice][1] = CalcularPuntuacionReceta(r.getIdReceta());
             indice++;
         }
-        System.out.println(matriz);
-        Arrays.sort(matriz[1]);
-        System.out.println(matriz);
-        indice--;
+        Arrays.sort(matriz, Comparator.comparingDouble(a -> a[1]));
+        indice = recetas.size()-1;
         while(cantidad > 0){
             cantidad--;
-            resultado.add(findById((int) matriz[0][indice]));
+            resultado.add(findById((int) matriz[indice][0]));
             indice--;
         }
         return resultado;
