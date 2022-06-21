@@ -13,5 +13,4 @@ public interface CalificacionRepository extends JpaRepository <Calificacion,Inte
 
     List<Calificacion> findByReceta(Receta receta);
     Calificacion findByUsuarioAndReceta(Usuario usuario,Receta receta);
-    Calificacion findByUsuario(Usuario usuario);
 }

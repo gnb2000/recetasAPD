@@ -44,7 +44,7 @@ public class CalificacionServiceImpl implements CalificacionService {
                     .build();
             calificacionRepository.save(nuevaCalificacion);
         }else {
-            nuevaCalificacion = calificacionRepository.findByUsuario(usuarioService.findById(idUsuario));
+            nuevaCalificacion = calificacionRepository.findByUsuarioAndReceta(usuarioService.findById(idUsuario), recetaService.findById(idReceta));
             nuevaCalificacion.setCalificacion(puntuacion);
             calificacionRepository.save(nuevaCalificacion);
         }

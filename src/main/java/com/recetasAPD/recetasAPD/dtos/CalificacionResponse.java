@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 
 public class CalificacionResponse {
     private Integer idCalificacion;
-    private Usuario usuario;
-    private Receta receta;
+    private UsuarioResponseDTO usuario;
+    private RecetaResponse receta;
     private Float calificacion;
     private String comentarios;
 
