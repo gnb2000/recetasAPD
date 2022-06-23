@@ -1,14 +1,15 @@
 package com.recetasAPD.recetasAPD.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "calificaciones")
 @Data
+@Builder
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Calificacion {
@@ -24,6 +25,9 @@ public class Calificacion {
     @JoinColumn(name = "idReceta")
     private Receta receta;
 
-    private Integer calificacion;
+    private Float calificacion;
     private String comentarios;
+
+
+
 }

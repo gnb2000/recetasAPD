@@ -1,7 +1,6 @@
 package com.recetasAPD.recetasAPD.controladores;
 
 import com.recetasAPD.recetasAPD.common.EntityDtoConverter;
-import com.recetasAPD.recetasAPD.dtos.RecetaDTO;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.dtos.RecetaResponse;
 import com.recetasAPD.recetasAPD.entities.Receta;
@@ -23,52 +22,36 @@ import java.util.List;
 @RestController
 public class ControladorRecetas {
 
-   /* private static ControladorRecetas instancia;
-
-    public ControladorRecetas() {
-    }
-
-    public static ControladorRecetas getInstance() {
-        if (instancia == null)
-            instancia = new ControladorRecetas();
-        return instancia;
-    }
-    */
     @Autowired
     private RecetaService recetaService;
 
     @Autowired
     private EntityDtoConverter entityDtoConverter;
 
-   /* @PostMapping(value = "/receta",consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.MULTIPART_FORM_DATA_VALUE})
-    public RecetaResponse addReceta(@RequestPart("receta") RecetaRequest receta, @RequestPart("fotos") List<MultipartFile> fotos, @RequestPart("multimediaPasos") List<List<MultipartFile>> multimediaPasos){
-        //ArrayList<ArrayList<MultipartFile>> graph = new ArrayList<>();
-        return entityDtoConverter.convertRecetaToRecetaResponse(recetaService.addReceta(receta,fotos,multimediaPasos));
-    }*/
 
     @GetMapping("/recetas")
-    public ResponseEntity<List<RecetaDTO>> getAllrecetas() {
+    public ResponseEntity<List<RecetaResponse>> getAllrecetas() {
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getAll()), HttpStatus.OK);
     }
 
     @GetMapping("/recetas/{nombre}/{orden}")
-    public ResponseEntity<List<RecetaDTO>> getRecetasByNombre(@PathVariable(value="nombre")String nombre, @PathVariable(value = "orden")Integer orden){
+    public ResponseEntity<List<RecetaResponse>> getRecetasByNombre(@PathVariable(value="nombre")String nombre, @PathVariable(value = "orden")Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.findByTitulo(nombre,orden)),HttpStatus.OK);
 
     }
 
     @GetMapping("/recetas/last")
-    public ResponseEntity<RecetaDTO> getLastReceta(){
-        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaDTO(recetaService.getLast()),HttpStatus.OK);
+    public ResponseEntity<RecetaResponse> getLastReceta(){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.getLast()),HttpStatus.OK);
     }
 
     @GetMapping("/recetas/without/{ingrediente}/{orden}")
-    public ResponseEntity<List<RecetaDTO>> getRecetaWithountIngredient(@PathVariable Integer ingrediente,@PathVariable Integer orden){
+    public ResponseEntity<List<RecetaResponse>> getRecetaWithountIngredient(@PathVariable Integer ingrediente,@PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getRecetaWithoutIngrediente(ingrediente,orden)),HttpStatus.OK);
     }
 
     @GetMapping("/recetas/with/{ingrediente}/{orden}")
-    public ResponseEntity<List<RecetaDTO>> getRecetaWithIngredient(@PathVariable Integer ingrediente,@PathVariable Integer orden){
+    public ResponseEntity<List<RecetaResponse>> getRecetaWithIngredient(@PathVariable Integer ingrediente,@PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getRecetaWithIngrediente(ingrediente,orden)),HttpStatus.OK);
     }
 
@@ -103,6 +86,25 @@ public class ControladorRecetas {
     public ResponseEntity<List<RecetaResponse>> getRecetasUsuario(@PathVariable Integer invitado, @PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetasUsuario(invitado,orden)),HttpStatus.OK);
     }
+
+    @DeleteMapping("/recetas/{idReceta}")
+    public ResponseEntity<String> deleteRecetaById(@PathVariable Integer idReceta){
+        Receta receta = recetaService.findById(idReceta);
+        recetaService.delete(receta);
+        return new ResponseEntity<>("Receta eliminada con exito", HttpStatus.OK);
+    }
+
+    @GetMapping("/recetas/{idReceta}")
+    public ResponseEntity<RecetaResponse> findById(@PathVariable Integer idReceta){
+        return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findById(idReceta)), HttpStatus.OK);
+    }
+
+    @GetMapping("/recetas/calificacion/{cantidad}")
+    public ResponseEntity<List<RecetaResponse>> getMejoresRecetas(@PathVariable Integer cantidad){
+        return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.obtenerMejoresRecetas(cantidad)),HttpStatus.OK);
+    }
+
+
 
 
 

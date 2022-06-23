@@ -7,6 +7,7 @@ import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.*;
 import com.recetasAPD.recetasAPD.repositories.RecetaExtRepository;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
+import com.recetasAPD.recetasAPD.services.CalificacionService.CalificacionService;
 import com.recetasAPD.recetasAPD.services.FotoService.FotoService;
 import com.recetasAPD.recetasAPD.services.IngredienteService.IngredienteService;
 import com.recetasAPD.recetasAPD.services.RecetaExtService.RecetaExtService;
@@ -19,9 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class RecetaServiceImpl implements RecetaService{
@@ -55,6 +54,9 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Autowired
     private RecetaExtRepository recetaExtrepository;
+
+    @Autowired
+    private CalificacionService calificacionService;
 
     @Override
     public void save(Receta receta) {
@@ -122,6 +124,37 @@ public class RecetaServiceImpl implements RecetaService{
         }
 
     @Override
+    public List<Receta> obtenerMejoresRecetas(Integer cantidad) {
+        List<Receta> recetas = recetaRepository.findAllRecetasWithoutProporciones();
+        List<Receta> resultado = new ArrayList<>();
+        float[][] matriz = new float[recetas.size()][2];
+        int indice =0;
+        for(Receta r: recetas){
+            matriz[indice][0] = r.getIdReceta();
+            matriz[indice][1] = CalcularPuntuacionReceta(r.getIdReceta());
+            indice++;
+        }
+        Arrays.sort(matriz, Comparator.comparingDouble(a -> a[1]));
+        indice = recetas.size()-1;
+        if(recetas.size()>=cantidad) {
+            while (cantidad > 0) {
+                cantidad--;
+                resultado.add(findById((int) matriz[indice][0]));
+                indice--;
+            }
+        }
+        if(recetas.isEmpty() || recetas.size()<cantidad){
+            if (recetas.isEmpty()) {
+                throw new RecetaNotCreatedException("No existen recetas disponibles");
+            }
+            else{
+                throw new RecetasEmptyException("No existen "+cantidad+" recetas en la aplicación. Existen solo "+recetas.size()+".");
+            }
+        }
+        return resultado;
+    }
+
+    @Override
     public Receta getLast() { // REVISAR ESTE
         if(!recetaRepository.findAll().isEmpty()){
             return recetaRepository.findTop1ByOrderByFechaDesc();
@@ -129,6 +162,7 @@ public class RecetaServiceImpl implements RecetaService{
             throw new RecetasEmptyException("¡No hay recetas cargadas!");
         }
     }
+
 
     @Override
     public Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
@@ -144,7 +178,7 @@ public class RecetaServiceImpl implements RecetaService{
                     .build();
             return recetaRepository.save(nuevaReceta);
         }
-        throw new RecetaAlreadyCreatedException("Ya tiene un receta con este nombre, desea editar o reemplazar?");
+        throw new RecetaAlreadyCreatedException("Ya tiene un receta con este nombre, desea editar o reemplazar?", entityDtoConverter.convertRecetaToRecetaResponse(r));
     }
 
     @Override
@@ -214,6 +248,24 @@ public class RecetaServiceImpl implements RecetaService{
             throw new RecetasEmptyException("No se encontro una receta asociada a este usuario");
         }
         return recetas;
+    }
+
+    @Override
+    public Float CalcularPuntuacionReceta(Integer idReceta) {
+        Float contador = 0.0F;
+        Float suma = 0.0F;
+        Float promedio = 0.0F;
+        List<Calificacion> Calificaciones;
+        Calificaciones = calificacionService.obtenerCalificacionesPorReceta(idReceta);
+        for (Calificacion c: Calificaciones){
+            contador++;
+            suma = suma +  c.getCalificacion();
+        }
+        if (contador != 0) {
+            promedio = suma / contador;
+        }
+
+        return promedio;
     }
 
 
@@ -364,6 +416,8 @@ public class RecetaServiceImpl implements RecetaService{
 
         return recetaAux;
     }
+
+
 
 
 }

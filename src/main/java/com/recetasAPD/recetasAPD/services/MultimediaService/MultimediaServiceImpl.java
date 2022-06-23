@@ -72,6 +72,23 @@ public class MultimediaServiceImpl implements MultimediaService{
         }
     }
 
+    @Override
+    public String uploadVideo(MultipartFile video) {
+        try {
+            File uploadedFile = convertMultiPartToFile(video);
+            Map uploadResult = cloudinary.uploader().uploadLarge(uploadedFile, ObjectUtils.asMap("resource_type", "video"));
+            boolean isDeleted = uploadedFile.delete();
+
+            if (isDeleted){
+                System.out.println("File successfully deleted");
+            }else
+                System.out.println("File doesn't exist");
+            return  uploadResult.get("url").toString();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private File convertMultiPartToFile(MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);

@@ -29,8 +29,8 @@ public class ControladorUsuarios {
 
 
     @GetMapping("/login/{mailOrNickname}/{password}")
-    public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable(value = "nickname") String nickname, @PathVariable(value = "contraseña") String contraseña) throws Exception{
-        Usuario usuario = usuarioService.findByNicknameAndPassword(nickname,contraseña);
+    public ResponseEntity<UsuarioResponseDTO> verificarLogIn(@PathVariable String mailOrNickname, @PathVariable String password) throws Exception{
+        Usuario usuario = usuarioService.findByNicknameAndPassword(mailOrNickname,password);
         return new ResponseEntity<>(entityDtoConverter.convertUsuarioToUsuarioResponseDTO(usuario), HttpStatus.OK);
     }
 
@@ -40,9 +40,10 @@ public class ControladorUsuarios {
         return new ResponseEntity<>("Usuario creado con exito, se ha enviado un correo al mail ingresado", HttpStatus.OK);
 
     }
-    @PutMapping("/password/{idUsuario}/{password}")
-    public ResponseEntity<String>updatePassword(@PathVariable(value="idUsuario")Integer idUsuario, @PathVariable(value ="password")String password){
-        usuarioService.updatePassword(idUsuario,password);
+    @PutMapping("/password/{email}/{password}")
+    public ResponseEntity<String>updatePassword(@PathVariable(value="email")String email, @PathVariable(value ="password")String password){
+        Integer id = usuarioService.getIdUsuarioByEmail(email);
+        usuarioService.updatePassword(id,password);
         return new ResponseEntity<>("Contraseña modificada con exito", HttpStatus.OK);
     }
 
@@ -56,6 +57,7 @@ public class ControladorUsuarios {
     public ResponseEntity<String> completeRegistration(@RequestBody CompleteRegisterRequest request){
         Usuario u = usuarioService.findById(request.getIdUsuario());
         u.setNombre(request.getNombre());
+        u.setAvatar("https://www.uniformall.es/assets/blog/792388003-cocinero-jefe-cocina-de-restaurante-cenar-presentar.jpg");
         u.getUsuarioExt().setApellido(request.getApellido());
         u.getUsuarioExt().setPassword(request.getPassword());
         u.setHabilitado(true);
@@ -68,9 +70,10 @@ public class ControladorUsuarios {
         return new ResponseEntity<>(usuarioService.accountRecovery(mail),HttpStatus.OK);
     }
 
-    @GetMapping("/check/code/{idUsuario}/{code}")
-    public ResponseEntity<Boolean> checkRecoveryCode(@PathVariable Integer idUsuario, @PathVariable String code){
-        return new ResponseEntity<>(usuarioService.checkRecoveryCode(idUsuario,code), HttpStatus.OK);
+    @GetMapping("/check/code/{email}/{code}")
+    public ResponseEntity<Boolean> checkRecoveryCode(@PathVariable String email, @PathVariable String code){
+        Integer id = usuarioService.getIdUsuarioByEmail(email);
+        return new ResponseEntity<>(usuarioService.checkRecoveryCode(id,code), HttpStatus.OK);
     }
 
     @PutMapping("/avatar/{idUsuario}")
@@ -84,6 +87,12 @@ public class ControladorUsuarios {
         usuarioService.updateAlias(idUsuario, alias);
         return new ResponseEntity<>("Alias actualizado con exito", HttpStatus.OK);
     }
+
+    @GetMapping("/obtenerMail/{mail}")
+        public ResponseEntity<Integer> getIdPorMail(@PathVariable String mail){
+        return  new ResponseEntity<>(usuarioService.getIdUsuarioByEmail(mail),HttpStatus.OK);
+    }
+
 
 
 

@@ -2,10 +2,13 @@ package com.recetasAPD.recetasAPD.common;
 
 import com.recetasAPD.recetasAPD.dtos.*;
 import com.recetasAPD.recetasAPD.entities.*;
+import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,24 +19,32 @@ public class EntityDtoConverter {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private RecetaService recetaService;
+
     //Convertir de Usuario Entity a UsuarioResponseDto
+
+    public List<UnidadResponse> convertUnidadToUnidadResponse(List<Unidad> unidades){
+        return unidades
+                .stream()
+                .map(unidad -> modelMapper.map(unidad, UnidadResponse.class))
+                .collect(Collectors.toList());
+    }
     public UsuarioResponseDTO convertUsuarioToUsuarioResponseDTO(Usuario u){
         return
-                modelMapper.map(u,UsuarioResponseDTO.class); //Primer parametro: Clase a convertir, Segundo parametro: A que clase la quiero convertir
+                modelMapper.typeMap(Usuario.class, UsuarioResponseDTO.class).addMapping(src -> src.getUsuarioExt().getApellido(), UsuarioResponseDTO::setApellido).map(u);
     }
 
-    public List<RecetaDTO> convertListRecetasToRecetasDTO(List<Receta> r){
-        List<RecetaDTO> recetas = new ArrayList<RecetaDTO>();
+    public List<RecetaResponse> convertListRecetasToRecetasDTO(List<Receta> r){
+        List<RecetaResponse> recetas = new ArrayList<RecetaResponse>();
         for(Receta aux : r){
-            recetas.add(modelMapper.map(aux,RecetaDTO.class));
+            RecetaResponse recetaResponse = modelMapper.map(aux,RecetaResponse.class);
+            recetaResponse.setCalificacion(recetaService.CalcularPuntuacionReceta(recetaResponse.getIdReceta()));
+            recetas.add(recetaResponse);
         }
         return recetas;
     }
 
-
-    public RecetaDTO convertRecetaToRecetaDTO(Receta r){
-        return modelMapper.map(r,RecetaDTO.class);
-    }
 
     public IngredienteResponse convertIngredienteToIngredienteResponse(Ingrediente i){return modelMapper.map(i,IngredienteResponse.class);}
 
@@ -67,6 +78,7 @@ public class EntityDtoConverter {
 
     public RecetaResponse convertRecetaToRecetaResponse(Receta r){
         RecetaResponse recetaResponse = modelMapper.map(r,RecetaResponse.class);
+        recetaResponse.setCalificacion(recetaService.CalcularPuntuacionReceta(recetaResponse.getIdReceta()));
         return recetaResponse;
     }
 
@@ -78,6 +90,13 @@ public class EntityDtoConverter {
 
     public TipoResponse convertTipoToTipoResponse(Tipo tipo){
         return modelMapper.map(tipo,TipoResponse.class);
+    }
+
+    public List<TipoResponse> convertTipoToTipoResponse(List<Tipo> tipos){
+        return tipos
+                .stream()
+                .map(tipo -> modelMapper.map(tipo,TipoResponse.class))
+                .collect(Collectors.toList());
     }
 
     public List<Paso> convertPasoToPasoResponse(List<PasoRequest> pasos){
@@ -92,6 +111,10 @@ public class EntityDtoConverter {
                 .stream()
                 .map(paso -> modelMapper.map(paso,PasoResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    public CalificacionResponse convertCalificacionToCalificacionResponse(Calificacion calificacion){
+        return modelMapper.map(calificacion,CalificacionResponse.class);
     }
 
 

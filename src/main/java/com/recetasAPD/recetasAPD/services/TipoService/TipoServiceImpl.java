@@ -6,6 +6,7 @@ import com.recetasAPD.recetasAPD.repositories.TipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,5 +22,10 @@ public class TipoServiceImpl implements TipoService{
             return tipo.get();
         }
         throw new TipoNotFoundException("No se encontro un Tipo con ese ID");
+    }
+
+    @Override
+    public List<Tipo> findAll() {
+        return tipoRepository.findAll();
     }
 }

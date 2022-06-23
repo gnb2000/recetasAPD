@@ -17,7 +17,7 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
     @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.nombre = ?1 and rExt.estado = 2 ORDER BY rExt.fecha DESC")
     List<Receta> findByNombreOrderByFechaAsc(String titulo);
     List<Receta> findByNombre(String titulo);
-    @Query(value = "SELECT TOP 1 r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 ORDER BY r.fecha DESC", nativeQuery = true)
+    @Query(value = "select * from recetas inner join recetas_ext where recetas_ext.id_receta = recetas.id_receta ORDER BY recetas_ext.fecha LIMIT 1", nativeQuery = true)
     Receta findTop1ByOrderByFechaDesc();
     Receta findByNombreAndUsuario(String titulo, Usuario usuario);
 
@@ -44,4 +44,7 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
 
     @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.usuario = ?1 and rExt.estado = 2 ORDER BY rExt.fecha DESC")
     List<Receta> findByUsuarioTipoOrderByFecha(Usuario user);
+
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2")
+    List<Receta> findAllRecetasWithoutProporciones();
 }

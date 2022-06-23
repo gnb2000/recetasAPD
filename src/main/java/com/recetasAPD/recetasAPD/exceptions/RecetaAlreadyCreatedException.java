@@ -1,8 +1,18 @@
 package com.recetasAPD.recetasAPD.exceptions;
 
+import com.recetasAPD.recetasAPD.dtos.RecetaResponse;
+
 public class RecetaAlreadyCreatedException extends RuntimeException{
 
-    public RecetaAlreadyCreatedException(String message){
+    private RecetaResponse receta;
+
+    public RecetaAlreadyCreatedException(String message, RecetaResponse receta){
         super(message);
+        this.receta = receta;
     }
+
+    public RecetaResponse getReceta() {
+        return receta;
+    }
+
 }

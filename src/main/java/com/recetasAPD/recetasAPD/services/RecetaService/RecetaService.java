@@ -14,6 +14,7 @@ public interface RecetaService {
     List<Receta> findByTitulo(String nombre, Integer orden);
     List<Receta> getRecetaWithoutIngrediente(Integer ingrediente,Integer orden);
     List<Receta> getRecetaWithIngrediente(Integer ingrediente, Integer orden);
+    List<Receta> obtenerMejoresRecetas(Integer cantidad);
     Receta getLast();
     Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
@@ -24,4 +25,5 @@ public interface RecetaService {
     Receta generarRecetaConDistintaCantidadIngrediente(Integer idReceta,Integer idUsuario, Integer idIngrediente, Integer cantidad,Integer idUnidad); // El usuario ingresa la cantidad de un ingrediente y a partir de eso calculo el resto.
     List<Receta> findRecetaByTipo(Integer idTipo, Integer orden);
     List<Receta>  findRecetasUsuario(Integer usuario, Integer orden);
+    Float CalcularPuntuacionReceta(Integer idReceta);
 }
