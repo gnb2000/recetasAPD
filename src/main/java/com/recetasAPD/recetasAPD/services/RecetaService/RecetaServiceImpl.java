@@ -125,7 +125,7 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> obtenerMejoresRecetas(Integer cantidad) {
-        List<Receta> recetas = recetaRepository.findAll();
+        List<Receta> recetas = recetaRepository.findAllRecetasWithoutProporciones();
         List<Receta> resultado = new ArrayList<>();
         float[][] matriz = new float[recetas.size()][2];
         int indice =0;
