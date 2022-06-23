@@ -38,7 +38,9 @@ public class EntityDtoConverter {
     public List<RecetaResponse> convertListRecetasToRecetasDTO(List<Receta> r){
         List<RecetaResponse> recetas = new ArrayList<RecetaResponse>();
         for(Receta aux : r){
-            recetas.add(modelMapper.map(aux,RecetaResponse.class));
+            RecetaResponse recetaResponse = modelMapper.map(aux,RecetaResponse.class);
+            recetaResponse.setCalificacion(recetaService.CalcularPuntuacionReceta(recetaResponse.getIdReceta()));
+            recetas.add(recetaResponse);
         }
         return recetas;
     }
