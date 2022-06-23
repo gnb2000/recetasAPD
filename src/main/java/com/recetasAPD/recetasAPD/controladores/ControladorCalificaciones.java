@@ -32,8 +32,8 @@ public class ControladorCalificaciones {
         return new ResponseEntity<>(entityDtoConverter.convertCalificacionToCalificacionResponse(calificacionService.crearCalificacion(idReceta,idUsuario,calificacion,comentario)), HttpStatus.OK);
     }
     @GetMapping("/calificacion/{idReceta}")
-    public Float obtenerClasificacionPromedio(@PathVariable Integer idReceta){
-        return recetaService.CalcularPuntuacionReceta(idReceta);
+    public ResponseEntity<Float> obtenerClasificacionPromedio(@PathVariable Integer idReceta){
+        return new ResponseEntity<>(recetaService.CalcularPuntuacionReceta(idReceta), HttpStatus.OK);
     }
 
 }

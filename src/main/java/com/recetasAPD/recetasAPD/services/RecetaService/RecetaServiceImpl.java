@@ -136,10 +136,20 @@ public class RecetaServiceImpl implements RecetaService{
         }
         Arrays.sort(matriz, Comparator.comparingDouble(a -> a[1]));
         indice = recetas.size()-1;
-        while(cantidad > 0){
-            cantidad--;
-            resultado.add(findById((int) matriz[indice][0]));
-            indice--;
+        if(recetas.size()>=cantidad) {
+            while (cantidad > 0) {
+                cantidad--;
+                resultado.add(findById((int) matriz[indice][0]));
+                indice--;
+            }
+        }
+        if(recetas.isEmpty() || recetas.size()<cantidad){
+            if (recetas.isEmpty()) {
+                throw new RecetaNotCreatedException("No existen recetas disponibles");
+            }
+            else{
+                throw new RecetasEmptyException("No existen "+cantidad+" recetas en la aplicación. Existen solo "+recetas.size()+".");
+            }
         }
         return resultado;
     }

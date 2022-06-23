@@ -16,17 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class RecetasHandlerException {
 
     @ExceptionHandler(RecetasEmptyException.class)
-    public ResponseEntity<String> handleRecetasEmptyException(Exception e){
+    public ResponseEntity<String> handleRecetasEmptyException(Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(RecetaNotCreatedException.class)
-    public ResponseEntity<String> handleRecetaNotCreatedException(Exception e){
+    public ResponseEntity<String> handleRecetaNotCreatedException(Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RecetaAlreadyCreatedException.class)
-    public ResponseEntity<RecetaResponse> handleRecetaAlreadyCreatedException(RecetaAlreadyCreatedException e){
+    public ResponseEntity<RecetaResponse> handleRecetaAlreadyCreatedException(RecetaAlreadyCreatedException e) {
         return new ResponseEntity<>(e.getReceta(), HttpStatus.CONFLICT);
     }
+
 }
