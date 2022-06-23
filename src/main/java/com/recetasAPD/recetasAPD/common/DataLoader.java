@@ -422,13 +422,13 @@ public class DataLoader implements ApplicationRunner {
         Receta r2 = recetaService.findById(2);
         r.setTipo(tipoRepository.getById(2));
         r.setUsuario(usuarioRepository.getById(1));
-        recetaService.save(r);
+        recetaService.save(r2);
 
 
         Receta r3 = recetaService.findById(3);
         r.setTipo(tipoRepository.getById(3));
         r.setUsuario(usuarioRepository.getById(1));
-        recetaService.save(r);
+        recetaService.save(r3);
 
     }
     private void generarReceta() {
