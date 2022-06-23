@@ -399,9 +399,9 @@ public class DataLoader implements ApplicationRunner {
         Usuario usuario2 = Usuario.builder()
                 .tipoUsuario(1)
                 .avatar("http://res.cloudinary.com/recetasapd/image/upload/v1656007372/ib8rwuxyyt79n2tivcp7.jpg")
-                .mail("gonzaloC@gmail.com")
+                .mail("gonzaloc@gmail.com")
                 .nombre("Gonzalo Fernandez")
-                .nickname("Gonzalo.Cocina")
+                .nickname("gonzalo.cocina")
                 .build();
         usuarioRepository.save(usuario2);
 

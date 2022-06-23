@@ -57,6 +57,7 @@ public class ControladorUsuarios {
     public ResponseEntity<String> completeRegistration(@RequestBody CompleteRegisterRequest request){
         Usuario u = usuarioService.findById(request.getIdUsuario());
         u.setNombre(request.getNombre());
+        u.setAvatar("https://www.uniformall.es/assets/blog/792388003-cocinero-jefe-cocina-de-restaurante-cenar-presentar.jpg");
         u.getUsuarioExt().setApellido(request.getApellido());
         u.getUsuarioExt().setPassword(request.getPassword());
         u.setHabilitado(true);
