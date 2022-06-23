@@ -177,21 +177,21 @@ public class DataLoader implements ApplicationRunner {
         pasoRepository.save(paso);
 
         Paso paso2 = Paso.builder()
-                .texto("Cocinar el arroz: Poner en una olla con igual cantidad de agua (2 tazas de arroz, 2 tazas de agua). Tapar. No vamos a sacar la tapa hasta el final de todo el proceso. Poner en máximo hasta que hierva y luego bajar el fuego a mínimo por 13 minutos. ¡No sacar la tapa! ¡Nunca! Tras este tiempo, apagar la hornalla y dejar reposar 10 minutos, siempre tapado.")
+                .texto("Cocinar el arroz: Poner en una olla con igual cantidad de agua (2 tazas de arroz, 2 tazas de agua). Tapar. No vamos a sacar la tapa hasta el final de todo el proceso.")
                 .nroPaso(2)
                 .receta(recetaService.findById(1))
                 .build();
         pasoRepository.save(paso2);
 
         Paso paso3 = Paso.builder()
-                .texto("Enfriar el Arroz: Tras el reposo, colocar el arroz en un molde amplio (ideal si es de madera), que sea bien abierto. Volcar el aderezo sobre él e ir con cuidado separándolo con una cuchara y revolviéndolo mientras lo abanicamos con un abanico o una revista.")
+                .texto("Enfriar el Arroz: Tras el reposo, colocar el arroz en un molde amplio (ideal si es de madera), que sea bien abierto. Volcar el aderezo sobre él e ir con cuidado separándolo con una cuchara y revolviéndolo.")
                 .nroPaso(3)
                 .receta(recetaService.findById(1))
                 .build();
         pasoRepository.save(paso3);
 
         Paso paso4 = Paso.builder()
-                .texto("Armado del sushi: Lo que hacemos es poner sobre una esterilla el alga nori. El alga siempre va con la parte brillante hacia abajo y las líneas que tiene en el mismo sentido que las líneas de la esterilla. Colocamos con las manos mojadas el arroz sobre el alga y lo esparcimos hasta que ocupe toda el alga. Dejamos solo 1cm al final para pegar. Poner el relleno que queramos y cerramos.")
+                .texto("Armado del sushi: Lo que hacemos es poner sobre una esterilla el alga nori. El alga siempre va con la parte brillante hacia abajo y las líneas que tiene en el mismo sentido que las líneas de la esterilla.")
                 .nroPaso(4)
                 .receta(recetaService.findById(1))
                 .build();
