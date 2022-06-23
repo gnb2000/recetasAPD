@@ -137,13 +137,13 @@ public class DataLoader implements ApplicationRunner {
 
 
         Foto foto2 = Foto.builder()
-                .urlFoto("http://res.cloudinary.com/recetasapd/image/upload/v1656006246/ak5yvvyoodhzk9kp3kng.jpg")
+                .urlFoto("https://res.cloudinary.com/recetasapd/image/upload/v1656006326/p68nj8gjrkegiv44drfp.jpg")
                 .receta(recetaService.findById(2))
                 .build();
         fotoRepository.save(foto2);
 
         Foto foto3 = Foto.builder()
-                .urlFoto("https://res.cloudinary.com/recetasapd/image/upload/v1656006326/p68nj8gjrkegiv44drfp.jpg")
+                .urlFoto("http://res.cloudinary.com/recetasapd/image/upload/v1656006246/ak5yvvyoodhzk9kp3kng.jpg")
                 .receta(recetaService.findById(3))
                 .build();
         fotoRepository.save(foto3);
@@ -210,13 +210,13 @@ public class DataLoader implements ApplicationRunner {
                 .build();
         multimediaRepository.save(multimedia1);
 
-        Multimedia multimedia11 = Multimedia.builder()
+        Multimedia multimedia12 = Multimedia.builder()
                 .paso(pasoRepository.getById(1))
-                .extension(".jpg")
-                .tipo_contenido("foto")
+                .extension(".mp4")
+                .tipo_contenido("video")
                 .urlContenido("http://res.cloudinary.com/recetasapd/video/upload/v1656004557/p6ljen3whcnowbojssfk.mp4")
                 .build();
-        multimediaRepository.save(multimedia11);
+        multimediaRepository.save(multimedia12);
 
 
         Multimedia multimedia2 = Multimedia.builder()
@@ -240,7 +240,7 @@ public class DataLoader implements ApplicationRunner {
         Multimedia multimedia4 = Multimedia.builder()
                 .paso(pasoRepository.getById(2))
                 .extension(".jpg")
-                .tipo_contenido("photo")
+                .tipo_contenido("foto")
                 .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1655996056/enbmgyrtkoiam4ikandl.jpg")
                 .build();
         multimediaRepository.save(multimedia4);
@@ -248,7 +248,7 @@ public class DataLoader implements ApplicationRunner {
         Multimedia multimedia5 = Multimedia.builder()
                 .paso(pasoRepository.getById(2))
                 .extension(".jpg")
-                .tipo_contenido("photo")
+                .tipo_contenido("foto")
                 .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1655996091/uytfip4d9llhsp7q5kb8.jpg")
                 .build();
         multimediaRepository.save(multimedia5);
@@ -256,7 +256,7 @@ public class DataLoader implements ApplicationRunner {
         Multimedia multimedia6 = Multimedia.builder()
                 .paso(pasoRepository.getById(2))
                 .extension(".jpg")
-                .tipo_contenido("photo")
+                .tipo_contenido("foto")
                 .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1655996151/ptklepm3xlg7qla2bwws.jpg")
                 .build();
         multimediaRepository.save(multimedia6);
@@ -266,7 +266,7 @@ public class DataLoader implements ApplicationRunner {
         Multimedia multimedia7 = Multimedia.builder()
                 .paso(pasoRepository.getById(3))
                 .extension(".jpg")
-                .tipo_contenido("photo")
+                .tipo_contenido("foto")
                 .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1655996258/zvovrwik1xu4orrpjb5n.jpg")
                 .build();
         multimediaRepository.save(multimedia7);
@@ -274,7 +274,7 @@ public class DataLoader implements ApplicationRunner {
         Multimedia multimedia8 = Multimedia.builder()
                 .paso(pasoRepository.getById(3))
                 .extension(".jpg")
-                .tipo_contenido("photo")
+                .tipo_contenido("foto")
                 .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1655996272/jcd1pbvpulazy3g8nfjt.jpg")
                 .build();
         multimediaRepository.save(multimedia8);
@@ -284,7 +284,7 @@ public class DataLoader implements ApplicationRunner {
         Multimedia multimedia9 = Multimedia.builder()
                 .paso(pasoRepository.getById(4))
                 .extension(".jpg")
-                .tipo_contenido("photo")
+                .tipo_contenido("foto")
                 .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1655996578/caly1a0dyza65hzrxgel.jpg")
                 .build();
         multimediaRepository.save(multimedia9);
@@ -292,18 +292,18 @@ public class DataLoader implements ApplicationRunner {
         Multimedia multimedia10 = Multimedia.builder()
                 .paso(pasoRepository.getById(4))
                 .extension(".jpg")
-                .tipo_contenido("photo")
+                .tipo_contenido("foto")
                 .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1655996683/hv7d5adr6x9oiiqc3dxw.jpg")
                 .build();
         multimediaRepository.save(multimedia10);
 
-        Multimedia multimedia12 = Multimedia.builder()
+        Multimedia multimedia11 = Multimedia.builder()
                 .paso(pasoRepository.getById(4))
                 .extension(".jpg")
-                .tipo_contenido("photo")
+                .tipo_contenido("foto")
                 .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1655996718/nym0nwknhgl0gy8lbzow.jpg")
                 .build();
-        multimediaRepository.save(multimedia12);
+        multimediaRepository.save(multimedia11);
 
     }
     private void crearIngredientes(){
@@ -347,7 +347,7 @@ public class DataLoader implements ApplicationRunner {
         unidadRepository.save(unidadGR);
 
         Unidad unidadCantidad = Unidad.builder()
-                .descripcion("U")
+                .descripcion("Unidades")
                 .build();
         unidadRepository.save(unidadCantidad);
     }
@@ -370,7 +370,7 @@ public class DataLoader implements ApplicationRunner {
         itemIngredienteRepository.save(AlgaNori);
 
         Utilizado Wasabi = Utilizado.builder()
-                .ingrediente(ingredienteRepository.getById(2))
+                .ingrediente(ingredienteRepository.getById(3))
                 .cantidad(100)
                 .receta(recetaService.findById(1))
                 .unidad(unidadRepository.getById(2))
@@ -378,7 +378,7 @@ public class DataLoader implements ApplicationRunner {
         itemIngredienteRepository.save(Wasabi);
 
         Utilizado Palta = Utilizado.builder()
-                .ingrediente(ingredienteRepository.getById(2))
+                .ingrediente(ingredienteRepository.getById(4))
                 .cantidad(250)
                 .receta(recetaService.findById(1))
                 .unidad(unidadRepository.getById(2))
@@ -386,7 +386,7 @@ public class DataLoader implements ApplicationRunner {
         itemIngredienteRepository.save(Palta);
 
         Utilizado Salmon = Utilizado.builder()
-                .ingrediente(ingredienteRepository.getById(2))
+                .ingrediente(ingredienteRepository.getById(5))
                 .cantidad(250)
                 .receta(recetaService.findById(1))
                 .unidad(unidadRepository.getById(2))
@@ -398,10 +398,10 @@ public class DataLoader implements ApplicationRunner {
 
         Usuario usuario2 = Usuario.builder()
                 .tipoUsuario(1)
-                .avatar("http://res.cloudinary.com/recetasapd/image/upload/v1655997325/ekqkt4y5do0vqg44dho5.png")
-                .mail("sergio@gmail.com")
-                .nombre("Sergio Dopazo")
-                .nickname("Sergio.Cocina")
+                .avatar("http://res.cloudinary.com/recetasapd/image/upload/v1656007372/ib8rwuxyyt79n2tivcp7.jpg")
+                .mail("gonzaloC@gmail.com")
+                .nombre("Gonzalo Fernandez")
+                .nickname("Gonzalo.Cocina")
                 .build();
         usuarioRepository.save(usuario2);
 
