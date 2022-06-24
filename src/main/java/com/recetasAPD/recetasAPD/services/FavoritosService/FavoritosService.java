@@ -13,5 +13,5 @@ public interface FavoritosService {
     void update(Favorita favorita);
     void delete(Favorita favorita);
     void addFavorita(Usuario usuario, Receta receta);
-    List<Favorita> getFavoritaByIdUsuario(Integer idUsuario);
+    List<Favorita> getFavoritasByUsuario(Usuario usuario);
 }

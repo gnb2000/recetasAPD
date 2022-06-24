@@ -33,7 +33,7 @@ public class ControladorFavoritos {
 
     @GetMapping("/favoritos/{idUsuario}")
     public ResponseEntity<List<FavoritaResponse>> getFavoritasUsuario(@PathVariable Integer idUsuario){
-        return new ResponseEntity<>(entityDtoConverter.convertFavoritaToFavoritaResponse(favoritosService.getFavoritaByIdUsuario(idUsuario)),HttpStatus.OK);
+        return new ResponseEntity<>(entityDtoConverter.convertFavoritaToFavoritaResponse(favoritosService.getFavoritasByUsuario(usuarioService.findById(idUsuario))),HttpStatus.OK);
     }
 
 

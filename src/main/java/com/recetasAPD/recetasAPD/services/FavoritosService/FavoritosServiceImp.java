@@ -39,8 +39,8 @@ public class FavoritosServiceImp implements FavoritosService{
     }
 
     @Override
-    public List<Favorita> getFavoritaByIdUsuario(Integer idUsuario) {
-        return favoritosRepository.findAllByIdUsuario(idUsuario);
+    public List<Favorita> getFavoritasByUsuario(Usuario usuario) {
+        return favoritosRepository.findAllByUsuario(usuario);
     }
 
 }
