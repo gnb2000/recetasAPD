@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service
 public class FavoritosServiceImp implements FavoritosService{
+
     @Autowired
     private FavoritosRepository favoritosRepository;
 
@@ -41,6 +42,17 @@ public class FavoritosServiceImp implements FavoritosService{
     @Override
     public List<Favorita> getFavoritasByUsuario(Usuario usuario) {
         return favoritosRepository.findAllByUsuario(usuario);
+    }
+
+    @Override
+    public boolean isFavorita(Usuario usuario, Receta receta) {
+        return favoritosRepository.existsByRecetaAndUsuario(receta, usuario);
+    }
+
+    @Override
+    public void eliminarFavorita(Usuario usuario, Receta receta) {
+        Favorita favorita = favoritosRepository.findAllByUsuarioAndReceta(usuario,receta);
+        favoritosRepository.delete(favorita);
     }
 
 }
