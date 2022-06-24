@@ -63,6 +63,7 @@ public class ControladorUsuarios {
         u.setHabilitado(true);
         usuarioService.update(u);
         return new ResponseEntity<>("Datos actualizados con exito",HttpStatus.OK);
+
     }
 
     @PutMapping("/account/recovery/{mail}")

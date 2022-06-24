@@ -146,6 +146,12 @@ public class EntityDtoConverter {
                 .collect(Collectors.toList());
     }
 
+    public List<FavoritaResponse> convertFavoritaToFavoritaResponse(List<Favorita> favoritas){
+        return favoritas.stream()
+                .map(favorita -> modelMapper.map(favorita,FavoritaResponse.class))
+                .collect(Collectors.toList());
+    }
+
 
 
 

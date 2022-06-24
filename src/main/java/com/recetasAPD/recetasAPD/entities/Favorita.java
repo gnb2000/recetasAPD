@@ -27,4 +27,5 @@ public class Favorita {
     @OneToOne
     @JoinColumn(name = "idReceta")
     private Receta receta;
+
 }
