@@ -14,8 +14,9 @@ import java.util.List;
 public interface RecetaRepository extends JpaRepository<Receta,Integer> {
 
     //TODO todos ordenados por fehcha con @query
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.nombre = ?1 and rExt.estado = 2 ORDER BY rExt.fecha DESC")
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.nombre LIKE %?1% and rExt.estado = 2 ORDER BY rExt.fecha DESC")
     List<Receta> findByNombreOrderByFechaAsc(String titulo);
+    @Query("Select r from Receta r JOIN r.recetaExt rExt WHERE r.nombre LIKE %?1% and rExt.estado = 2 ORDER BY r.nombre DESC")
     List<Receta> findByNombre(String titulo);
     @Query(value = "select * from recetas inner join recetas_ext where recetas_ext.id_receta = recetas.id_receta ORDER BY recetas_ext.fecha LIMIT 1", nativeQuery = true)
     Receta findTop1ByOrderByFechaDesc();

@@ -83,10 +83,12 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Override
     public List<Receta> findByTitulo(String nombre, Integer orden) {
-        if(!recetaRepository.findByNombre(nombre).isEmpty()){
+        List<Receta> ayuda = recetaRepository.findByNombre(nombre);
+        if(ayuda.size()!=0){
             if(orden == 1){
                 return recetaRepository.findByNombreOrderByFechaAsc(nombre);
             }else {
+                System.out.println("entro al find");
                 return recetaRepository.findByNombre(nombre);
             }
         }else{
