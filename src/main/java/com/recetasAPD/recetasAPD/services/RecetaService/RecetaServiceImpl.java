@@ -104,7 +104,7 @@ public class RecetaServiceImpl implements RecetaService{
         }else {
             recetas = recetaRepository.getAllRecetaWithoutIngredientAntiguedad(ingredienteService.findById(idIngrediente));
         }
-        if(recetas.isEmpty()){
+        if(recetas.size()==0){
             throw new RecetasEmptyException("No existen recetas que no contengan ese ingrediente");
         }
         return recetas;
@@ -119,7 +119,7 @@ public class RecetaServiceImpl implements RecetaService{
             }else {
                 recetas = recetaRepository.getAllRecetaWithIngredientAntiguedad(ingredienteService.findById(idIngrediente));
             }
-            if(recetas.isEmpty()){
+            if(recetas.size()==0){
                 throw new RecetasEmptyException("No existen recetas con ese ingrediente");
             }
             return recetas;
@@ -246,7 +246,7 @@ public class RecetaServiceImpl implements RecetaService{
         } else {
             recetas = recetaRepository.findByUsuarioTipoOrderByFecha(user);
         }
-        if(recetas.isEmpty()){
+        if(recetas.size()==0){
             throw new RecetasEmptyException("No se encontro una receta asociada a este usuario");
         }
         return recetas;
