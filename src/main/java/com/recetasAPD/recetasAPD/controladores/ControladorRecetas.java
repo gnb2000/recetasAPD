@@ -46,12 +46,12 @@ public class ControladorRecetas {
     }
 
     @GetMapping("/recetas/without/{ingrediente}/{orden}")
-    public ResponseEntity<List<RecetaResponse>> getRecetaWithountIngredient(@PathVariable Integer ingrediente,@PathVariable Integer orden){
+    public ResponseEntity<List<RecetaResponse>> getRecetaWithountIngredient(@PathVariable String ingrediente,@PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getRecetaWithoutIngrediente(ingrediente,orden)),HttpStatus.OK);
     }
 
     @GetMapping("/recetas/with/{ingrediente}/{orden}")
-    public ResponseEntity<List<RecetaResponse>> getRecetaWithIngredient(@PathVariable Integer ingrediente,@PathVariable Integer orden){
+    public ResponseEntity<List<RecetaResponse>> getRecetaWithIngredient(@PathVariable String ingrediente,@PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.getRecetaWithIngrediente(ingrediente,orden)),HttpStatus.OK);
     }
 
@@ -74,7 +74,7 @@ public class ControladorRecetas {
     }
 
     @GetMapping("/recetas/tipo/{tipo}/{orden}")
-    public ResponseEntity<List<RecetaResponse>> getRecetasByTipo(@PathVariable Integer tipo, @PathVariable Integer orden){
+    public ResponseEntity<List<RecetaResponse>> getRecetasByTipo(@PathVariable String tipo, @PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetaByTipo(tipo,orden)),HttpStatus.OK);
     }
     @PostMapping("recetas/proporciones/{idUsuario}/{proporcion}/{idReceta}")
@@ -83,7 +83,7 @@ public class ControladorRecetas {
     }
 
     @GetMapping("/recetas/invitado/{invitado}/{orden}")
-    public ResponseEntity<List<RecetaResponse>> getRecetasUsuario(@PathVariable Integer invitado, @PathVariable Integer orden){
+    public ResponseEntity<List<RecetaResponse>> getRecetasUsuario(@PathVariable String invitado, @PathVariable Integer orden){
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetasUsuario(invitado,orden)),HttpStatus.OK);
     }
 
