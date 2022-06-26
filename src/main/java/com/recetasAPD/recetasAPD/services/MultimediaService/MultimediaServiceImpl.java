@@ -49,14 +49,14 @@ public class MultimediaServiceImpl implements MultimediaService{
             String tipo_contenido = "";
             if (ImageIO.read(uploadedFile) == null){
                 //IS NOT A PHOTO
-                tipo_contenido = "VIDEO";
-                uploadResult = cloudinary.uploader().uploadLarge(uploadedFile, ObjectUtils.emptyMap());
+                tipo_contenido = "video";
+                uploadResult = cloudinary.uploader().uploadLarge(uploadedFile, ObjectUtils.asMap("resource_type", "video"));
             } else{
                 //PHOTO
                 uploadResult = cloudinary.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
-                tipo_contenido = "FOTO";
-
+                tipo_contenido = "foto";
             }
+            System.out.println(tipo_contenido+" subida a cloudinary con exito");
 
             Multimedia multimedia = Multimedia.builder()
                     .tipo_contenido(tipo_contenido)
