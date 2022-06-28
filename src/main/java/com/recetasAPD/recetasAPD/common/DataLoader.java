@@ -3,6 +3,7 @@ package com.recetasAPD.recetasAPD.common;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.repositories.*;
 import com.recetasAPD.recetasAPD.services.CalificacionService.CalificacionService;
+import com.recetasAPD.recetasAPD.services.FavoritosService.FavoritosService;
 import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -59,6 +60,9 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     private UsuarioExtRepository usuarioExtRepository;
 
+    @Autowired
+    private FavoritosService favoritaService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
       crearRecetas();
@@ -73,6 +77,7 @@ public class DataLoader implements ApplicationRunner {
         completarReceta();
         generarReceta();
         generarCalificaciones();
+        agregarFavorita();
 
     }
 
@@ -505,6 +510,13 @@ public class DataLoader implements ApplicationRunner {
         calificacionService.crearCalificacion(1,1,5.0F,"¡Quedan muy ricos!");
         calificacionService.crearCalificacion(2,1,4.0F,"¡Exquisito plato argentino!");
         calificacionService.crearCalificacion(3,1,3.0F,"Esta receta quedo muy bien, pero no cubre todas las porciones que indica");
+
+    }
+
+    private void agregarFavorita(){
+        favoritaService.addFavorita(usuarioRepository.getById(1),recetaRepository.getById(1));
+        favoritaService.addFavorita(usuarioRepository.getById(1),recetaRepository.getById(2));
+        favoritaService.addFavorita(usuarioRepository.getById(1),recetaRepository.getById(3));
 
     }
 
