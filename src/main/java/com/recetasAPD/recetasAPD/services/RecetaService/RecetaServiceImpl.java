@@ -101,8 +101,10 @@ public class RecetaServiceImpl implements RecetaService{
         List<Receta> recetas;
         if(orden == 0){
             recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(ingrediente);
-        }else {
+        }else if (orden ==1){
             recetas = recetaRepository.getAllRecetaWithoutIngredientAntiguedad(ingrediente);
+        }else {
+            recetas = recetaRepository.getAllRecetaWithoutIngredientUsuario(ingrediente);
         }
         if(recetas.size()==0){
             throw new RecetasEmptyException("No existen recetas que no contengan ese ingrediente");
@@ -116,8 +118,10 @@ public class RecetaServiceImpl implements RecetaService{
             List<Receta> recetas;
             if(orden == 0){
                 recetas = recetaRepository.getAllRecetaWithIngredientTitulo(ingrediente);
-            }else {
+            }else if(orden == 1){
                 recetas = recetaRepository.getAllRecetaWithIngredientAntiguedad(ingrediente);
+            }else{
+                recetas =recetaRepository.getAllRecetaWithIngredientUsuario(ingrediente);
             }
             if(recetas.size()==0){
                 throw new RecetasEmptyException("No existen recetas con ese ingrediente");
