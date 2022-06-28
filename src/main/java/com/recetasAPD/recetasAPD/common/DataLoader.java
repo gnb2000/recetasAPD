@@ -124,6 +124,68 @@ public class DataLoader implements ApplicationRunner {
         recetaExtRepository.save(rExt3);
 
 
+       /* Receta receta4 = Receta.builder()
+                .nombre("Rolls de Sushi")
+                .porciones(12)
+                .cantidadPersonas(2)
+                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
+                .build();
+        recetaService.save(receta4);
+
+        RecetaExt rExt4 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta4)
+                .build();
+        recetaExtRepository.save(rExt4);
+
+        Receta receta5 = Receta.builder()
+                .nombre("Rolls de Sushi")
+                .porciones(12)
+                .cantidadPersonas(2)
+                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
+                .build();
+        recetaService.save(receta5);
+
+        RecetaExt rExt5 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta5)
+                .build();
+        recetaExtRepository.save(rExt5);
+
+        Receta receta6 = Receta.builder()
+                .nombre("Rolls de Sushi")
+                .porciones(12)
+                .cantidadPersonas(2)
+                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
+                .build();
+        recetaService.save(receta6);
+
+        RecetaExt rExt6 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta6)
+                .build();
+        recetaExtRepository.save(rExt6);
+
+
+        Receta receta7 = Receta.builder()
+                .nombre("Rolls de Sushi")
+                .porciones(12)
+                .cantidadPersonas(2)
+                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
+                .build();
+        recetaService.save(receta7);
+
+        RecetaExt rExt7 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta7)
+                .build();
+        recetaExtRepository.save(rExt7);*/
+
+
 
 
     }
