@@ -81,6 +81,15 @@ public class ControladorRecetas {
     public ResponseEntity<RecetaResponse> proporcionReceta(@PathVariable Integer idUsuario,@PathVariable String proporcion,@PathVariable Integer idReceta){
         return new ResponseEntity<RecetaResponse>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.generarRecetaConDistintasCantidades(idReceta,proporcion,idUsuario)),HttpStatus.OK);
     }
+    @PostMapping("recetas/porciones/{idUsuario}/{porciones}/{idReceta}")
+    public ResponseEntity<RecetaResponse> cantidadPorcionesReceta(@PathVariable Integer idUsuario,@PathVariable Integer porciones,@PathVariable Integer idReceta){
+        return new ResponseEntity<RecetaResponse>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.generarRecetaConDistintasPorciones(idReceta,porciones,idUsuario)),HttpStatus.OK);
+    }
+    @PostMapping("recetas/ingrediente/{idUsuario}/{idReceta}/{idIngrediente}/{idUnidad}/{cantidad}")
+    public ResponseEntity<RecetaResponse> cantidadIngredienteReceta(@PathVariable Integer idUsuario,@PathVariable Integer idReceta,@PathVariable Integer idIngrediente,@PathVariable Integer idUnidad,@PathVariable Integer cantidad){
+        return new ResponseEntity<RecetaResponse>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.generarRecetaConDistintaCantidadIngrediente(idReceta,idUsuario,idIngrediente,cantidad,idUnidad)),HttpStatus.OK);
+    }
+
 
     @GetMapping("/recetas/invitado/{invitado}/{orden}")
     public ResponseEntity<List<RecetaResponse>> getRecetasUsuario(@PathVariable String invitado, @PathVariable Integer orden){
