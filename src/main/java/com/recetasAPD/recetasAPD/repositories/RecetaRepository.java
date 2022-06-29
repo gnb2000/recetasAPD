@@ -14,37 +14,44 @@ import java.util.List;
 public interface RecetaRepository extends JpaRepository<Receta,Integer> {
 
     //TODO todos ordenados por fehcha con @query
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.nombre LIKE %?1% and rExt.estado = 2 ORDER BY rExt.fecha DESC")
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.nombre LIKE %?1% and rExt.estado = 2 ORDER BY rExt.fecha ASC")
     List<Receta> findByNombreOrderByFechaAsc(String titulo);
-    @Query("Select r from Receta r JOIN r.recetaExt rExt WHERE r.nombre LIKE %?1% and rExt.estado = 2 ORDER BY r.nombre DESC")
+    @Query("Select r from Receta r JOIN r.recetaExt rExt WHERE r.nombre LIKE %?1% and rExt.estado = 2 ORDER BY r.nombre ASC")
     List<Receta> findByNombre(String titulo);
     @Query(value = "select * from recetas inner join recetas_ext where recetas_ext.id_receta = recetas.id_receta ORDER BY recetas_ext.fecha LIMIT 1", nativeQuery = true)
     Receta findTop1ByOrderByFechaDesc();
     Receta findByNombreAndUsuario(String titulo, Usuario usuario);
 
-    List<Receta> findByTipoOrderByNombre(Tipo tipo);
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt JOIN r.tipo t WHERE t.descripcion LIKE %?1% and rExt.estado = 2 ORDER BY r.nombre ASC")
+    List<Receta> findByTipoOrderByNombre(String tipo);
 
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.tipo = ?1 and rExt.estado = 2 ORDER BY rExt.fecha DESC")
-    List<Receta> findByTipoOrderByFecha(Tipo tipo);
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt JOIN r.tipo t WHERE t.descripcion LIKE %?1% and rExt.estado = 2 ORDER BY rExt.fecha ASC")
+    List<Receta> findByTipoOrderByFecha(String tipo);
 
-    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.idReceta not in (SELECT i.receta FROM Utilizado i WHERE i.ingrediente = ?1) ORDER BY r.nombre ASC")
-    List<Receta> getAllRecetaWithoutIngredientTitulo(Ingrediente ingrediente);
+    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.idReceta not in (SELECT u.receta FROM Utilizado u JOIN u.ingrediente i WHERE i.nombre LIKE %?1%) ORDER BY r.nombre ASC")
+    List<Receta> getAllRecetaWithoutIngredientTitulo(String ingrediente);
 
-    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.idReceta not in (SELECT i.receta FROM Utilizado i JOIN r.recetaExt rExt WHERE i.ingrediente = ?1) ORDER BY rExt.fecha DESC")
-    List<Receta> getAllRecetaWithoutIngredientAntiguedad(Ingrediente ingrediente);
+    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.idReceta not in (SELECT u.receta FROM Utilizado u JOIN u.ingrediente i WHERE i.nombre LIKE %?1%) ORDER BY rExt.fecha ASC")
+    List<Receta> getAllRecetaWithoutIngredientAntiguedad(String ingrediente);
 
-    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.idReceta in (SELECT i.receta FROM Utilizado i WHERE i.ingrediente = ?1) ORDER BY r.nombre ASC")
-    List<Receta> getAllRecetaWithIngredientTitulo(Ingrediente ingrediente);
+    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt JOIN r.usuario o WHERE rExt.estado = 2 and r.idReceta not in (SELECT u.receta FROM Utilizado u JOIN u.ingrediente i WHERE i.nombre LIKE %?1%) ORDER BY o.nickname ASC")
+    List<Receta> getAllRecetaWithoutIngredientUsuario(String ingrediente);
 
-    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.idReceta in (SELECT i.receta FROM Utilizado i WHERE i.ingrediente = ?1) ORDER BY rExt.fecha DESC")
-    List<Receta> getAllRecetaWithIngredientAntiguedad(Ingrediente ingrediente);
+    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.idReceta in (SELECT u.receta FROM Utilizado u JOIN u.ingrediente i WHERE i.nombre LIKE %?1%) ORDER BY r.nombre ASC")
+    List<Receta> getAllRecetaWithIngredientTitulo(String ingrediente);
 
+    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.idReceta in (SELECT u.receta FROM Utilizado u JOIN u.ingrediente i WHERE i.nombre LIKE %?1%) ORDER BY rExt.fecha ASC")
+    List<Receta> getAllRecetaWithIngredientAntiguedad(String ingrediente);
 
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2 and r.usuario = ?1 ORDER BY r.nombre ASC")
-    List<Receta> findByUsuarioTipoOrderByNombre(Usuario user);
+    @Query("SELECT distinct r FROM Receta r JOIN r.recetaExt rExt JOIN r.usuario o WHERE rExt.estado = 2 and r.idReceta in (SELECT u.receta FROM Utilizado u JOIN u.ingrediente i WHERE i.nombre LIKE %?1%) ORDER BY o.nickname ASC")
+    List<Receta> getAllRecetaWithIngredientUsuario(String ingrediente);
 
-    @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE r.usuario = ?1 and rExt.estado = 2 ORDER BY rExt.fecha DESC")
-    List<Receta> findByUsuarioTipoOrderByFecha(Usuario user);
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt JOIN r.usuario u WHERE rExt.estado = 2 and u.nickname LIKE %?1% ORDER BY r.nombre ASC")
+    List<Receta> findByUsuarioTipoOrderByNombre(String user);
+
+    @Query("SELECT r from Receta r JOIN r.recetaExt rExt JOIN r.usuario u WHERE u.nickname LIKE %?1% and rExt.estado = 2 ORDER BY rExt.fecha DESC")
+    List<Receta> findByUsuarioTipoOrderByFecha(String user);
+
 
     @Query("SELECT r from Receta r JOIN r.recetaExt rExt WHERE rExt.estado = 2")
     List<Receta> findAllRecetasWithoutProporciones();

@@ -3,6 +3,7 @@ package com.recetasAPD.recetasAPD.common;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.repositories.*;
 import com.recetasAPD.recetasAPD.services.CalificacionService.CalificacionService;
+import com.recetasAPD.recetasAPD.services.FavoritosService.FavoritosService;
 import com.recetasAPD.recetasAPD.services.RecetaService.RecetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -59,6 +60,9 @@ public class DataLoader implements ApplicationRunner {
     @Autowired
     private UsuarioExtRepository usuarioExtRepository;
 
+    @Autowired
+    private FavoritosService favoritaService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
       crearRecetas();
@@ -73,6 +77,7 @@ public class DataLoader implements ApplicationRunner {
         completarReceta();
         generarReceta();
         generarCalificaciones();
+        agregarFavorita();
 
     }
 
@@ -122,6 +127,68 @@ public class DataLoader implements ApplicationRunner {
                 .receta(receta3)
                 .build();
         recetaExtRepository.save(rExt3);
+
+
+       /* Receta receta4 = Receta.builder()
+                .nombre("Rolls de Sushi")
+                .porciones(12)
+                .cantidadPersonas(2)
+                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
+                .build();
+        recetaService.save(receta4);
+
+        RecetaExt rExt4 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta4)
+                .build();
+        recetaExtRepository.save(rExt4);
+
+        Receta receta5 = Receta.builder()
+                .nombre("Rolls de Sushi")
+                .porciones(12)
+                .cantidadPersonas(2)
+                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
+                .build();
+        recetaService.save(receta5);
+
+        RecetaExt rExt5 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta5)
+                .build();
+        recetaExtRepository.save(rExt5);
+
+        Receta receta6 = Receta.builder()
+                .nombre("Rolls de Sushi")
+                .porciones(12)
+                .cantidadPersonas(2)
+                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
+                .build();
+        recetaService.save(receta6);
+
+        RecetaExt rExt6 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta6)
+                .build();
+        recetaExtRepository.save(rExt6);
+
+
+        Receta receta7 = Receta.builder()
+                .nombre("Rolls de Sushi")
+                .porciones(12)
+                .cantidadPersonas(2)
+                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
+                .build();
+        recetaService.save(receta7);
+
+        RecetaExt rExt7 = RecetaExt.builder()
+                .estado(2)
+                .fecha(LocalDateTime.now())
+                .receta(receta7)
+                .build();
+        recetaExtRepository.save(rExt7);*/
 
 
 
@@ -443,6 +510,13 @@ public class DataLoader implements ApplicationRunner {
         calificacionService.crearCalificacion(1,1,5.0F,"¡Quedan muy ricos!");
         calificacionService.crearCalificacion(2,1,4.0F,"¡Exquisito plato argentino!");
         calificacionService.crearCalificacion(3,1,3.0F,"Esta receta quedo muy bien, pero no cubre todas las porciones que indica");
+
+    }
+
+    private void agregarFavorita(){
+        favoritaService.addFavorita(usuarioRepository.getById(1),recetaRepository.getById(1));
+        favoritaService.addFavorita(usuarioRepository.getById(1),recetaRepository.getById(2));
+        favoritaService.addFavorita(usuarioRepository.getById(1),recetaRepository.getById(3));
 
     }
 

@@ -97,14 +97,16 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public List<Receta> getRecetaWithoutIngrediente(Integer idIngrediente, Integer orden) {
+    public List<Receta> getRecetaWithoutIngrediente(String ingrediente, Integer orden) {
         List<Receta> recetas;
         if(orden == 0){
-            recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(ingredienteService.findById(idIngrediente));
+            recetas = recetaRepository.getAllRecetaWithoutIngredientTitulo(ingrediente);
+        }else if (orden ==1){
+            recetas = recetaRepository.getAllRecetaWithoutIngredientAntiguedad(ingrediente);
         }else {
-            recetas = recetaRepository.getAllRecetaWithoutIngredientAntiguedad(ingredienteService.findById(idIngrediente));
+            recetas = recetaRepository.getAllRecetaWithoutIngredientUsuario(ingrediente);
         }
-        if(recetas.isEmpty()){
+        if(recetas.size()==0){
             throw new RecetasEmptyException("No existen recetas que no contengan ese ingrediente");
         }
         return recetas;
@@ -112,14 +114,16 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public List<Receta> getRecetaWithIngrediente(Integer idIngrediente, Integer orden) {
+    public List<Receta> getRecetaWithIngrediente(String ingrediente, Integer orden) {
             List<Receta> recetas;
             if(orden == 0){
-                recetas = recetaRepository.getAllRecetaWithIngredientTitulo(ingredienteService.findById(idIngrediente));
-            }else {
-                recetas = recetaRepository.getAllRecetaWithIngredientAntiguedad(ingredienteService.findById(idIngrediente));
+                recetas = recetaRepository.getAllRecetaWithIngredientTitulo(ingrediente);
+            }else if(orden == 1){
+                recetas = recetaRepository.getAllRecetaWithIngredientAntiguedad(ingrediente);
+            }else{
+                recetas =recetaRepository.getAllRecetaWithIngredientUsuario(ingrediente);
             }
-            if(recetas.isEmpty()){
+            if(recetas.size()==0){
                 throw new RecetasEmptyException("No existen recetas con ese ingrediente");
             }
             return recetas;
@@ -224,8 +228,7 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public List<Receta> findRecetaByTipo(Integer idTipo, Integer orden) {
-        Tipo tipo = tipoService.findById(idTipo);
+    public List<Receta> findRecetaByTipo(String tipo, Integer orden) {
         if (!recetaRepository.findByTipoOrderByNombre(tipo).isEmpty()) {
             if (orden == 1) {
                 return recetaRepository.findByTipoOrderByNombre(tipo);
@@ -238,15 +241,15 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
-    public  List<Receta>  findRecetasUsuario(Integer usuario, Integer orden) {
-        Usuario user = usuarioService.findById(usuario);
+    public  List<Receta>  findRecetasUsuario(String user, Integer orden) {
+
         List<Receta> recetas;
         if (orden == 1) {
             recetas = recetaRepository.findByUsuarioTipoOrderByNombre(user);
         } else {
             recetas = recetaRepository.findByUsuarioTipoOrderByFecha(user);
         }
-        if(recetas.isEmpty()){
+        if(recetas.size()==0){
             throw new RecetasEmptyException("No se encontro una receta asociada a este usuario");
         }
         return recetas;

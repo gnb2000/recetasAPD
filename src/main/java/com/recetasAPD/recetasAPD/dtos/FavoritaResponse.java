@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FavoritaResponse {
 
+    private Integer idFavorita;
     private RecetaResponse receta;
-    private UsuarioResponseDTO usuario;
-    private boolean estado;
+
 }

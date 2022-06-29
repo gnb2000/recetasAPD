@@ -146,10 +146,18 @@ public class EntityDtoConverter {
                 .collect(Collectors.toList());
     }
 
+    public FavoritaResponse convertFavoritaToFavoritaResponse(Favorita favorita){
+        FavoritaResponse f = modelMapper.map(favorita, FavoritaResponse.class);
+        f.setReceta(this.convertRecetaToRecetaResponse(favorita.getReceta()));
+        return f;
+    }
+
     public List<FavoritaResponse> convertFavoritaToFavoritaResponse(List<Favorita> favoritas){
-        return favoritas.stream()
-                .map(favorita -> modelMapper.map(favorita,FavoritaResponse.class))
-                .collect(Collectors.toList());
+
+        List<FavoritaResponse> favoritaResponses = new ArrayList<>();
+        for (Favorita favorita : favoritas)
+            favoritaResponses.add(this.convertFavoritaToFavoritaResponse(favorita));
+        return favoritaResponses;
     }
 
 
