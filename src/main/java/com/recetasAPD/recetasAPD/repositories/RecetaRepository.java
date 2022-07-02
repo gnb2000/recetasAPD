@@ -25,8 +25,8 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
 
     @Query(value = "SELECT * from recetas inner join recetas_ext WHERE recetas_ext.id_receta = recetas.id_receta and recetas_ext.estado = 2 and recetas.id_usuario LIKE %?1%",nativeQuery = true)
     List<Receta> findRecetasByUsuario(Integer idUsuario);
-
-    Receta findByNombreAndUsuario(String titulo, Usuario usuario);
+    @Query(value = "SELECT * from recetas inner join recetas_ext WHERE recetas_ext.id_receta = recetas.id_receta and recetas_ext.estado = 2 and recetas.id_usuario LIKE %?2% and recetas.nombre LIKE %?1%",nativeQuery = true)
+    Receta findByNombreAndUsuario(String titulo, Integer idUsuario);
 
     @Query("SELECT r from Receta r JOIN r.recetaExt rExt JOIN r.tipo t WHERE t.descripcion LIKE %?1% and rExt.estado = 2 ORDER BY r.nombre ASC")
     List<Receta> findByTipoOrderByNombre(String tipo);
