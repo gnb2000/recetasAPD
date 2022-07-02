@@ -183,7 +183,7 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
         Usuario u = usuarioService.findById(idUsuario);
-        Receta r = recetaRepository.findByNombreAndUsuario(nombre,u);
+        Receta r = recetaRepository.findByNombreAndUsuario(nombre,idUsuario);
         if (r == null){
             //No existe la receta
             Receta nuevaReceta = Receta.builder()
@@ -480,8 +480,8 @@ public class RecetaServiceImpl implements RecetaService{
         recetaExtAux.setFecha(Fecha);
         recetaExtrepository.save(recetaExtAux);
         recetaAux2.setIngredientes(ingredientesNuevos);
-        recetaAux2.setCantidadPersonas((nuevasPorciones*recetaAux.getCantidadPersonas())/recetaAux.getCantidadPersonas());
         recetaAux2.setPorciones(nuevasPorciones);
+        recetaAux2.setCantidadPersonas((nuevasPorciones*recetaAux.getCantidadPersonas())/recetaAux.getPorciones());
         recetaAux2.setRecetaExt(recetaExtAux);
         recetaRepository.save(recetaAux2);
 
