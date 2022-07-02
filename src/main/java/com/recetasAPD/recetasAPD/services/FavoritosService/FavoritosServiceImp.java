@@ -51,7 +51,7 @@ public class FavoritosServiceImp implements FavoritosService{
 
     @Override
     public void eliminarFavorita(Usuario usuario, Receta receta) {
-        Favorita favorita = favoritosRepository.findAllByUsuarioAndReceta(usuario,receta);
+        Favorita favorita = favoritosRepository.findByUsuarioAndReceta(usuario,receta);
         favoritosRepository.delete(favorita);
     }
 

@@ -15,6 +15,7 @@ public interface RecetaService {
     List<Receta> getRecetaWithoutIngrediente(String ingrediente,Integer orden);
     List<Receta> getRecetaWithIngrediente(String ingrediente, Integer orden);
     List<Receta> obtenerMejoresRecetas(Integer cantidad);
+    List<Receta> findByUsuario(Integer idUsuario);
     Receta getLast();
     Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
     Receta crearRecetaByNombreAndTitulo(String nombre, Integer idUsuario);
@@ -26,4 +27,5 @@ public interface RecetaService {
     List<Receta> findRecetaByTipo(String idTipo, Integer orden);
     List<Receta>  findRecetasUsuario(String usuario, Integer orden);
     Float CalcularPuntuacionReceta(Integer idReceta);
+    List<Receta> findPersonalizadasByUsuario(Integer idUsuario);
 }
