@@ -95,6 +95,16 @@ public class ControladorRecetas {
         return new ResponseEntity<>(entityDtoConverter.convertRecetaToRecetaResponse(recetaService.findRecetasUsuario(invitado,orden)),HttpStatus.OK);
     }
 
+    @GetMapping("/recetas/personalizadas/{idUsuario}")
+    public ResponseEntity<List<RecetaResponse>> getRecetasPersonalizadasUsuario(@PathVariable Integer idUsuario){
+        return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.findPersonalizadasByUsuario(idUsuario)),HttpStatus.OK);
+    }
+
+    @GetMapping("/recetas/usuario/{idUsuario}")
+    public ResponseEntity<List<RecetaResponse>> getRecetasByUsuario(@PathVariable Integer idUsuario){
+        return new ResponseEntity<>(entityDtoConverter.convertListRecetasToRecetasDTO(recetaService.findByUsuario(idUsuario)),HttpStatus.OK);
+    }
+
     @DeleteMapping("/recetas/{idReceta}")
     public ResponseEntity<String> deleteRecetaById(@PathVariable Integer idReceta){
         Receta receta = recetaService.findById(idReceta);

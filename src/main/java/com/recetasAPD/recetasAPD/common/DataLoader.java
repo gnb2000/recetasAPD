@@ -75,8 +75,8 @@ public class DataLoader implements ApplicationRunner {
         crearItemIngrediente();
         crearUsuario();
         completarReceta();
-        generarReceta();
         generarCalificaciones();
+        generarReceta();
         agregarFavorita();
 
     }
@@ -499,9 +499,8 @@ public class DataLoader implements ApplicationRunner {
 
     }
     private void generarReceta() {
-
-        //recetaService.generarRecetaConDistintasCantidades(1,"Doble",1);
-       // recetaService.generarRecetaConDistintasPorciones(1,8,1);
+        recetaService.generarRecetaConDistintasCantidades(1,"Doble",1);
+        //recetaService.generarRecetaConDistintasPorciones(1,8,1);
         //recetaService.generarRecetaConDistintaCantidadIngrediente(1,1,1,500,1);
 
     }

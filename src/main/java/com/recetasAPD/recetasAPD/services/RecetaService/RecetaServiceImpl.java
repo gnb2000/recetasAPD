@@ -5,6 +5,7 @@ import com.recetasAPD.recetasAPD.dtos.UtilizadoRequest;
 import com.recetasAPD.recetasAPD.dtos.RecetaRequest;
 import com.recetasAPD.recetasAPD.entities.*;
 import com.recetasAPD.recetasAPD.exceptions.*;
+import com.recetasAPD.recetasAPD.repositories.ItemIngredienteRepository;
 import com.recetasAPD.recetasAPD.repositories.RecetaExtRepository;
 import com.recetasAPD.recetasAPD.repositories.RecetaRepository;
 import com.recetasAPD.recetasAPD.services.CalificacionService.CalificacionService;
@@ -57,6 +58,9 @@ public class RecetaServiceImpl implements RecetaService{
 
     @Autowired
     private CalificacionService calificacionService;
+
+    @Autowired
+    private ItemIngredienteRepository itemIngredienteRepository;
 
     @Override
     public void save(Receta receta) {
@@ -161,6 +165,12 @@ public class RecetaServiceImpl implements RecetaService{
     }
 
     @Override
+    public List<Receta> findByUsuario(Integer idUsuario) {
+        List<Receta> recetas = recetaRepository.findRecetasByUsuario(idUsuario);
+        return recetas;
+    }
+
+    @Override
     public Receta getLast() { // REVISAR ESTE
         if(!recetaRepository.findAll().isEmpty()){
             return recetaRepository.findTop1ByOrderByFechaDesc();
@@ -173,7 +183,7 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public Receta existeRecetaByNombreAndTitulo(String nombre, Integer idUsuario) {
         Usuario u = usuarioService.findById(idUsuario);
-        Receta r = recetaRepository.findByNombreAndUsuario(nombre,u);
+        Receta r = recetaRepository.findByNombreAndUsuario(nombre,idUsuario);
         if (r == null){
             //No existe la receta
             Receta nuevaReceta = Receta.builder()
@@ -273,6 +283,12 @@ public class RecetaServiceImpl implements RecetaService{
         return promedio;
     }
 
+    @Override
+    public List<Receta> findPersonalizadasByUsuario(Integer idUsuario) {
+            List<Receta> recetas = recetaRepository.findPersonalizadasByUsuario(idUsuario);
+            return recetas;
+    }
+
 
     private List<Utilizado> convertAndSaveItemIngredienteRequestToItemIngrediente(List<UtilizadoRequest> items, Receta receta){
         List<Utilizado> utilizados = new ArrayList<>();
@@ -313,42 +329,60 @@ public class RecetaServiceImpl implements RecetaService{
     @Override
     public Receta generarRecetaConDistintasPorciones(Integer idReceta,Integer cantidadPorciones,Integer idUsuario) {
         Receta recetaAux = this.findById(idReceta);
+        Receta recetaAux2 = new Receta();
         RecetaExt recetaExtAux = new RecetaExt();
         LocalDateTime Fecha = LocalDateTime.now();
-        List<Utilizado> ingredientesViejos = recetaAux.getIngredientes();
+        List<Utilizado> ingredientesViejos = itemIngredienteRepository.findByReceta(recetaAux);
         List<Utilizado> ingredientesNuevos = new ArrayList<>();
         Usuario usuario = usuarioService.findById(idUsuario);
-
-        recetaAux.setUsuario(usuario);
-        recetaAux.setIdReceta(null);
-        recetaRepository.save(recetaAux);
+        List<Foto> fotos = new ArrayList<>();
+        List<Foto> fotos2 = fotoService.getFotosByReceta(idReceta);
+        recetaAux2.setUsuario(usuario);
+        recetaAux2.setNombre(recetaAux.getNombre());
+        recetaAux2.setDescripcion(recetaAux.getDescripcion());
+        recetaRepository.save(recetaAux2);
+        for(Foto f: fotos2){
+            Foto nuevaFoto = Foto.builder()
+                    .urlFoto(f.getUrlFoto())
+                    .extension(f.getExtension())
+                    .receta(recetaAux2)
+                    .build();
+            fotoService.save(nuevaFoto);
+            fotos.add(nuevaFoto);
+        }
         for (Utilizado i: ingredientesViejos){
-            Utilizado nuevoUtilizado = new Utilizado(i.getIngrediente(),(cantidadPorciones*i.getCantidad())/recetaAux.getPorciones(),i.getObservaciones(),recetaAux,i.getUnidad());
+            Utilizado nuevoUtilizado = new Utilizado(i.getIngrediente(),(cantidadPorciones*i.getCantidad())/recetaAux.getPorciones(),i.getObservaciones(),recetaAux2,i.getUnidad());
             utilizadoService.save(nuevoUtilizado);
             ingredientesNuevos.add(nuevoUtilizado);
         }
+        recetaAux2.setFoto(fotos);
         recetaExtAux.setFecha(Fecha);
         recetaExtAux.setEstado(3);
         recetaExtAux.setReceta(recetaAux);
-        recetaAux.setIngredientes(ingredientesNuevos);
-        recetaAux.setCantidadPersonas((cantidadPorciones*recetaAux.getCantidadPersonas())/recetaAux.getPorciones());
-        recetaAux.setPorciones(cantidadPorciones);
+        recetaAux2.setIngredientes(ingredientesNuevos);
+        recetaAux2.setCantidadPersonas((cantidadPorciones*recetaAux.getCantidadPersonas())/recetaAux.getPorciones());
+        recetaAux2.setPorciones(cantidadPorciones);
         recetaExtrepository.save(recetaExtAux);
-        recetaRepository.save(recetaAux);
+        recetaAux2.setRecetaExt(recetaExtAux);
+        recetaRepository.save(recetaAux2);
 
-        return recetaAux;
+        return recetaAux2;
     }
 
     @Override
     public Receta generarRecetaConDistintasCantidades(Integer idReceta, String multiplo,Integer idUsuario) {
         float variable;
         Receta recetaAux = this.findById(idReceta);
+        Receta recetaAux2 = new Receta();
         RecetaExt recetaExtAux = new RecetaExt();
         LocalDateTime Fecha = LocalDateTime.now();
-        List<Utilizado> ingredientesViejos = recetaAux.getIngredientes();
+        List<Utilizado> ingredientesViejos = itemIngredienteRepository.findByReceta(recetaAux);
         List<Utilizado> ingredientesNuevos = new ArrayList<>();
         Usuario usuario = usuarioService.findById(idUsuario);
-
+        List<Foto> fotos = new ArrayList<>();
+        List<Foto> fotos2 = fotoService.getFotosByReceta(idReceta);
+        List<Calificacion> calificacion = new ArrayList<>();
+        List<Calificacion> calificacion2 = calificacionService.obtenerCalificacionesPorReceta(idReceta);
 
 
         if (multiplo.equalsIgnoreCase("Doble")){
@@ -357,72 +391,100 @@ public class RecetaServiceImpl implements RecetaService{
         }else{
             variable = 0.5F;
         }
-        recetaAux.setUsuario(usuario);
-        recetaAux.setIdReceta(null);
-        recetaAux.setRecetaExt(null);
-        recetaAux.setPorciones((int) (recetaAux.getPorciones()*variable));
-        recetaAux.setCantidadPersonas((int) (recetaAux.getCantidadPersonas()*variable));
-        recetaRepository.save(recetaAux);
 
 
+        recetaAux2.setUsuario(usuario);
+        recetaAux2.setPorciones((int) (recetaAux.getPorciones()*variable));
+        recetaAux2.setCantidadPersonas((int) (recetaAux.getCantidadPersonas()*variable));
+        recetaRepository.save(recetaAux2);
+
+
+        for(Calificacion c: calificacion2){
+            Calificacion nuevaC = Calificacion.builder()
+                    .receta(recetaAux2)
+                    .usuario(c.getUsuario())
+                    .calificacion(c.getCalificacion())
+                    .comentarios(c.getComentarios())
+                    .build();
+            calificacionService.save(nuevaC);
+            calificacion.add(nuevaC);
+        }
+
+        for(Foto f: fotos2){
+            Foto nuevaFoto = Foto.builder()
+                    .urlFoto(f.getUrlFoto())
+                    .extension(f.getExtension())
+                    .receta(recetaAux2)
+                    .build();
+            fotoService.save(nuevaFoto);
+            fotos.add(nuevaFoto);
+        }
         for (Utilizado i: ingredientesViejos){
-            Utilizado nuevoItemIngrediente = new Utilizado(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),recetaAux,i.getUnidad());
+            Utilizado nuevoItemIngrediente = new Utilizado(i.getIngrediente(),i.getCantidad()*variable,i.getObservaciones(),recetaAux2,i.getUnidad());
             utilizadoService.save(nuevoItemIngrediente);
             ingredientesNuevos.add(nuevoItemIngrediente);
         }
-        recetaAux.setIngredientes(ingredientesNuevos);
-        //recetaExtrepository.save(recetaExtAux);
-
-
-        recetaExtAux.setReceta(recetaAux);
+        recetaAux2.setNombre(recetaAux.getNombre());
+        recetaAux2.setDescripcion(recetaAux.getDescripcion());
+        recetaAux2.setCalificaciones(calificacion);
+        recetaAux2.setIngredientes(ingredientesNuevos);
+        recetaAux2.setFoto(fotos);
+        recetaExtAux.setReceta(recetaAux2);
         recetaExtAux.setEstado(3);
         recetaExtAux.setFecha(Fecha);
         recetaExtrepository.save(recetaExtAux);
-
-        recetaAux.setRecetaExt(recetaExtAux);
-
-        recetaRepository.save(recetaAux);
-        return recetaAux;
+        recetaAux2.setRecetaExt(recetaExtAux);
+        recetaRepository.save(recetaAux2);
+        return recetaAux2;
     }
 
     @Override
     public Receta generarRecetaConDistintaCantidadIngrediente(Integer idReceta,Integer idUsuario,Integer idIngrediente,Integer cantidad,Integer idUnidad) {
         int nuevasPorciones = 0;
         Receta recetaAux = this.findById(idReceta);
+        Receta recetaAux2 = new Receta();
         RecetaExt recetaExtAux = new RecetaExt();
         LocalDateTime Fecha = LocalDateTime.now();
-        List<Utilizado> ingredientesViejos = recetaAux.getIngredientes();
+        List<Utilizado> ingredientesViejos = itemIngredienteRepository.findByReceta(recetaAux);
         List<Utilizado> ingredientesNuevos = new ArrayList<>();
         Usuario usuario = usuarioService.findById(idUsuario);
-
-        recetaAux.setUsuario(usuario);
-        recetaAux.setIdReceta(null);
-        recetaRepository.save(recetaAux);
+        List<Foto> fotos = new ArrayList<>();
+        List<Foto> fotos2 = fotoService.getFotosByReceta(idReceta);
+        recetaAux2.setUsuario(usuario);
+        recetaAux2.setNombre(recetaAux.getNombre());
+        recetaAux2.setDescripcion(recetaAux.getDescripcion());
+        recetaRepository.save(recetaAux2);
+        for(Foto f: fotos2){
+            Foto nuevaFoto = Foto.builder()
+                    .urlFoto(f.getUrlFoto())
+                    .extension(f.getExtension())
+                    .receta(recetaAux2)
+                    .build();
+            fotoService.save(nuevaFoto);
+            fotos.add(nuevaFoto);
+        }
         for(Utilizado i: ingredientesViejos){
             if (i.getIngrediente().getIdIngrediente() == idIngrediente ) {
                nuevasPorciones = (int) ((cantidad * recetaAux.getPorciones()) / i.getCantidad());
             }
         }
         for(Utilizado i: ingredientesViejos){
-            Utilizado nuevoItemIngrediente = new Utilizado(i.getIngrediente(),(i.getCantidad()*nuevasPorciones)/recetaAux.getPorciones(),i.getObservaciones(),recetaAux,i.getUnidad());
+            Utilizado nuevoItemIngrediente = new Utilizado(i.getIngrediente(),(i.getCantidad()*nuevasPorciones)/recetaAux.getPorciones(),i.getObservaciones(),recetaAux2,i.getUnidad());
             utilizadoService.save(nuevoItemIngrediente);
             ingredientesNuevos.add(nuevoItemIngrediente);
 
         }
-        recetaExtAux.setReceta(recetaAux);
+        recetaAux2.setFoto(fotos);
+        recetaExtAux.setReceta(recetaAux2);
         recetaExtAux.setEstado(3);
         recetaExtAux.setFecha(Fecha);
         recetaExtrepository.save(recetaExtAux);
-        recetaAux.setIngredientes(ingredientesNuevos);
-        recetaAux.setCantidadPersonas((nuevasPorciones*recetaAux.getCantidadPersonas())/recetaAux.getCantidadPersonas());
-        System.out.println(recetaAux.getCantidadPersonas());
-        recetaAux.setPorciones(nuevasPorciones);
-        recetaRepository.save(recetaAux);
+        recetaAux2.setIngredientes(ingredientesNuevos);
+        recetaAux2.setPorciones(nuevasPorciones);
+        recetaAux2.setCantidadPersonas((nuevasPorciones*recetaAux.getCantidadPersonas())/recetaAux.getPorciones());
+        recetaAux2.setRecetaExt(recetaExtAux);
+        recetaRepository.save(recetaAux2);
 
-        return recetaAux;
+        return recetaAux2;
     }
-
-
-
-
 }

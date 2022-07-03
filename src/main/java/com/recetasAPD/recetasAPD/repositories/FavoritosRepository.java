@@ -12,5 +12,5 @@ import java.util.List;
 public interface FavoritosRepository extends JpaRepository<Favorita,Integer> {
     boolean existsByRecetaAndUsuario(Receta receta, Usuario usuario);
     List<Favorita> findAllByUsuario(Usuario usuario);
-    Favorita findAllByUsuarioAndReceta(Usuario usuario, Receta receta);
+    Favorita findByUsuarioAndReceta(Usuario usuario, Receta receta);
 }

@@ -23,4 +23,5 @@ public class Foto {
     @ManyToOne
     @JoinColumn(name = "idReceta")
     private Receta receta;
+
 }

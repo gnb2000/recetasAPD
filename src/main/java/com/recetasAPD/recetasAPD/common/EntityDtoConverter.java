@@ -141,9 +141,11 @@ public class EntityDtoConverter {
     }
 
     public List<RecetaResponse> convertRecetaToRecetaResponse(List<Receta> recetas){
-        return recetas.stream()
-                .map(receta -> modelMapper.map(receta,RecetaResponse.class))
-                .collect(Collectors.toList());
+       List<RecetaResponse> aux = new ArrayList<>();
+       for (Receta r: recetas){
+           aux.add(this.convertRecetaToRecetaResponse(r));
+       }
+       return aux;
     }
 
     public FavoritaResponse convertFavoritaToFavoritaResponse(Favorita favorita){
