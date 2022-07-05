@@ -20,7 +20,7 @@ public class Paso {
     @Column(length = 2000)
     private String texto;
 
-    @OneToMany(mappedBy= "paso")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy= "paso",cascade = CascadeType.MERGE)
     private List<Multimedia> multimedia;
 
     @ManyToOne

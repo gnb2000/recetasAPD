@@ -158,7 +158,13 @@ public class RecetaServiceImpl implements RecetaService{
                 throw new RecetaNotCreatedException("No existen recetas disponibles");
             }
             else{
-                throw new RecetasEmptyException("No existen "+cantidad+" recetas en la aplicación. Existen solo "+recetas.size()+".");
+                cantidad = recetas.size();
+                while (cantidad > 0) {
+                    cantidad--;
+                    resultado.add(findById((int) matriz[indice][0]));
+                    indice--;
+                }
+
             }
         }
         return resultado;
@@ -337,6 +343,8 @@ public class RecetaServiceImpl implements RecetaService{
         Usuario usuario = usuarioService.findById(idUsuario);
         List<Foto> fotos = new ArrayList<>();
         List<Foto> fotos2 = fotoService.getFotosByReceta(idReceta);
+        List<Paso> pasos = pasoService.getPasosByReceta(idReceta);
+        List<Paso> pasos2 = new ArrayList<>();
         recetaAux2.setUsuario(usuario);
         recetaAux2.setNombre(recetaAux.getNombre());
         recetaAux2.setDescripcion(recetaAux.getDescripcion());
@@ -355,6 +363,32 @@ public class RecetaServiceImpl implements RecetaService{
             utilizadoService.save(nuevoUtilizado);
             ingredientesNuevos.add(nuevoUtilizado);
         }
+        for(Paso p: pasos){
+            List<Multimedia> multimedia = p.getMultimedia();
+            List<Multimedia> multimedia2 = new ArrayList<>();
+            for(Multimedia m: multimedia){
+                Multimedia nuevaM = Multimedia.builder()
+                        .extension(m.getExtension())
+                        .tipo_contenido(m.getTipo_contenido())
+                        .urlContenido(m.getUrlContenido())
+                        .build();
+                multimediaService.save(nuevaM);
+                multimedia2.add(nuevaM);
+            }
+            Paso nuevoPaso = Paso.builder()
+                    .texto(p.getTexto())
+                    .nroPaso(p.getNroPaso())
+                    .receta(recetaAux2)
+                    .multimedia(multimedia2)
+                    .build();
+            pasoService.save(nuevoPaso);
+            for(Multimedia m2: multimedia2){
+                m2.setPaso(nuevoPaso);
+                multimediaService.save(m2);
+            }
+            pasos2.add(nuevoPaso);
+        }
+        recetaAux2.setPasos(pasos2);
         recetaAux2.setFoto(fotos);
         recetaExtAux.setFecha(Fecha);
         recetaExtAux.setEstado(3);
@@ -381,10 +415,10 @@ public class RecetaServiceImpl implements RecetaService{
         Usuario usuario = usuarioService.findById(idUsuario);
         List<Foto> fotos = new ArrayList<>();
         List<Foto> fotos2 = fotoService.getFotosByReceta(idReceta);
+        List<Paso> pasos = pasoService.getPasosByReceta(idReceta);
+        List<Paso> pasos2 = new ArrayList<>();
         List<Calificacion> calificacion = new ArrayList<>();
         List<Calificacion> calificacion2 = calificacionService.obtenerCalificacionesPorReceta(idReceta);
-
-
         if (multiplo.equalsIgnoreCase("Doble")){
             variable = 2;
 
@@ -424,6 +458,32 @@ public class RecetaServiceImpl implements RecetaService{
             utilizadoService.save(nuevoItemIngrediente);
             ingredientesNuevos.add(nuevoItemIngrediente);
         }
+        for(Paso p: pasos){
+            List<Multimedia> multimedia = p.getMultimedia();
+            List<Multimedia> multimedia2 = new ArrayList<>();
+            for(Multimedia m: multimedia){
+                Multimedia nuevaM = Multimedia.builder()
+                        .extension(m.getExtension())
+                        .tipo_contenido(m.getTipo_contenido())
+                        .urlContenido(m.getUrlContenido())
+                        .build();
+                multimediaService.save(nuevaM);
+                multimedia2.add(nuevaM);
+            }
+            Paso nuevoPaso = Paso.builder()
+                    .texto(p.getTexto())
+                    .nroPaso(p.getNroPaso())
+                    .receta(recetaAux2)
+                    .multimedia(multimedia2)
+                    .build();
+            pasoService.save(nuevoPaso);
+            for(Multimedia m2: multimedia2){
+                m2.setPaso(nuevoPaso);
+                multimediaService.save(m2);
+            }
+            pasos2.add(nuevoPaso);
+        }
+        recetaAux2.setPasos(pasos2);
         recetaAux2.setNombre(recetaAux.getNombre());
         recetaAux2.setDescripcion(recetaAux.getDescripcion());
         recetaAux2.setCalificaciones(calificacion);
@@ -450,6 +510,8 @@ public class RecetaServiceImpl implements RecetaService{
         Usuario usuario = usuarioService.findById(idUsuario);
         List<Foto> fotos = new ArrayList<>();
         List<Foto> fotos2 = fotoService.getFotosByReceta(idReceta);
+        List<Paso> pasos = pasoService.getPasosByReceta(idReceta);
+        List<Paso> pasos2 = new ArrayList<>();
         recetaAux2.setUsuario(usuario);
         recetaAux2.setNombre(recetaAux.getNombre());
         recetaAux2.setDescripcion(recetaAux.getDescripcion());
@@ -474,6 +536,32 @@ public class RecetaServiceImpl implements RecetaService{
             ingredientesNuevos.add(nuevoItemIngrediente);
 
         }
+        for(Paso p: pasos){
+            List<Multimedia> multimedia = p.getMultimedia();
+            List<Multimedia> multimedia2 = new ArrayList<>();
+            for(Multimedia m: multimedia){
+                Multimedia nuevaM = Multimedia.builder()
+                        .extension(m.getExtension())
+                        .tipo_contenido(m.getTipo_contenido())
+                        .urlContenido(m.getUrlContenido())
+                        .build();
+                multimediaService.save(nuevaM);
+                multimedia2.add(nuevaM);
+            }
+            Paso nuevoPaso = Paso.builder()
+                    .texto(p.getTexto())
+                    .nroPaso(p.getNroPaso())
+                    .receta(recetaAux2)
+                    .multimedia(multimedia2)
+                    .build();
+            pasoService.save(nuevoPaso);
+            for(Multimedia m2: multimedia2){
+                m2.setPaso(nuevoPaso);
+                multimediaService.save(m2);
+            }
+            pasos2.add(nuevoPaso);
+        }
+        recetaAux2.setPasos(pasos2);
         recetaAux2.setFoto(fotos);
         recetaExtAux.setReceta(recetaAux2);
         recetaExtAux.setEstado(3);
