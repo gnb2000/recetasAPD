@@ -76,7 +76,6 @@ public class DataLoader implements ApplicationRunner {
         crearUsuario();
         completarReceta();
         generarCalificaciones();
-        generarReceta();
         agregarFavorita();
 
     }
@@ -127,72 +126,6 @@ public class DataLoader implements ApplicationRunner {
                 .receta(receta3)
                 .build();
         recetaExtRepository.save(rExt3);
-
-
-       /* Receta receta4 = Receta.builder()
-                .nombre("Rolls de Sushi")
-                .porciones(12)
-                .cantidadPersonas(2)
-                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
-                .build();
-        recetaService.save(receta4);
-
-        RecetaExt rExt4 = RecetaExt.builder()
-                .estado(2)
-                .fecha(LocalDateTime.now())
-                .receta(receta4)
-                .build();
-        recetaExtRepository.save(rExt4);
-
-        Receta receta5 = Receta.builder()
-                .nombre("Rolls de Sushi")
-                .porciones(12)
-                .cantidadPersonas(2)
-                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
-                .build();
-        recetaService.save(receta5);
-
-        RecetaExt rExt5 = RecetaExt.builder()
-                .estado(2)
-                .fecha(LocalDateTime.now())
-                .receta(receta5)
-                .build();
-        recetaExtRepository.save(rExt5);
-
-        Receta receta6 = Receta.builder()
-                .nombre("Rolls de Sushi")
-                .porciones(12)
-                .cantidadPersonas(2)
-                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
-                .build();
-        recetaService.save(receta6);
-
-        RecetaExt rExt6 = RecetaExt.builder()
-                .estado(2)
-                .fecha(LocalDateTime.now())
-                .receta(receta6)
-                .build();
-        recetaExtRepository.save(rExt6);
-
-
-        Receta receta7 = Receta.builder()
-                .nombre("Rolls de Sushi")
-                .porciones(12)
-                .cantidadPersonas(2)
-                .descripcion("Contrario a lo que se piensa, hacer sushi en casa no es tan complicado como parece. Si buscan una receta de sushi casero, les cuento que no es más que la receta del arroz, porque en verdad se puede rellenar con lo que ustedes deseen.")
-                .build();
-        recetaService.save(receta7);
-
-        RecetaExt rExt7 = RecetaExt.builder()
-                .estado(2)
-                .fecha(LocalDateTime.now())
-                .receta(receta7)
-                .build();
-        recetaExtRepository.save(rExt7);*/
-
-
-
-
     }
 
     private void crearFotos() {
@@ -236,6 +169,8 @@ public class DataLoader implements ApplicationRunner {
     }
 
     private void crearPasos(){
+
+        // Receta 1
         Paso paso = Paso.builder()
                 .texto("Lavar el arroz: Lavar el arroz en agua en  5-6 veces hasta que el agua salsa transparente o casi. Dejar reposar 30 minutos.")
                 .nroPaso(1)
@@ -264,10 +199,78 @@ public class DataLoader implements ApplicationRunner {
                 .build();
         pasoRepository.save(paso4);
 
+
+        // Receta 2
+        Paso paso5 = Paso.builder()
+                .texto("Piquamos el ajo y la cebolla.")
+                .nroPaso(1)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso5);
+
+        Paso paso6 = Paso.builder()
+                .texto("Calentamos una olla con aceite, ponemos el ajo y la cebolla dentro y esperamos que la cebolla se transparente.")
+                .nroPaso(2)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso6);
+
+        Paso paso7 = Paso.builder()
+                .texto("Después, agregamos el puré de tomate y las dos hojas de laurel, deje cocinar por alrededor de 20 minutos.")
+                .nroPaso(3)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso7);
+
+        Paso paso8 = Paso.builder()
+                .texto("Agregamos sal y pimienta a gusto.")
+                .nroPaso(4)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso8);
+
+        Paso paso9 = Paso.builder()
+                .texto("Vamos colocar primero, por encima de nuestra milanesa, la salsa que acabamos de hacer.")
+                .nroPaso(5)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso9);
+
+        Paso paso10 = Paso.builder()
+                .texto("Luego, colocamos unas fetas de jamón cocido.")
+                .nroPaso(6)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso10);
+
+        Paso paso11 = Paso.builder()
+                .texto("Finalmente, por encima, ponemos nuestro queso.")
+                .nroPaso(7)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso11);
+
+        Paso paso12 = Paso.builder()
+                .texto("Así, las vamos a llevar al horno 180º hasta que se derrita el queso y chorree por los costados generando el efecto más hermoso y tentador del universo")
+                .nroPaso(8)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso12);
+
+        Paso paso13 = Paso.builder()
+                .texto("Al sacarlas podemos tirar por encima unas pizcas de orégano y ¡listo!.")
+                .nroPaso(9)
+                .receta(recetaService.findById(2))
+                .build();
+        pasoRepository.save(paso13);
+
+
     }
 
     private void crearMultimedia(){
 
+
+        // RECETA 1
         // PASO 1
         Multimedia multimedia1 = Multimedia.builder()
                 .paso(pasoRepository.getById(1))
@@ -372,6 +375,81 @@ public class DataLoader implements ApplicationRunner {
                 .build();
         multimediaRepository.save(multimedia11);
 
+        // RECETA 2
+        // Paso 1
+        Multimedia multimedia13 = Multimedia.builder()
+                .paso(pasoRepository.getById(5))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657043153/glaaoitsmt9aplo9h286.webp")
+                .build();
+        multimediaRepository.save(multimedia13);
+        // Paso 2
+        Multimedia multimedia14 = Multimedia.builder()
+                .paso(pasoRepository.getById(6))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657043308/k3gcg81fpayvtdfm0tve.jpg")
+                .build();
+        multimediaRepository.save(multimedia14);
+        // Paso 3
+        Multimedia multimedia15 = Multimedia.builder()
+                .paso(pasoRepository.getById(7))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657043925/trdz0y99qcxwuj3qf6ll.png")
+                .build();
+        multimediaRepository.save(multimedia15);
+        // Paso 4
+        Multimedia multimedia16 = Multimedia.builder()
+                .paso(pasoRepository.getById(8))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657043950/vmrdcntaj9fmroo1fl3j.jpg")
+                .build();
+        multimediaRepository.save(multimedia16);
+        // Paso 5
+        Multimedia multimedia17 = Multimedia.builder()
+                .paso(pasoRepository.getById(9))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657043975/ddc6urfg9bf8vlyedv6h.jpg")
+                .build();
+        multimediaRepository.save(multimedia17);
+        // Paso 6
+        Multimedia multimedia18 = Multimedia.builder()
+                .paso(pasoRepository.getById(10))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657043308/k3gcg81fpayvtdfm0tve.jpg")
+                .build();
+        multimediaRepository.save(multimedia18);
+        // Paso 7
+        Multimedia multimedia19 = Multimedia.builder()
+                .paso(pasoRepository.getById(11))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657044736/cw8k86j2qg8wdfn2dtg6.jpg")
+                .build();
+        multimediaRepository.save(multimedia19);
+        // Paso 8
+        Multimedia multimedia20 = Multimedia.builder()
+                .paso(pasoRepository.getById(12))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657044929/zvmhqyxurkjuzctj2hgf.jpg")
+                .build();
+        multimediaRepository.save(multimedia20);
+        //Paso 9
+        Multimedia multimedia21 = Multimedia.builder()
+                .paso(pasoRepository.getById(12))
+                .extension(".jpg")
+                .tipo_contenido("foto")
+                .urlContenido("http://res.cloudinary.com/recetasapd/image/upload/v1657044942/e0bgyeepqrys6ku1ky4r.jpg")
+                .build();
+        multimediaRepository.save(multimedia21);
+
+
     }
     private void crearIngredientes(){
         Ingrediente ingrediente1 = Ingrediente.builder()
@@ -399,7 +477,50 @@ public class DataLoader implements ApplicationRunner {
                 .build();
         ingredienteRepository.save(ingrediente5);
 
+        Ingrediente ingrediente6 = Ingrediente.builder()
+                .nombre("Milanesas")
+                .build();
+        ingredienteRepository.save(ingrediente6);
 
+        Ingrediente ingrediente7 = Ingrediente.builder()
+                .nombre("Queso Mozzarella")
+                .build();
+        ingredienteRepository.save(ingrediente7);
+
+        Ingrediente ingrediente8 = Ingrediente.builder()
+                .nombre("Jamon Cocido")
+                .build();
+        ingredienteRepository.save(ingrediente8);
+
+        Ingrediente ingrediente9 = Ingrediente.builder()
+                .nombre("Lata de pure de tomate")
+                .build();
+        ingredienteRepository.save(ingrediente9);
+
+        Ingrediente ingrediente10 = Ingrediente.builder()
+                .nombre("Cebolla")
+                .build();
+        ingredienteRepository.save(ingrediente10);
+
+        Ingrediente ingrediente11 = Ingrediente.builder()
+                .nombre("Ajo")
+                .build();
+        ingredienteRepository.save(ingrediente11);
+
+        Ingrediente ingrediente12 = Ingrediente.builder()
+                .nombre("Laurel")
+                .build();
+        ingredienteRepository.save(ingrediente12);
+
+        Ingrediente ingrediente13 = Ingrediente.builder()
+                .nombre("Aceite")
+                .build();
+        ingredienteRepository.save(ingrediente13);
+
+        Ingrediente ingrediente14 = Ingrediente.builder()
+                .nombre("Sal")
+                .build();
+        ingredienteRepository.save(ingrediente14);
 
     }
     private void crearUnidad(){
@@ -460,6 +581,63 @@ public class DataLoader implements ApplicationRunner {
                 .build();
         itemIngredienteRepository.save(Salmon);
 
+        Utilizado Milanesas = Utilizado.builder()
+                .ingrediente(ingredienteRepository.getById(6))
+                .cantidad(2)
+                .receta(recetaService.findById(2))
+                .unidad(unidadRepository.getById(3))
+                .build();
+        itemIngredienteRepository.save(Milanesas);
+
+        Utilizado Queso = Utilizado.builder()
+                .ingrediente(ingredienteRepository.getById(7))
+                .cantidad(150)
+                .receta(recetaService.findById(2))
+                .unidad(unidadRepository.getById(2))
+                .build();
+        itemIngredienteRepository.save(Queso);
+
+        Utilizado Jamon = Utilizado.builder()
+                .ingrediente(ingredienteRepository.getById(8))
+                .cantidad(150)
+                .receta(recetaService.findById(2))
+                .unidad(unidadRepository.getById(2))
+                .build();
+        itemIngredienteRepository.save(Jamon);
+
+        Utilizado LataTomate = Utilizado.builder()
+                .ingrediente(ingredienteRepository.getById(9))
+                .cantidad(1)
+                .receta(recetaService.findById(2))
+                .unidad(unidadRepository.getById(3))
+                .build();
+        itemIngredienteRepository.save(LataTomate);
+
+        Utilizado Cebolla = Utilizado.builder()
+                .ingrediente(ingredienteRepository.getById(10))
+                .cantidad(1)
+                .receta(recetaService.findById(2))
+                .unidad(unidadRepository.getById(3))
+                .build();
+        itemIngredienteRepository.save(Cebolla);
+
+        Utilizado Ajo = Utilizado.builder()
+                .ingrediente(ingredienteRepository.getById(11))
+                .cantidad(2)
+                .receta(recetaService.findById(2))
+                .unidad(unidadRepository.getById(3))
+                .build();
+        itemIngredienteRepository.save(Ajo);
+
+        Utilizado Laurel = Utilizado.builder()
+                .ingrediente(ingredienteRepository.getById(12))
+                .cantidad(2)
+                .receta(recetaService.findById(2))
+                .unidad(unidadRepository.getById(3))
+                .build();
+        itemIngredienteRepository.save(Laurel);
+
+
     }
     private void crearUsuario(){
 
@@ -478,35 +656,45 @@ public class DataLoader implements ApplicationRunner {
                 .build();
         usuarioExtRepository.save(usuarioExt2);
 
+        Usuario usuario3 = Usuario.builder()
+                .tipoUsuario(1)
+                .avatar("http://res.cloudinary.com/recetasapd/image/upload/v1657045430/kr8wkglcrn7ailxoollw.jpg")
+                .mail("giorgioRossi@gmail.com")
+                .nombre("Girgio Rossi")
+                .nickname("giorgio.Cucinare")
+                .build();
+        usuarioRepository.save(usuario3);
+
+        UsuarioExt usuarioExt3 = UsuarioExt.builder()
+                .password("123456")
+                .usuario(usuario3)
+                .build();
+        usuarioExtRepository.save(usuarioExt3);
+
 
     }
     private void completarReceta(){
+
         Receta r = recetaService.findById(1);
         r.setTipo(tipoRepository.getById(1));
         r.setUsuario(usuarioRepository.getById(1));
         recetaService.save(r);
 
         Receta r2 = recetaService.findById(2);
-        r.setTipo(tipoRepository.getById(2));
-        r.setUsuario(usuarioRepository.getById(1));
+        r2.setTipo(tipoRepository.getById(2));
+        r2.setUsuario(usuarioRepository.getById(2));
         recetaService.save(r2);
 
 
         Receta r3 = recetaService.findById(3);
-        r.setTipo(tipoRepository.getById(3));
-        r.setUsuario(usuarioRepository.getById(1));
+        r3.setTipo(tipoRepository.getById(3));
+        r3.setUsuario(usuarioRepository.getById(1));
         recetaService.save(r3);
-
-    }
-    private void generarReceta() {
-        recetaService.generarRecetaConDistintasCantidades(1,"Doble",1);
-        //recetaService.generarRecetaConDistintasPorciones(1,8,1);
-        //recetaService.generarRecetaConDistintaCantidadIngrediente(1,1,1,500,1);
 
     }
 
     private void generarCalificaciones(){
-        calificacionService.crearCalificacion(1,1,5.0F,"¡Quedan muy ricos!");
+        calificacionService.crearCalificacion(1,2,5.0F,"¡Quedan muy ricos!");
         calificacionService.crearCalificacion(2,1,4.0F,"¡Exquisito plato argentino!");
         calificacionService.crearCalificacion(3,1,3.0F,"Esta receta quedo muy bien, pero no cubre todas las porciones que indica");
 
