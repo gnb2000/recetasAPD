@@ -17,6 +17,7 @@ import com.recetasAPD.recetasAPD.services.MultimediaService.MultimediaService;
 import com.recetasAPD.recetasAPD.services.PasoService.PasoService;
 import com.recetasAPD.recetasAPD.services.TipoService.TipoService;
 import com.recetasAPD.recetasAPD.services.UsuarioService.UsuarioService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -195,9 +196,17 @@ public class RecetaServiceImpl implements RecetaService{
             Receta nuevaReceta = Receta.builder()
                     .nombre(nombre)
                     .usuario(u)
-                    //.fecha(LocalDateTime.now())
-                    //.estado(0)
                     .build();
+            RecetaExt rExt = RecetaExt.builder()
+                    .estado(2)
+                    .fecha(LocalDateTime.now())
+                    .receta(nuevaReceta)
+                    .build();
+            recetaRepository.save(nuevaReceta);
+            recetaExtrepository.save(rExt);
+            nuevaReceta.setRecetaExt(rExt);
+            recetaRepository.save(nuevaReceta);
+
             return recetaRepository.save(nuevaReceta);
         }
         throw new RecetaAlreadyCreatedException("Ya tiene un receta con este nombre, desea editar o reemplazar?", entityDtoConverter.convertRecetaToRecetaResponse(r));
@@ -572,7 +581,6 @@ public class RecetaServiceImpl implements RecetaService{
         recetaAux2.setCantidadPersonas((nuevasPorciones*recetaAux.getCantidadPersonas())/recetaAux.getPorciones());
         recetaAux2.setRecetaExt(recetaExtAux);
         recetaRepository.save(recetaAux2);
-
         return recetaAux2;
     }
 }
