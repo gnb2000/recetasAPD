@@ -20,7 +20,7 @@ public interface RecetaRepository extends JpaRepository<Receta,Integer> {
     List<Receta> findByNombre(String titulo);
     @Query(value = "select * from recetas inner join recetas_ext where recetas_ext.id_receta = recetas.id_receta ORDER BY recetas_ext.fecha LIMIT 1", nativeQuery = true)
     Receta findTop1ByOrderByFechaDesc();
-    @Query(value = "select * from recetas inner join recetas_ext where recetas_ext.id_receta = recetas.id_receta and recetas_Ext.estado = 3 and recetas.id_usuario LIKE %?1%",nativeQuery = true)
+    @Query(value = "select * from recetas inner join recetas_ext where recetas_ext.id_receta = recetas.id_receta and recetas_ext.estado = 3 and recetas.id_usuario LIKE %?1%",nativeQuery = true)
     List<Receta> findPersonalizadasByUsuario(Integer idUsuario);
 
     @Query(value = "SELECT * from recetas inner join recetas_ext WHERE recetas_ext.id_receta = recetas.id_receta and recetas_ext.estado = 2 and recetas.id_usuario LIKE %?1%",nativeQuery = true)
