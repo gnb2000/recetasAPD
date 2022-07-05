@@ -158,7 +158,13 @@ public class RecetaServiceImpl implements RecetaService{
                 throw new RecetaNotCreatedException("No existen recetas disponibles");
             }
             else{
-                throw new RecetasEmptyException("No existen "+cantidad+" recetas en la aplicación. Existen solo "+recetas.size()+".");
+                cantidad = recetas.size();
+                while (cantidad > 0) {
+                    cantidad--;
+                    resultado.add(findById((int) matriz[indice][0]));
+                    indice--;
+                }
+
             }
         }
         return resultado;
