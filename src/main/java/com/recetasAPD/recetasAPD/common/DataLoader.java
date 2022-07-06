@@ -645,7 +645,7 @@ public class DataLoader implements ApplicationRunner {
                 .tipoUsuario(1)
                 .avatar("http://res.cloudinary.com/recetasapd/image/upload/v1656007372/ib8rwuxyyt79n2tivcp7.jpg")
                 .mail("gonzaloc@gmail.com")
-                .nombre("Gonzalo Fernandez")
+                .nombre("Gonzalo")
                 .nickname("gonzalo.cocina")
                 .build();
         usuarioRepository.save(usuario2);
@@ -653,6 +653,7 @@ public class DataLoader implements ApplicationRunner {
         UsuarioExt usuarioExt2 = UsuarioExt.builder()
                 .password("123456")
                 .usuario(usuario2)
+                .apellido("Fernandez")
                 .build();
         usuarioExtRepository.save(usuarioExt2);
 
@@ -660,7 +661,7 @@ public class DataLoader implements ApplicationRunner {
                 .tipoUsuario(1)
                 .avatar("http://res.cloudinary.com/recetasapd/image/upload/v1657045430/kr8wkglcrn7ailxoollw.jpg")
                 .mail("giorgioRossi@gmail.com")
-                .nombre("Girgio Rossi")
+                .nombre("Girgio")
                 .nickname("giorgio.Cucinare")
                 .build();
         usuarioRepository.save(usuario3);
@@ -668,6 +669,7 @@ public class DataLoader implements ApplicationRunner {
         UsuarioExt usuarioExt3 = UsuarioExt.builder()
                 .password("123456")
                 .usuario(usuario3)
+                .apellido("Rossi")
                 .build();
         usuarioExtRepository.save(usuarioExt3);
 
