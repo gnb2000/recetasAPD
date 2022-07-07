@@ -60,7 +60,7 @@ public class ControladorUsuarios {
         u.setAvatar("https://www.uniformall.es/assets/blog/792388003-cocinero-jefe-cocina-de-restaurante-cenar-presentar.jpg");
         u.getUsuarioExt().setApellido(request.getApellido());
         u.getUsuarioExt().setPassword(request.getPassword());
-        u.setHabilitado(true);
+        u.setHabilitado(false);
         usuarioService.update(u);
         return new ResponseEntity<>("Datos actualizados con exito",HttpStatus.OK);
 
